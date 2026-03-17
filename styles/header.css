@@ -1,0 +1,16 @@
+header {
+    background-color: darkblue;
+    padding: 20px 20px;
+}
+
+header div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+header div a {
+    text-decoration: none;
+    margin-left: 16px;
+}
+
