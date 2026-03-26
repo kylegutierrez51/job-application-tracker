@@ -3,28 +3,34 @@
     margin-bottom: 40px;
     padding-left: 150px;
     padding-right: 150px;
-
 }
 
-/* used in the commented out div in jobs.html */
-/* .title {
-    margin-top: 40px;
-    display: flex;
-    justify-content: center;
-    margin-bottom: 40px;
-} */
-
-
-.subheader-div {
+.subheader-flex {
     margin-top: 40px;
     display: flex;
     justify-content: space-between;
     margin-bottom: 40px;
-    padding-bottom: 10px;
+    padding-bottom: 20px;
     border-bottom: solid 1px rgb(87, 78, 78);
 }
 
-button {
+.subheader .title-group {
+    display: flex;
+    align-items: start;
+    flex-direction: column;
+    gap: 10px;
+    margin-right: 15px;
+    margin-left: 15px;
+}
+
+.subheader .add-div {
+    display: flex;
+    justify-content: end;
+    align-items: end;
+
+}
+
+.subheader button {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -35,22 +41,11 @@ button {
     border-radius: 5px;
 }
 
-ion-icon {
+.subheader ion-icon {
     margin-right: 5px;
 }
 
-button:hover {
-    background-color: rgb(28, 28, 131)
-}
-
-.title-group, .add-delete-group {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    margin-right: 15px;
-    margin-left: 15px;
-}
-
-.title-group {
-    flex-direction: column;
+.subheader button:hover {
+    background-color: rgb(28, 28, 131);
+    cursor: pointer;
 }
