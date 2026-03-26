@@ -12,16 +12,7 @@
 </head>
 
 <body>
-  <header>
-    <div>
-      <a href="dashboard.html">Dashboard</a>
-      <a href="applications.html">Applications</a>
-      <a href="companies.html">Companies</a>
-      <a href="contacts.html">Contacts</a>
-      <a href="jobs.html">Jobs</a>
-      <a href="job_match.html">Job Match</a>
-    </div>
-  </header>
+  <header class="js-header-nav"></header>
 
 
   <div class="subheader">
@@ -39,14 +30,14 @@
       </div>
       <div class="title"><h1>Contacts</h1></div>
       <div class="add-delete-group">
-        <div>
-          <ion-icon name="add-circle-outline"></ion-icon>
+        <button>
+          <ion-icon name="add-outline"></ion-icon>
           Add Job
-        </div>
-        <div>
-          <ion-icon name="add-circle-outline"></ion-icon>
+        </button>
+        <button>
+          <ion-icon name="remove-outline"></ion-icon>
           Delete Job
-        </div>
+        </button>
       </div>
     </div>
 
@@ -56,6 +47,7 @@
 
   </main>
 </body>
+<script type="module" src="../js-scripts/header.js"></script>
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </html>
