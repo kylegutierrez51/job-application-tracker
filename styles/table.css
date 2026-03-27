@@ -1,0 +1,35 @@
+.table-wrapper {
+  padding: 0px 150px 0px 150px;
+}
+
+table {
+  border-collapse: collapse;
+  min-width: 100%;
+  margin: 0 auto;
+  border-radius: 5px 5px 0 0;
+  overflow: hidden;
+}
+
+table thead tr {
+  background-color: rgb(59, 59, 184);
+  color: #ffffff;
+  text-align: left;
+  font-weight: bold;
+}
+
+table th,
+table td {
+  padding: 12px 15px;
+}
+
+table tbody tr {
+  border-bottom: 1px solid #474747;
+}
+
+table tbody tr:last-of-type {
+  border-bottom: none;
+}
+
+table tbody tr:hover {
+  background-color: rgb(27, 54, 90);
+}
