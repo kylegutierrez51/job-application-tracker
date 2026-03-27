@@ -12,7 +12,7 @@ function renderSubheader() {
     case 'dashboard.html':
       title = 'Dashboard';
       subtitle = 'Your job search at a glance'
-      buttonText = 'Add Item'
+      buttonText = ''
       break;
     case 'jobs.html':
       title = 'Jobs';
@@ -42,16 +42,20 @@ function renderSubheader() {
   }
 
   let subheader = `    
-    <div class="subheader-flex">
+    <div class="subheader-flex ${buttonText.length === 0 ? "no-border dashboard" : ''}">
       <div class="title-group">
           <h1>${title}</h1>
           ${subtitle}
       </div>
       <div class="add-div">
+      ${buttonText.length !== 0 ? 
+        `
         <button>
           <ion-icon name="add-outline"></ion-icon>
           ${buttonText}
         </button>
+        ` : ''
+      }
       </div>
     </div>
   `;

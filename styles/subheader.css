@@ -14,6 +14,14 @@
     border-bottom: solid 1px rgb(87, 78, 78);
 }
 
+.subheader-flex.no-border {
+    border-bottom: none;
+}
+
+.subheader.dashboard {
+    margin-bottom: 0px;
+}
+
 .subheader .title-group {
     display: flex;
     align-items: start;
