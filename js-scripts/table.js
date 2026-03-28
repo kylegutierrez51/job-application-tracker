@@ -52,14 +52,18 @@ function renderTable() {
       applications.forEach((application) => {
         tableRows += `
           <tr>
-            <td>${application[0]}</td>
-            <td>${application[1]}</td>
+            <td>
+              <div>${application[0]}</div>
+              <div class="company">${application[1]}</div>
+            
+            </td>
             <td>${application[2]}</td>
             <td>${application[3]}</td>
             <td>${application[4]}</td>
             <td>${application[5]}</td>
             <td>${application[6]}</td>
             <td>${application[7]}</td>
+            <td>${application[8]}</td>
             <td>
               <button class="edit-btn">Edit</button>
               <button class="delete-btn">Delete</button>

@@ -50,3 +50,9 @@ table tbody tr button {
 .delete-btn {
   background-color: red;
 }
+
+
+/* for application table */
+.company {
+  color: rgba(202, 199, 199, 0.8);
+}

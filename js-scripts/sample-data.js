@@ -17,9 +17,9 @@ export const companies = [
 ]
 
 export const applications = [
-  ['Senior Frontend Engineer\nStripe', 'Nov 15, 2025', 'Interview Scheduled', 'v3.2', 'Sent', 'Nov 28, 2025', 'Dec 10, 2025\n10:00 AM', 'Recruiter reached out first'],
-  ['Product designer\Figma', 'Nov 22, 2025', 'Applied', 'v3.1', 'Sent', '-', '-', 'Referred by Jake'],
-  ['Full Stack Engineer\Notion', 'Nov 25, 2025', 'Phone Screen', 'v3.2', '-', 'Dec 1, 2025', 'Dec 8, 2025\n2:00 PM', '-'],
+  ['Senior Frontend Engineer', 'Stripe', 'Nov 15, 2025', 'Interview Scheduled', 'v3.2', 'Sent', 'Nov 28, 2025', 'Dec 10, 2025\n10:00 AM', 'Recruiter reached out first'],
+  ['Product designer', 'Figma', 'Nov 22, 2025', 'Applied', 'v3.1', 'Sent', '-', '-', 'Referred by Jake'],
+  ['Full Stack Engineer', 'Notion', 'Nov 25, 2025', 'Phone Screen', 'v3.2', '-', 'Dec 1, 2025', 'Dec 8, 2025\n2:00 PM', '-'],
 ]
 
 
