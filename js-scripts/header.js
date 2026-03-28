@@ -6,24 +6,26 @@ function renderHeader() {
 
   const currentHTMLFile = currentPagePath.split('/').pop();
 
+  let activePage = '';
+
   switch (currentHTMLFile) {
     case 'dashboard.html':
-      console.log('dashboard');
+      activePage = 'a-dash';
       break;
     case 'jobs.html':
-      console.log('jobs');
+      activePage = 'a-jobs';
       break;
     case 'companies.html':
-      console.log('companies');
+      activePage = 'a-comp';
       break;
     case 'applications.html':
-      console.log('applications');
+      activePage = 'a-appl';
       break;
     case 'contacts.html':
-      console.log('contacts');
+      activePage = 'a-cont';
       break;
     case 'job_match.html':
-      console.log('job match');
+      activePage = 'a-match';
       break;
   }
 
@@ -31,12 +33,12 @@ function renderHeader() {
   const header = `
       <div>
         <nav>
-          <a href="dashboard.html">Dashboard</a>
-          <a href="applications.html">Applications</a>
-          <a href="companies.html">Companies</a>
-          <a href="contacts.html">Contacts</a>
-          <a href="jobs.html">Jobs</a>
-          <a href="job_match.html">Job Match</a>
+          <a class="${activePage === 'a-dash' ? 'a-dash' : ''}"  href="dashboard.html">Dashboard</a>
+          <a class="${activePage === 'a-appl' ? 'a-appl' : ''}" href="applications.html">Applications</a>
+          <a class="${activePage === 'a-comp' ? 'a-comp' : ''}" href="companies.html">Companies</a>
+          <a class="${activePage === 'a-cont' ? 'a-cont' : ''}" href="contacts.html">Contacts</a>
+          <a class="${activePage === 'a-jobs' ? 'a-jobs' : ''}" href="jobs.html">Jobs</a>
+          <a class="${activePage === 'a-match' ? 'a-match' : ''}" href="job_match.html">Job Match</a>
         </nav>
       </div>
   `

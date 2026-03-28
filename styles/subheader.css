@@ -14,11 +14,8 @@
     border-bottom: solid 1px rgb(87, 78, 78);
 }
 
-.subheader-flex.no-border {
+.subheader-flex.dashboard{
     border-bottom: none;
-}
-
-.subheader.dashboard {
     margin-bottom: 0px;
 }
 

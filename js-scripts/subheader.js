@@ -42,7 +42,7 @@ function renderSubheader() {
   }
 
   let subheader = `    
-    <div class="subheader-flex ${buttonText.length === 0 ? "no-border dashboard" : ''}">
+    <div class="subheader-flex ${buttonText.length === 0 ? "dashboard" : ''}">
       <div class="title-group">
           <h1>${title}</h1>
           ${subtitle}
