@@ -11,7 +11,7 @@ export const contacts = [
 ]
 
 export const companies = [
-  ["Stripe", "Fintech", "stripe.com", "San Francisco, CA", 2, 2, "Strong engineering culture", 'Nov 2, 2025'],
+  ["Stripe", "Fintech", "stripe.com", "San Francisco, California", 2, 2, "Strong engineering culture", 'Nov 2, 2025'],
   ["Figma", "Design Tools", "figma.com", "San Francisco, CA", 1, 1, "Collaborative design platform", 'Nov 5, 2025'],
   ["Notion", "Productivity", "notion.so", "New York, NY", 1, 1, "All-in-one workspace", 'Nov 12, 2025'],
 ]

@@ -44,6 +44,7 @@
     border: none;
     padding: 10px 15px;
     border-radius: 5px;
+    font-weight: 600;
 }
 
 .subheader ion-icon {

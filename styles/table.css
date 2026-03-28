@@ -51,6 +51,14 @@ table tbody tr button {
   background-color: red;
 }
 
+.edit-btn:hover {
+  background-color: rgb(15, 15, 173);
+}
+
+.delete-btn:hover {
+  background-color: rgb(156, 9, 9);
+}
+
 
 /* for application table */
 .company {
