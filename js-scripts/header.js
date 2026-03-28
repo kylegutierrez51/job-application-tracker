@@ -41,7 +41,7 @@ function renderHeader() {
           <a class="${activePage === 'a-match' ? 'a-match' : ''}" href="job_match.html">Job Match</a>
         </nav>
       </div>
-  `
+  `;
 
   document.querySelector('.js-header-nav').innerHTML = header;
 }

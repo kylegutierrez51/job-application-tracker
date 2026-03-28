@@ -1,5 +1,11 @@
+/* 
+==================================================
+Summary Cards
+==================================================
+*/
+
 .summary-cards {
-  padding: 60px 60px 60px 60px;
+  padding: 60px 60px 100px 60px;
 }
 
 .grid-container {
@@ -45,4 +51,80 @@
   font-weight: 700;
   color: rgb(98, 98, 255);
   line-height: 1;
+}
+
+
+/* 
+==================================================
+Recent Activity, Upcoming Interviews
+==================================================
+*/
+
+.recent-upcoming {
+  padding: 0px 60px 100px 60px;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 32px;
+  margin-bottom: 100px;
+}
+
+.recent-activity-container, .upcoming-container {
+  flex: 1; /* makes container take up however much space it can go up to (here, it goes to max-width: 700px) */
+  max-width: 700px; /* can remove flex: 1 and this, and just set width: 700px */
+  padding: 30px 30px;
+  border-radius: 10px;
+  background-color: rgb(48, 48, 48);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.40);
+  border-top: 3px solid rgb(68, 68, 228);
+}
+
+.recent-activity-container p, .upcoming-container p {
+  margin-bottom: 20px;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.activity-layout, .upcoming-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+}
+
+.activity {
+  border: 1px solid gray;
+  border-radius: 7px;
+  padding: 15px 15px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 5px;
+  background-color: rgb(65, 65, 65);
+}
+
+.job-title {
+  font-weight: bold;
+}
+
+.company-date, .upcoming .company {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.upcoming {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 15px;
+  border: 1px solid gray;
+  border-radius: 7px;
+  background-color: rgb(65, 65, 65);
+}
+
+.upcoming .date {
+  text-align: end;
 }
