@@ -20,6 +20,10 @@ function renderTable() {
             <td>${job[4]}</td>
             <td>${job[5]}</td>
             <td>${job[6] === true ? 'View' : '-'}</td>
+            <td>
+              <button class="edit-btn">Edit</button>
+              <button class="delete-btn">Delete</button>
+            </td>
           </tr>
         `
       });
@@ -36,6 +40,10 @@ function renderTable() {
             <td>${company[5]}</td>
             <td>${company[6]}</td>
             <td>${company[7]}</td>
+            <td>
+              <button class="edit-btn">Edit</button>
+              <button class="delete-btn">Delete</button>
+            </td>
           </tr>
         `
       });
@@ -52,6 +60,10 @@ function renderTable() {
             <td>${application[5]}</td>
             <td>${application[6]}</td>
             <td>${application[7]}</td>
+            <td>
+              <button class="edit-btn">Edit</button>
+              <button class="delete-btn">Delete</button>
+            </td>
           </tr>
         `
       });
@@ -67,6 +79,10 @@ function renderTable() {
             <td>${contact[4]}</td>
             <td>${contact[5]}</td>
             <td>${contact[6]}</td>
+            <td>
+              <button class="edit-btn">Edit</button>
+              <button class="delete-btn">Delete</button>
+            </td>
           </tr>
         `
       });
