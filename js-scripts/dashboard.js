@@ -1,4 +1,4 @@
-
+import { recentActivity, upcomingInterviews } from "./sample-data.js";
 
 function renderSummaryCards() {
   let summaryCards = `
@@ -32,6 +32,52 @@ function renderSummaryCards() {
 
   document.querySelector('.js-summary-cards').innerHTML = summaryCards;
 }
+
+
+function renderRecentActivity() {
+  let activities = '';
+
+  recentActivity.forEach((activity) => {
+    activities += `
+      <div class="activity">
+        <div>
+          <div class="job-title">${activity[0]}</div>
+          <div class="company-date">${activity[1]} &bull; ${activity[2]}</div>
+        </div>
+        <div class="status">${activity[3]}</div>
+      </div>
+    `
+  })
+
+  document.querySelector('.js-activity-layout').innerHTML = activities;
+}
+
+
+
+function renderUpcomingInterviews() {
+  let interviews = '';
+
+  upcomingInterviews.forEach((interview) => {
+    interviews += `
+          <div class="upcoming">
+            <div>
+              <div class="job-title">${interview[0]}</div>
+              <div class="company">${interview[1]}</div>
+            </div>
+            <div class="date">
+              <div>${interview[2]}</div>
+              <div>${interview[3]}</div>
+            </div>
+          </div>
+    `;
+  })
+
+  document.querySelector('.js-upcoming-layout').innerHTML = interviews;
+}
+
+
+
+
 
 function renderAppPipeline() {
   
@@ -72,7 +118,7 @@ function renderAppPipeline() {
         <div class="app">
           <div class="app-details">
             <div>Interview Scheduled</div>
-            <div>1</div>
+            <div>${1}</div>
           </div>
           <div class="bar-track">
             <div id="interview-bar" class="interview-bar"></div>
@@ -82,7 +128,7 @@ function renderAppPipeline() {
         <div class="app">
           <div class="app-details">
             <div>Offer</div>
-            <div>1</div>
+            <div>${1}</div>
           </div>
           <div class="bar-track">
             <div id="offer-bar" class="offer-bar"></div>
@@ -92,7 +138,7 @@ function renderAppPipeline() {
         <div class="app">
           <div class="app-details">
             <div>Rejected</div>
-            <div>1</div>
+            <div>${1}</div>
           </div>
           <div class="bar-track">
             <div id="rejected-bar" class="rejected-bar"></div>
@@ -113,4 +159,6 @@ function renderAppPipeline() {
 }
 
 renderSummaryCards();
+renderRecentActivity();
+renderUpcomingInterviews();
 renderAppPipeline();

@@ -23,3 +23,16 @@ export const applications = [
 ]
 
 
+export const recentActivity = [
+  ['API Engineer', 'Vercel', 'Dec 6, 2025', 'Phone Screen'],
+  ['API Engineer', 'Vercel', 'Dec 6, 2025', 'Applied'],
+  ['API Engineer', 'Vercel', 'Dec 6, 2025', 'Offer'],
+  ['API Engineer', 'Vercel', 'Dec 6, 2025', 'Rejected'],
+]
+
+export const upcomingInterviews = [
+  ['Full Stack Engineer', 'Notion', 'Dec 8, 2025', '2:00 PM'],
+  ['Full Stack Engineer', 'Notion', 'Dec 8, 2025', '2:00 PM'],
+  ['Full Stack Engineer', 'Notion', 'Dec 8, 2025', '2:00 PM'],
+  ['Full Stack Engineer', 'Notion', 'Dec 8, 2025', '2:00 PM'],
+]
