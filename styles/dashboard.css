@@ -56,12 +56,12 @@ Summary Cards
 
 /* 
 ==================================================
-Recent Activity, Upcoming Interviews
+Recent Activity, Upcoming Interviews, App Pipeline
 ==================================================
 */
 
 .recent-upcoming {
-  padding: 0px 60px 100px 60px;
+  padding: 0px 60px 80px 60px;
 }
 
 .container {
@@ -69,10 +69,9 @@ Recent Activity, Upcoming Interviews
   justify-content: center;
   align-items: flex-start;
   gap: 32px;
-  margin-bottom: 100px;
 }
 
-.recent-activity-container, .upcoming-container {
+.recent-activity-container, .upcoming-container, .app-pipeline-container {
   flex: 1; /* makes container take up however much space it can go up to (here, it goes to max-width: 700px) */
   max-width: 700px; /* can remove flex: 1 and this, and just set width: 700px */
   padding: 30px 30px;
@@ -82,7 +81,7 @@ Recent Activity, Upcoming Interviews
   border-top: 3px solid rgb(68, 68, 228);
 }
 
-.recent-activity-container p, .upcoming-container p {
+.recent-activity-container p, .upcoming-container p, .app-pipeline-container p {
   margin-bottom: 20px;
   font-weight: bold;
   font-size: 18px;
@@ -92,7 +91,6 @@ Recent Activity, Upcoming Interviews
   display: flex;
   flex-direction: column;
   gap: 20px;
-
 }
 
 .activity {
@@ -127,4 +125,61 @@ Recent Activity, Upcoming Interviews
 
 .upcoming .date {
   text-align: end;
+}
+
+/* 
+==================================================
+Application Pipeline
+==================================================
+*/
+
+.app-pipeline {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 60px;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 5px;
+}
+
+.app-details {
+  display: flex;
+  justify-content: space-between;
+}
+
+.pipeline-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.applied-bar, .phone-bar, .interview-bar, .offer-bar, .rejected-bar {
+  width: 100%;
+  border-radius: 10px;
+  padding: 5px;
+}
+
+.applied-bar {
+  background-color: blue;
+}
+
+.phone-bar {
+  background-color: rgb(201, 132, 53);
+}
+
+.interview-bar {
+  background-color: rgb(68, 68, 228);
+}
+
+.offer-bar {
+  background-color: rgb(19, 134, 39);
+}
+
+.rejected-bar {
+  background-color: red;
 }
