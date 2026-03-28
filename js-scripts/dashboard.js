@@ -54,7 +54,9 @@ function renderAppPipeline() {
             <div>Applied</div>
             <div>${3}</div>
           </div>
-          <div id="applied-bar" class="applied-bar"></div>
+          <div class="bar-track">
+            <div id="applied-bar" class="applied-bar"></div>
+          </div>
         </div>
 
         <div class="app">
@@ -62,15 +64,19 @@ function renderAppPipeline() {
             <div>Phone Screen</div>
             <div>${2}</div>
           </div>
-          <div id="phone-bar" class="phone-bar"></div>
+          <div class="bar-track">
+            <div id="phone-bar" class="phone-bar"></div>
+          </div>
         </div>
-        
+
         <div class="app">
           <div class="app-details">
             <div>Interview Scheduled</div>
             <div>1</div>
           </div>
-          <div id="interview-bar" class="interview-bar"></div>
+          <div class="bar-track">
+            <div id="interview-bar" class="interview-bar"></div>
+          </div>
         </div>
 
         <div class="app">
@@ -78,7 +84,9 @@ function renderAppPipeline() {
             <div>Offer</div>
             <div>1</div>
           </div>
-          <div id="offer-bar" class="offer-bar"></div>
+          <div class="bar-track">
+            <div id="offer-bar" class="offer-bar"></div>
+          </div>
         </div>
 
         <div class="app">
@@ -86,7 +94,9 @@ function renderAppPipeline() {
             <div>Rejected</div>
             <div>1</div>
           </div>
-          <div id="rejected-bar" class="rejected-bar"></div>
+          <div class="bar-track">
+            <div id="rejected-bar" class="rejected-bar"></div>
+          </div>
         </div>
 
       </div>

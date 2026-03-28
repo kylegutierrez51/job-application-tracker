@@ -158,28 +158,33 @@ Application Pipeline
   gap: 30px;
 }
 
-.applied-bar, .phone-bar, .interview-bar, .offer-bar, .rejected-bar {
+.bar-track {
   width: 100%;
+  background-color: rgba(98, 98, 255, 0.15);
+  border-radius: 10px;
+}
+
+.applied-bar, .phone-bar, .interview-bar, .offer-bar, .rejected-bar {
   border-radius: 10px;
   padding: 5px;
 }
 
 .applied-bar {
-  background-color: blue;
-}
-
-.phone-bar {
-  background-color: rgb(201, 132, 53);
-}
-
-.interview-bar {
   background-color: rgb(68, 68, 228);
 }
 
+.phone-bar {
+  background-color: rgb(88, 88, 245);
+}
+
+.interview-bar {
+  background-color: rgb(110, 110, 255);
+}
+
 .offer-bar {
-  background-color: rgb(19, 134, 39);
+  background-color: rgb(130, 130, 255);
 }
 
 .rejected-bar {
-  background-color: red;
+  background-color: rgb(77, 77, 150);
 }
