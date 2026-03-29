@@ -54,5 +54,6 @@
 .firstname-box, .lastname-box, .company-box, .job-title-box, .email-box, .phone-box, .linkedin-box, .notes-box {
   display: flex;
   flex-direction: column;
+  gap: 6px;
 }
 

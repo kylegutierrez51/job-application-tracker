@@ -1,6 +1,3 @@
-form {
-  width: 100%;
-}
 .job-grid-container {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -62,6 +59,7 @@ form {
 .job-box, .company-box, .min-salary-box, .max-salary-box, .job-type-box, .date-box, .posting-box, .active-box, .description-box {
   display: flex;
   flex-direction: column;
+  gap: 6px;
 }
 
 .active-box {

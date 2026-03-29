@@ -1,5 +1,5 @@
 
-.job-grid-container {
+.applications-grid-container {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(4, auto);
@@ -54,6 +54,7 @@
 .job-box, .status-box, .applied-date-box, .response-date-box, .resume-box, .cover-letter-box, .interview-date-box, .notes-box  {
   display: flex;
   flex-direction: column;
+  gap: 6px;
 }
 
 .cover-letter-box {

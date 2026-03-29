@@ -1,5 +1,5 @@
 const addButton = document.getElementById('add-btn');
-const xButton = document.getElementById('x-btn');
+const xButton = document.getElementById("close-btn");
 const cancelButton = document.getElementById('cancel-btn');
 const createButton = document.getElementById('create-btn');
 

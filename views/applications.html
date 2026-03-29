@@ -16,7 +16,7 @@
     <script type="module" src="../js-scripts/header.js" defer></script>
     <script type="module" src="../js-scripts/subheader.js" defrer></script>
     <script type="module" src="../js-scripts/table.js" defer></script>
-    <script type="module" src="../js-scripts/form-modal.js" defer></script>
+    <script type="module" src="../js-scripts/modals/form-modal.js" defer></script>
 
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js" defer></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js" defer></script>
@@ -48,14 +48,14 @@
     <section class="page-view js-page-view"></section>
 
     <dialog class="modal-overlay" id="modal-overlay">
-      <div class="add-container">
-        <div class="add-header">
-          <h3>New Job</h3>
-          <button id="x-btn">x</button>
+      <div class="container">
+        <div class="container-header">
+          <h3>New Application</h3>
+          <button class="close-btn" id="close-btn">x</button>
         </div>
         
         <form>
-          <div class="job-grid-container">
+          <div class="applications-grid-container">
             <div class="job-box">
               <label>Job</label>
               <select>

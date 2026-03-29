@@ -10,9 +10,9 @@ function renderTable() {
 
   switch (currentHTMLFile) {
     case 'jobs.html':
-      jobs.forEach((job) => {
+      jobs.forEach((job, index) => {
         tableRows += `
-          <tr>
+          <tr data-index="${index}" class="clickable-row">
             <td>${job[0]}</td>
             <td>${job[1]}</td>
             <td>${job[2]}</td>
@@ -21,8 +21,8 @@ function renderTable() {
             <td>${job[5]}</td>
             <td>${job[6] === true ? 'View' : '-'}</td>
             <td>
-              <button class="edit-btn">Edit</button>
-              <button class="delete-btn">Delete</button>
+              <button class="edit-btn" onclick="event.stopPropagation()">Edit</button>
+              <button class="delete-btn" onclick="event.stopPropagation()">Delete</button>
             </td>
           </tr>
         `

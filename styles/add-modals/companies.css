@@ -45,5 +45,6 @@
 .company-box, .industry-box, .state-box, .city-box, .website-box, .notes-box {
   display: flex;
   flex-direction: column;
+  gap: 6px;
 }
 

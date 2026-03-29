@@ -1,5 +1,5 @@
 
-.add-container {
+.modal-overlay .container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -14,7 +14,7 @@
 
 }
 
-.add-header {
+.modal-overlay .container-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -24,12 +24,24 @@
   
 }
 
-.add-container button {
+.modal-overlay .container .close-btn {
   background-color: rgb(65, 65, 65);
   border: none;
   padding: 5px 7px;
   border-radius: 5px;
   cursor: pointer;
+}
+
+.modal-overlay .container label {
+  font-size: 12px;
+  color: rgb(160, 160, 160);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+
+form {
+  width: 100%;
 }
 
 input, textarea, select {
@@ -64,15 +76,20 @@ input[type="date"]::-webkit-calendar-picker-indicator, input[type="datetime-loca
   padding: 30px 30px;
 }
 
-.options .create-btn {
+.modal-overlay .container .options .create-btn {
   background-color: rgb(68, 68, 228);
   padding: 12px 20px;
-
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
-.options .cancel-btn {
+.modal-overlay .container .options .cancel-btn {
   color: rgb(63, 63, 63);
   background-color: white;
   padding: 12px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
 

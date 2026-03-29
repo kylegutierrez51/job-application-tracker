@@ -12,11 +12,13 @@
     <link rel="stylesheet" href="../styles/modal.css" />
     <link rel="stylesheet" href="../styles/add-modals/shared-add-box.css" />
     <link rel="stylesheet" href="../styles/add-modals/jobs.css" />
-    
+    <link rel="stylesheet" href="../styles/detail-modal.css" />
+
     <script type="module" src="../js-scripts/header.js" defer></script>
     <script type="module" src="../js-scripts/subheader.js" defer></script>
     <script type="module" src="../js-scripts/table.js" defer></script>
-    <script type="module" src="../js-scripts/form-modal.js" defer></script>
+    <script type="module" src="../js-scripts/modals/form-modal.js" defer></script>
+    <script type="module" src="../js-scripts/modals/job-detail-modal.js" defer></script>
 
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js" defer></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js" defer></script>
@@ -46,11 +48,59 @@
 
     <section class="page-view js-page-view"></section>
 
+    <div class="modal-overlay" id="detail-modal-overlay">
+      <div class="container">
+        <div class="container-header">
+          <h3>Job Details</h3>
+          <button class="close-btn" id="close-details-btn">x</button>
+        </div>
+
+        <div class="detail-grid">
+          <div class="detail-field">
+            <label>Job Title</label>
+            <span id="detail-title"></span>
+          </div>
+          <div class="detail-field">
+            <label>Company</label>
+            <span id="detail-company"></span>
+          </div>
+          <div class="detail-field">
+            <label>Salary Range</label>
+            <span id="detail-salary"></span>
+          </div>
+          <div class="detail-field">
+            <label>Type</label>
+            <span id="detail-type"></span>
+          </div>
+          <div class="detail-field">
+            <label>Date Posted</label>
+            <span id="detail-posted"></span>
+          </div>
+          <div class="detail-field">
+            <label>Status</label>
+            <span id="detail-status"></span>
+          </div>
+          <div class="detail-field">
+            <label>Link</label>
+            <span id="detail-link"></span>
+          </div>
+        </div>
+
+        <div class="detail-actions">
+          <button class="delete-btn">Delete</button>
+          <button class="edit-btn">Edit</button>
+        </div>
+
+      </div>
+    </div>
+
+
+    
     <div class="modal-overlay" id="modal-overlay">
-      <div class="add-container">
-        <div class="add-header">
+      <div class="container">
+        <div class="container-header">
           <h3>New Job</h3>
-          <button id="x-btn">x</button>
+          <button class="close-btn" id="close-btn">x</button>
         </div>
 
         <form action="/url-route" method="POST">

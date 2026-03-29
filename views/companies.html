@@ -13,11 +13,11 @@
   <link rel="stylesheet" href="../styles/modal.css">
   <link rel="stylesheet" href="../styles/add-modals/companies.css">
   <link rel="stylesheet" href="../styles/add-modals/shared-add-box.css">
-  
+
   <script type="module" src="../js-scripts/header.js" defer></script>
   <script type="module" src="../js-scripts/subheader.js" defer></script>
   <script type="module" src="../js-scripts/table.js" defer></script>
-  <script type="module" src="../js-scripts/form-modal.js" defer></script>
+  <script type="module" src="../js-scripts/modals/form-modal.js" defer></script>
 
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js" defer></script>
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js" defer></script>
@@ -50,10 +50,10 @@
 
 
   <dialog class="modal-overlay" id="modal-overlay">
-    <div class="add-container">
-      <div class="add-header">
+    <div class="container">
+      <div class="container-header">
         <h3>New Company</h3>
-        <button id="x-btn">x</button>
+        <button class="close-btn" id="close-btn">x</button>
       </div>
 
       <form action="/url-route" method="POST">
