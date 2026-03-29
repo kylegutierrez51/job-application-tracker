@@ -57,27 +57,42 @@
         <div class="detail-grid">
           <div class="detail-field">
             <label>Name</label>
-            <span id="detail-name"></span>
+            <span id="detail-name" class="detail-view-value"></span>
+            <input id="edit-name" class="detail-edit-input" />
           </div>
           <div class="detail-field">
             <label>Company</label>
-            <span id="detail-company"></span>
+            <span id="detail-company" class="detail-view-value"></span>
+            <select id="edit-company" class="detail-edit-select">
+              <option value="" disabled>Select...</option>
+              <option value="Stripe">Stripe</option>
+              <option value="Figma">Figma</option>
+              <option value="Notion">Notion</option>
+              <option value="Vercel">Vercel</option>
+              <option value="Linear">Linear</option>
+              <option value="Datadog">Datadog</option>
+              <option value="Plaid">Plaid</option>
+            </select>
           </div>
           <div class="detail-field">
             <label>Title</label>
-            <span id="detail-title"></span>
+            <span id="detail-title" class="detail-view-value"></span>
+            <input id="edit-title" class="detail-edit-input" />
           </div>
           <div class="detail-field">
             <label>Email</label>
-            <span id="detail-email"></span>
+            <span id="detail-email" class="detail-view-value"></span>
+            <input id="edit-email" class="detail-edit-input" />
           </div>
           <div class="detail-field">
             <label>Phone</label>
-            <span id="detail-phone"></span>
+            <span id="detail-phone" class="detail-view-value"></span>
+            <input id="edit-phone" class="detail-edit-input" />
           </div>
           <div class="detail-field">
             <label>LinkedIn</label>
-            <span id="detail-linkedin"></span>
+            <span id="detail-linkedin" class="detail-view-value"></span>
+            <input id="edit-linkedin" class="detail-edit-input" />
           </div>
           <div class="detail-field">
             <label>Created</label>
@@ -85,13 +100,16 @@
           </div>
           <div class="detail-field detail-field--full">
             <label>Notes</label>
-            <span id="detail-notes"></span>
+            <span id="detail-notes" class="detail-view-value"></span>
+            <textarea id="edit-notes" class="detail-edit-textarea"></textarea>
           </div>
         </div>
 
         <div class="detail-actions">
-          <button class="delete-btn">Delete</button>
-          <button class="edit-btn">Edit</button>
+          <button class="delete-btn detail-view-btn">Delete</button>
+          <button class="edit-btn detail-view-btn">Edit</button>
+          <button class="cancel-edit-btn detail-edit-btn">Cancel</button>
+          <button class="save-btn detail-edit-btn">Save</button>
         </div>
       </div>
     </div>

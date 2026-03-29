@@ -2,11 +2,14 @@ import { applications } from '../sample-data.js';
 
 const modalOverlay = document.getElementById('detail-modal-overlay');
 const detailCloseBtn = document.getElementById('close-details-btn');
+const editBtn = document.querySelector('#detail-modal-overlay .edit-btn');
+const cancelEditBtn = document.querySelector('#detail-modal-overlay .cancel-edit-btn');
+const saveBtn = document.querySelector('#detail-modal-overlay .save-btn');
 
-function openDetailModal(index) {
-  const app = applications[index];
-  if (!app) return;
+let currentIndex = null;
+let editMode = false;
 
+function populateViewMode(app) {
   document.getElementById('detail-position').textContent = app[0];
   document.getElementById('detail-company').textContent = app[1];
   document.getElementById('detail-applied').textContent = app[2];
@@ -17,9 +20,64 @@ function openDetailModal(index) {
   document.getElementById('detail-interview').textContent = app[7];
   document.getElementById('detail-created').textContent = app[9];
   document.getElementById('detail-notes').textContent = app[8];
+}
 
+function openDetailModal(index) {
+  currentIndex = index;
+  const app = applications[index];
+  if (!app) return;
+
+  editMode = false;
+  modalOverlay.classList.remove('editing');
+  populateViewMode(app);
   modalOverlay.classList.add('active');
 }
+
+function enterEditMode() {
+  const app = applications[currentIndex];
+  if (!app) return;
+
+  editMode = true;
+  document.getElementById('edit-position').value = app[0];
+  document.getElementById('edit-company').value = app[1];
+  document.getElementById('edit-applied').value = app[2];
+  document.getElementById('edit-status').value = app[3];
+  document.getElementById('edit-resume').value = app[4];
+  document.getElementById('edit-cover-letter').value = app[5];
+  document.getElementById('edit-response').value = app[6];
+  document.getElementById('edit-interview').value = app[7];
+  document.getElementById('edit-notes').value = app[8];
+
+  modalOverlay.classList.add('editing');
+}
+
+function saveEdit() {
+  const app = applications[currentIndex];
+  if (!app) return;
+
+  app[0] = document.getElementById('edit-position').value;
+  app[1] = document.getElementById('edit-company').value;
+  app[2] = document.getElementById('edit-applied').value;
+  app[3] = document.getElementById('edit-status').value;
+  app[4] = document.getElementById('edit-resume').value;
+  app[5] = document.getElementById('edit-cover-letter').value;
+  app[6] = document.getElementById('edit-response').value;
+  app[7] = document.getElementById('edit-interview').value;
+  app[8] = document.getElementById('edit-notes').value;
+
+  populateViewMode(app);
+  modalOverlay.classList.remove('editing');
+  editMode = false;
+}
+
+editBtn.addEventListener('click', enterEditMode);
+
+cancelEditBtn.addEventListener('click', () => {
+  modalOverlay.classList.remove('editing');
+  editMode = false;
+});
+
+saveBtn.addEventListener('click', saveEdit);
 
 document.querySelector('.js-table-rows').addEventListener('click', (e) => {
   const row = e.target.closest('tr[data-index]');
@@ -28,11 +86,12 @@ document.querySelector('.js-table-rows').addEventListener('click', (e) => {
 });
 
 detailCloseBtn.addEventListener('click', () => {
-  modalOverlay.classList.remove('active');
+  modalOverlay.classList.remove('active', 'editing');
+  editMode = false;
 });
 
 modalOverlay.addEventListener('click', (e) => {
-  if (e.target === modalOverlay) {
-    modalOverlay.classList.remove('active');
+  if (e.target === modalOverlay && !editMode) {
+    modalOverlay.classList.remove('active', 'editing');
   }
 });

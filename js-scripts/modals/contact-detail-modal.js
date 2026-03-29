@@ -2,11 +2,14 @@ import { contacts } from '../sample-data.js';
 
 const modalOverlay = document.getElementById('detail-modal-overlay');
 const detailCloseBtn = document.getElementById('close-details-btn');
+const editBtn = document.querySelector('#detail-modal-overlay .edit-btn');
+const cancelEditBtn = document.querySelector('#detail-modal-overlay .cancel-edit-btn');
+const saveBtn = document.querySelector('#detail-modal-overlay .save-btn');
 
-function openDetailModal(index) {
-  const contact = contacts[index];
-  if (!contact) return;
+let currentIndex = null;
+let editMode = false;
 
+function populateViewMode(contact) {
   document.getElementById('detail-name').textContent = contact[0];
   document.getElementById('detail-company').textContent = contact[1];
   document.getElementById('detail-title').textContent = contact[2];
@@ -15,9 +18,60 @@ function openDetailModal(index) {
   document.getElementById('detail-linkedin').textContent = contact[5];
   document.getElementById('detail-created').textContent = contact[7];
   document.getElementById('detail-notes').textContent = contact[6];
+}
 
+function openDetailModal(index) {
+  currentIndex = index;
+  const contact = contacts[index];
+  if (!contact) return;
+
+  editMode = false;
+  modalOverlay.classList.remove('editing');
+  populateViewMode(contact);
   modalOverlay.classList.add('active');
 }
+
+function enterEditMode() {
+  const contact = contacts[currentIndex];
+  if (!contact) return;
+
+  editMode = true;
+  document.getElementById('edit-name').value = contact[0];
+  document.getElementById('edit-company').value = contact[1];
+  document.getElementById('edit-title').value = contact[2];
+  document.getElementById('edit-email').value = contact[3];
+  document.getElementById('edit-phone').value = contact[4];
+  document.getElementById('edit-linkedin').value = contact[5];
+  document.getElementById('edit-notes').value = contact[6];
+
+  modalOverlay.classList.add('editing');
+}
+
+function saveEdit() {
+  const contact = contacts[currentIndex];
+  if (!contact) return;
+
+  contact[0] = document.getElementById('edit-name').value;
+  contact[1] = document.getElementById('edit-company').value;
+  contact[2] = document.getElementById('edit-title').value;
+  contact[3] = document.getElementById('edit-email').value;
+  contact[4] = document.getElementById('edit-phone').value;
+  contact[5] = document.getElementById('edit-linkedin').value;
+  contact[6] = document.getElementById('edit-notes').value;
+
+  populateViewMode(contact);
+  modalOverlay.classList.remove('editing');
+  editMode = false;
+}
+
+editBtn.addEventListener('click', enterEditMode);
+
+cancelEditBtn.addEventListener('click', () => {
+  modalOverlay.classList.remove('editing');
+  editMode = false;
+});
+
+saveBtn.addEventListener('click', saveEdit);
 
 document.querySelector('.js-table-rows').addEventListener('click', (e) => {
   const row = e.target.closest('tr[data-index]');
@@ -26,11 +80,12 @@ document.querySelector('.js-table-rows').addEventListener('click', (e) => {
 });
 
 detailCloseBtn.addEventListener('click', () => {
-  modalOverlay.classList.remove('active');
+  modalOverlay.classList.remove('active', 'editing');
+  editMode = false;
 });
 
 modalOverlay.addEventListener('click', (e) => {
-  if (e.target === modalOverlay) {
-    modalOverlay.classList.remove('active');
+  if (e.target === modalOverlay && !editMode) {
+    modalOverlay.classList.remove('active', 'editing');
   }
 });

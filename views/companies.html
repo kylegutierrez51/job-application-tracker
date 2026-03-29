@@ -60,19 +60,23 @@
       <div class="detail-grid">
         <div class="detail-field">
           <label>Company</label>
-          <span id="detail-name"></span>
+          <span id="detail-name" class="detail-view-value"></span>
+          <input id="edit-name" class="detail-edit-input" />
         </div>
         <div class="detail-field">
           <label>Industry</label>
-          <span id="detail-industry"></span>
+          <span id="detail-industry" class="detail-view-value"></span>
+          <input id="edit-industry" class="detail-edit-input" />
         </div>
         <div class="detail-field">
           <label>Website</label>
-          <span id="detail-website"></span>
+          <span id="detail-website" class="detail-view-value"></span>
+          <input id="edit-website" class="detail-edit-input" />
         </div>
         <div class="detail-field">
           <label>Location</label>
-          <span id="detail-location"></span>
+          <span id="detail-location" class="detail-view-value"></span>
+          <input id="edit-location" class="detail-edit-input" />
         </div>
         <div class="detail-field">
           <label>Jobs</label>
@@ -88,13 +92,16 @@
         </div>
         <div class="detail-field detail-field--full">
           <label>Notes</label>
-          <span id="detail-notes"></span>
+          <span id="detail-notes" class="detail-view-value"></span>
+          <textarea id="edit-notes" class="detail-edit-textarea"></textarea>
         </div>
       </div>
 
       <div class="detail-actions">
-        <button class="delete-btn">Delete</button>
-        <button class="edit-btn">Edit</button>
+        <button class="delete-btn detail-view-btn">Delete</button>
+        <button class="edit-btn detail-view-btn">Edit</button>
+        <button class="cancel-edit-btn detail-edit-btn">Cancel</button>
+        <button class="save-btn detail-edit-btn">Save</button>
       </div>
     </div>
   </div>
