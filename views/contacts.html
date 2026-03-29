@@ -12,11 +12,13 @@
     <link rel="stylesheet" href="../styles/modal.css" />
     <link rel="stylesheet" href="../styles/add-modals/shared-add-box.css" />
     <link rel="stylesheet" href="../styles/add-modals/contacts.css" />
+    <link rel="stylesheet" href="../styles/detail-modal.css" />
 
     <script type="module" src="../js-scripts/header.js" defer></script>
     <script type="module" src="../js-scripts/subheader.js" defer></script>
     <script type="module" src="../js-scripts/table.js" defer></script>
     <script type="module" src="../js-scripts/modals/form-modal.js" defer></script>
+    <script type="module" src="../js-scripts/modals/contact-detail-modal.js" defer></script>
 
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js" defer></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js" defer></script>
@@ -37,7 +39,6 @@
             <th>Phone</th>
             <th>LinkedIn</th>
             <th>Notes</th>
-            <th>Actions</th>
           </tr>
         </thead>
         <tbody class="js-table-rows"></tbody>
@@ -45,6 +46,55 @@
     </main>
 
     <section class="page-view js-page-view"></section>
+
+    <div class="modal-overlay" id="detail-modal-overlay">
+      <div class="container">
+        <div class="container-header">
+          <h3>Contact Details</h3>
+          <button class="close-btn" id="close-details-btn">x</button>
+        </div>
+
+        <div class="detail-grid">
+          <div class="detail-field">
+            <label>Name</label>
+            <span id="detail-name"></span>
+          </div>
+          <div class="detail-field">
+            <label>Company</label>
+            <span id="detail-company"></span>
+          </div>
+          <div class="detail-field">
+            <label>Title</label>
+            <span id="detail-title"></span>
+          </div>
+          <div class="detail-field">
+            <label>Email</label>
+            <span id="detail-email"></span>
+          </div>
+          <div class="detail-field">
+            <label>Phone</label>
+            <span id="detail-phone"></span>
+          </div>
+          <div class="detail-field">
+            <label>LinkedIn</label>
+            <span id="detail-linkedin"></span>
+          </div>
+          <div class="detail-field">
+            <label>Created</label>
+            <span id="detail-created"></span>
+          </div>
+          <div class="detail-field detail-field--full">
+            <label>Notes</label>
+            <span id="detail-notes"></span>
+          </div>
+        </div>
+
+        <div class="detail-actions">
+          <button class="delete-btn">Delete</button>
+          <button class="edit-btn">Edit</button>
+        </div>
+      </div>
+    </div>
 
     <dialog class="modal-overlay" id="modal-overlay">
       <div class="container">

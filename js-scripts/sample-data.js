@@ -5,9 +5,9 @@ export const jobs = [
 ]
 
 export const contacts = [
-  ['Sarah Chen', 'Stripe', 'Engineering Director', 'sarah.c@stripe.com', '415-555-0101', 'Profile', 'Met at ReactConf'],
-  ['Jake Morrison', 'Figma', 'Senior Recruiter', 'jake.m@figma.com', '786-809-1093', 'Profile', 'College friend'],
-  ['Lee Guilherme', 'Notion', 'Tech Lead', 'lee@vercel.com', '786-812-1987', 'Profile', 'Spoke at same meetup'],
+  ['Sarah Chen', 'Stripe', 'Engineering Director', 'sarah.c@stripe.com', '415-555-0101', 'Profile', 'Met at ReactConf', 'Nov 24, 2025'],
+  ['Jake Morrison', 'Figma', 'Senior Recruiter', 'jake.m@figma.com', '786-809-1093', 'Profile', 'College friend', 'Nov 20, 2025'],
+  ['Lee Guilherme', 'Notion', 'Tech Lead', 'lee@vercel.com', '786-812-1987', 'Profile', 'Spoke at same meetup', 'Nov 19, 2025'],
 ]
 
 export const companies = [
@@ -17,9 +17,9 @@ export const companies = [
 ]
 
 export const applications = [
-  ['Senior Frontend Engineer', 'Stripe', 'Nov 15, 2025', 'Interview Scheduled', 'v3.2', 'Sent', 'Nov 28, 2025', 'Dec 10, 2025\n10:00 AM', 'Recruiter reached out first'],
-  ['Product designer', 'Figma', 'Nov 22, 2025', 'Applied', 'v3.1', 'Sent', '-', '-', 'Referred by Jake'],
-  ['Full Stack Engineer', 'Notion', 'Nov 25, 2025', 'Phone Screen', 'v3.2', '-', 'Dec 1, 2025', 'Dec 8, 2025\n2:00 PM', '-'],
+  ['Senior Frontend Engineer', 'Stripe', 'Nov 15, 2025', 'Interview Scheduled', 'v3.2', 'Sent', 'Nov 28, 2025', 'Dec 10, 2025\n10:00 AM', 'Recruiter reached out first', 'Nov 20, 2025'],
+  ['Product designer', 'Figma', 'Nov 22, 2025', 'Applied', 'v3.1', 'Sent', '-', '-', 'Referred by Jake', 'Nov 23, 2025'],
+  ['Full Stack Engineer', 'Notion', 'Nov 25, 2025', 'Phone Screen', 'v3.2', '-', 'Dec 1, 2025', 'Dec 8, 2025\n2:00 PM', '-', 'Nov 27, 2025'],
 ]
 
 

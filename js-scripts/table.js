@@ -20,18 +20,14 @@ function renderTable() {
             <td>${job[4]}</td>
             <td>${job[5]}</td>
             <td>${job[6] === true ? 'View' : '-'}</td>
-            <td>
-              <button class="edit-btn" onclick="event.stopPropagation()">Edit</button>
-              <button class="delete-btn" onclick="event.stopPropagation()">Delete</button>
-            </td>
           </tr>
         `
       });
       break;
     case 'companies.html':
-      companies.forEach((company) => {
+      companies.forEach((company, index) => {
         tableRows += `
-          <tr>
+          <tr data-index="${index}" class="clickable-row">
             <td>${company[0]}</td>
             <td>${company[1]}</td>
             <td>${company[2]}</td>
@@ -40,22 +36,18 @@ function renderTable() {
             <td>${company[5]}</td>
             <td>${company[6]}</td>
             <td>${company[7]}</td>
-            <td>
-              <button class="edit-btn">Edit</button>
-              <button class="delete-btn">Delete</button>
-            </td>
           </tr>
         `
       });
       break;
     case 'applications.html':
-      applications.forEach((application) => {
+      applications.forEach((application, index) => {
         tableRows += `
-          <tr>
+          <tr data-index="${index}" class="clickable-row">
             <td>
               <div>${application[0]}</div>
               <div class="company">${application[1]}</div>
-            
+
             </td>
             <td>${application[2]}</td>
             <td>${application[3]}</td>
@@ -64,18 +56,14 @@ function renderTable() {
             <td>${application[6]}</td>
             <td>${application[7]}</td>
             <td>${application[8]}</td>
-            <td>
-              <button class="edit-btn">Edit</button>
-              <button class="delete-btn">Delete</button>
-            </td>
           </tr>
         `
       });
       break;
     case 'contacts.html':
-      contacts.forEach((contact) => {
+      contacts.forEach((contact, index) => {
         tableRows += `
-          <tr>
+          <tr data-index="${index}" class="clickable-row">
             <td>${contact[0]}</td>
             <td>${contact[1]}</td>
             <td>${contact[2]}</td>
@@ -83,10 +71,6 @@ function renderTable() {
             <td>${contact[4]}</td>
             <td>${contact[5]}</td>
             <td>${contact[6]}</td>
-            <td>
-              <button class="edit-btn">Edit</button>
-              <button class="delete-btn">Delete</button>
-            </td>
           </tr>
         `
       });

@@ -1,3 +1,9 @@
+/*
+====================================
+Detail Modal - Grid
+====================================
+*/
+
 .detail-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -39,7 +45,11 @@ Description field appears as last row in detail grid and spans both columns via 
 
 
 
-/* bottom */
+/*
+====================================
+Detail Modal - Bottom
+====================================
+*/
 
 .detail-actions {
   display: flex;
@@ -61,6 +71,70 @@ Description field appears as last row in detail grid and spans both columns via 
 .detail-actions .edit-btn {
   background-color: rgb(68, 68, 228);
   color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+
+
+
+
+/*
+====================================
+Edit mode inputs — hidden in view mode
+====================================
+*/
+
+.detail-edit-input,
+.detail-edit-select,
+.detail-edit-textarea {
+  display: none;
+  width: 100%;
+}
+
+.detail-edit-textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.detail-edit-btn {
+  display: none;
+}
+
+/* When overlay has .editing class — show inputs, hide spans */
+
+#detail-modal-overlay.editing .detail-view-value {
+  display: none;
+}
+
+#detail-modal-overlay.editing .detail-edit-input,
+#detail-modal-overlay.editing .detail-edit-select,
+#detail-modal-overlay.editing .detail-edit-textarea {
+  display: block;
+}
+
+#detail-modal-overlay.editing .detail-view-btn {
+  display: none;
+}
+
+#detail-modal-overlay.editing .detail-edit-btn {
+  display: inline-block;
+}
+
+.detail-actions .save-btn {
+  background-color: rgb(68, 68, 228);
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.detail-actions .cancel-edit-btn {
+  background-color: white;
+  color: rgb(63, 63, 63);
   padding: 12px 20px;
   border: none;
   border-radius: 5px;

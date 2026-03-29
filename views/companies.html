@@ -13,11 +13,13 @@
   <link rel="stylesheet" href="../styles/modal.css">
   <link rel="stylesheet" href="../styles/add-modals/companies.css">
   <link rel="stylesheet" href="../styles/add-modals/shared-add-box.css">
+  <link rel="stylesheet" href="../styles/detail-modal.css">
 
   <script type="module" src="../js-scripts/header.js" defer></script>
   <script type="module" src="../js-scripts/subheader.js" defer></script>
   <script type="module" src="../js-scripts/table.js" defer></script>
   <script type="module" src="../js-scripts/modals/form-modal.js" defer></script>
+  <script type="module" src="../js-scripts/modals/company-detail-modal.js" defer></script>
 
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js" defer></script>
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js" defer></script>
@@ -39,7 +41,6 @@
           <th>Contacts</th>
           <th>Notes</th>
           <th>Added</th>
-          <th>Actions</th>
         </tr>
       </thead>
       <tbody class="js-table-rows"></tbody>
@@ -49,7 +50,58 @@
   <section class="page-view js-page-view"></section>
 
 
-  <dialog class="modal-overlay" id="modal-overlay">
+  <div class="modal-overlay" id="detail-modal-overlay">
+    <div class="container">
+      <div class="container-header">
+        <h3>Company Details</h3>
+        <button class="close-btn" id="close-details-btn">x</button>
+      </div>
+
+      <div class="detail-grid">
+        <div class="detail-field">
+          <label>Company</label>
+          <span id="detail-name"></span>
+        </div>
+        <div class="detail-field">
+          <label>Industry</label>
+          <span id="detail-industry"></span>
+        </div>
+        <div class="detail-field">
+          <label>Website</label>
+          <span id="detail-website"></span>
+        </div>
+        <div class="detail-field">
+          <label>Location</label>
+          <span id="detail-location"></span>
+        </div>
+        <div class="detail-field">
+          <label>Jobs</label>
+          <span id="detail-jobs"></span>
+        </div>
+        <div class="detail-field">
+          <label>Contacts</label>
+          <span id="detail-contacts"></span>
+        </div>
+        <div class="detail-field">
+          <label>Added</label>
+          <span id="detail-added"></span>
+        </div>
+        <div class="detail-field detail-field--full">
+          <label>Notes</label>
+          <span id="detail-notes"></span>
+        </div>
+      </div>
+
+      <div class="detail-actions">
+        <button class="delete-btn">Delete</button>
+        <button class="edit-btn">Edit</button>
+      </div>
+    </div>
+  </div>
+
+
+  
+  <div class="modal-overlay" id="modal-overlay">
     <div class="container">
       <div class="container-header">
         <h3>New Company</h3>
@@ -99,7 +151,7 @@
         <button id="create-btn" class="create-btn">Create</button>
       </div>
     </div>
-  </dialog>
+  </div>
 
 </body>
 </html>

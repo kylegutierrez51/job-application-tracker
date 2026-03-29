@@ -39,7 +39,6 @@
             <th>Posted</th>
             <th>Status</th>
             <th>Link</th>
-            <th>Actions</th>
           </tr>
         </thead>
         <tbody class="js-table-rows"></tbody>
@@ -58,31 +57,47 @@
         <div class="detail-grid">
           <div class="detail-field">
             <label>Job Title</label>
-            <span id="detail-title"></span>
+            <span id="detail-title" class="detail-view-value"></span>
+            <input id="edit-title" class="detail-edit-input" />
           </div>
           <div class="detail-field">
             <label>Company</label>
-            <span id="detail-company"></span>
+            <span id="detail-company" class="detail-view-value"></span>
+            <select id="edit-company" class="detail-edit-select">
+              <option value="" disabled>Select...</option>
+              <option value="Stripe">Stripe</option>
+              <option value="Figma">Figma</option>
+              <option value="Notion">Notion</option>
+              <option value="Vercel">Vercel</option>
+              <option value="Linear">Linear</option>
+              <option value="Datadog">Datadog</option>
+              <option value="Plaid">Plaid</option>
+            </select>
           </div>
           <div class="detail-field">
             <label>Salary Range</label>
-            <span id="detail-salary"></span>
+            <span id="detail-salary" class="detail-view-value"></span>
+            <input id="edit-salary" class="detail-edit-input" />
           </div>
           <div class="detail-field">
             <label>Type</label>
-            <span id="detail-type"></span>
+            <span id="detail-type" class="detail-view-value"></span>
+            <input id="edit-type" class="detail-edit-input" />
           </div>
           <div class="detail-field">
             <label>Date Posted</label>
-            <span id="detail-posted"></span>
+            <span id="detail-posted" class="detail-view-value"></span>
+            <input id="edit-posted" class="detail-edit-input" />
           </div>
           <div class="detail-field">
             <label>Status</label>
-            <span id="detail-status"></span>
+            <span id="detail-status" class="detail-view-value"></span>
+            <input id="edit-status" class="detail-edit-input" />
           </div>
           <div class="detail-field">
             <label>Link</label>
-            <span id="detail-link"></span>
+            <span id="detail-link" class="detail-view-value"></span>
+            <input id="edit-link" class="detail-edit-input" />
           </div>
           <div class="detail-field">
             <label>Created at</label>
@@ -91,13 +106,16 @@
 
           <div class="detail-field detail-field--full">
             <label>Description</label>
-            <span id="detail-description"></span>
+            <span id="detail-description" class="detail-view-value"></span>
+            <textarea id="edit-description" class="detail-edit-textarea"></textarea>
           </div>
         </div>
 
         <div class="detail-actions">
-          <button class="delete-btn">Delete</button>
-          <button class="edit-btn">Edit</button>
+          <button class="delete-btn detail-view-btn">Delete</button>
+          <button class="edit-btn detail-view-btn">Edit</button>
+          <button class="cancel-edit-btn detail-edit-btn">Cancel</button>
+          <button class="save-btn detail-edit-btn">Save</button>
         </div>
 
       </div>
