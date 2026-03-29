@@ -3,10 +3,12 @@ import { jobs } from '../sample-data.js';
 const modalOverlay = document.getElementById('detail-modal-overlay');
 const detailCloseBtn = document.getElementById('close-details-btn');
 const editBtn = document.querySelector('#detail-modal-overlay .edit-btn');
+
 const cancelEditBtn = document.querySelector('#detail-modal-overlay .cancel-edit-btn');
 const saveBtn = document.querySelector('#detail-modal-overlay .save-btn');
 
 let currentJobIndex = null;
+let editMode = false;
 
 function populateViewMode(job) {
   document.getElementById('detail-title').textContent = job[0];
@@ -25,6 +27,7 @@ function openDetailModal(index) {
   const job = jobs[index];
   if (!job) return;
 
+  editMode = false;
   modalOverlay.classList.remove('editing');
   populateViewMode(job);
   modalOverlay.classList.add('active');
@@ -34,6 +37,7 @@ function enterEditMode() {
   const job = jobs[currentJobIndex];
   if (!job) return;
 
+  editMode = true;
   document.getElementById('edit-title').value = job[0];
   document.getElementById('edit-company').value = job[1];
   document.getElementById('edit-salary').value = job[2];
@@ -62,10 +66,16 @@ function saveEdit() {
 
   populateViewMode(job);
   modalOverlay.classList.remove('editing');
+  editMode = false;
 }
 
 editBtn.addEventListener('click', enterEditMode);
-cancelEditBtn.addEventListener('click', () => modalOverlay.classList.remove('editing'));
+
+cancelEditBtn.addEventListener('click', () => {
+  modalOverlay.classList.remove('editing');
+  editMode = false;
+});
+
 saveBtn.addEventListener('click', saveEdit);
 
 document.querySelector('.js-table-rows').addEventListener('click', (e) => {
@@ -76,10 +86,11 @@ document.querySelector('.js-table-rows').addEventListener('click', (e) => {
 
 detailCloseBtn.addEventListener('click', () => {
   modalOverlay.classList.remove('active', 'editing');
+  editMode = false;
 });
 
 modalOverlay.addEventListener('click', (e) => {
-  if (e.target === modalOverlay) {
+  if (e.target === modalOverlay && !editMode) {
     modalOverlay.classList.remove('active', 'editing');
   }
 });
