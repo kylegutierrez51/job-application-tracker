@@ -13,9 +13,12 @@
   <link rel="stylesheet" href="../styles/modal.css">
   <link rel="stylesheet" href="../styles/add-modals/companies.css">
   <link rel="stylesheet" href="../styles/add-modals/shared-add-box.css">
+  
   <script type="module" src="../js-scripts/header.js" defer></script>
   <script type="module" src="../js-scripts/subheader.js" defer></script>
   <script type="module" src="../js-scripts/table.js" defer></script>
+  <script type="module" src="../js-scripts/form-modal.js" defer></script>
+
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js" defer></script>
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js" defer></script>
 </head>
@@ -50,7 +53,7 @@
     <div class="add-container">
       <div class="add-header">
         <h3>New Company</h3>
-        <button>x</button>
+        <button id="x-btn">x</button>
       </div>
 
       <form action="/url-route" method="POST">
@@ -92,8 +95,8 @@
 
 
       <div class="options">
-        <button class="cancel-btn">Cancel</button>
-        <button class="create-btn">Create</button>
+        <button id="cancel-btn" class="cancel-btn">Cancel</button>
+        <button id="create-btn" class="create-btn">Create</button>
       </div>
     </div>
   </dialog>

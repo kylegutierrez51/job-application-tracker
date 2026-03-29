@@ -50,7 +50,7 @@ function renderSubheader() {
       <div class="add-div">
       ${buttonText.length !== 0 ? 
         `
-        <button>
+        <button id='add-btn'>
           <ion-icon name="add-outline"></ion-icon>
           ${buttonText}
         </button>
