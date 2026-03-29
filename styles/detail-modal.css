@@ -11,6 +11,7 @@
   display: flex;
   flex-direction: column;
   gap: 6px;
+  overflow-wrap: break-word; /* prevent words from going outside container */
 }
 
 .detail-field label {
@@ -23,6 +24,15 @@
 .detail-field span {
   font-size: 15px;
   color: white;
+}
+
+
+
+/*
+Description field appears as last row in detail grid and spans both columns via grid-column: 1 / -1. Pulls from job[7] in the sample data.
+*/
+.detail-field--full {
+  grid-column: 1 / -1;
 }
 
 

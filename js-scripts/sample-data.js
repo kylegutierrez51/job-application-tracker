@@ -1,7 +1,7 @@
 export const jobs = [
-  ['Senior Frontend Engineer', 'Stripe', '$180k-$220k', 'Full-time', 'Nov 15, 2025', 'Active' , true],
-  ['Product Designer', 'Figma', '$150k-$190k', 'Full-time', 'Nov 18, 2025', 'Active' , true],
-  ['Full Stack Engineer', 'Notion', '$160k-$200k', 'Full-time', 'Nov 20, 2025', 'Active' , true],
+  ['Senior Frontend Engineer', 'Stripe', '$180k-$220k', 'Full-time', 'Nov 15, 2025', 'Active', true, "Placeholder descriptionvbsdfhjhdjsfbgsdhbjfkgadsfhjbkggafdjsbhkgfadjkbhgfadjkbgafdskjgakfbhjgadfgkjmadfgkjmbadfgk jadfgkj asdfjkg adkjfg kajhmbdfg kjbhadfgjbh adgf", "Nov 23, 2025"],
+  ['Product Designer', 'Figma', '$150k-$190k', 'Full-time', 'Nov 18, 2025', 'Active' , true, "Placeholder description", "Nov 25, 2025"],
+  ['Full Stack Engineer', 'Notion', '$160k-$200k', 'Full-time', 'Nov 20, 2025', 'Active' , true, "Placeholder description", 'Nov 24, 2025'],
 ]
 
 export const contacts = [

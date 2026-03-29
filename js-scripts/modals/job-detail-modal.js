@@ -1,8 +1,9 @@
 import { jobs } from '../sample-data.js';
 
-const detailOverlay = document.getElementById('detail-modal-overlay');
+const modalOverlay = document.getElementById('detail-modal-overlay');
 const detailCloseBtn = document.getElementById('close-details-btn');
-const detailCloseBottomBtn = document.getElementById('detail-close-bottom-btn');
+
+
 
 function openDetailModal(index) {
   const job = jobs[index];
@@ -15,9 +16,15 @@ function openDetailModal(index) {
   document.getElementById('detail-posted').textContent = job[4];
   document.getElementById('detail-status').textContent = job[5];
   document.getElementById('detail-link').textContent = job[6] === true ? 'View Posting' : '-';
+  document.getElementById('detail-description').textContent = job[7] ?? '-';
+  document.getElementById('detail-created').textContent = job[8];
 
-  detailOverlay.classList.add('active');
+  modalOverlay.classList.add('active');
 }
+
+
+
+
 
 document.querySelector('.js-table-rows').addEventListener('click', (e) => {
   const row = e.target.closest('tr[data-index]');
@@ -26,15 +33,11 @@ document.querySelector('.js-table-rows').addEventListener('click', (e) => {
 });
 
 detailCloseBtn.addEventListener('click', () => {
-  detailOverlay.classList.remove('active');
+  modalOverlay.classList.remove('active');
 });
 
-detailCloseBottomBtn.addEventListener('click', () => {
-  detailOverlay.classList.remove('active');
-});
-
-detailOverlay.addEventListener('click', (e) => {
-  if (e.target === detailOverlay) {
-    detailOverlay.classList.remove('active');
+modalOverlay.addEventListener('click', (e) => {
+  if (e.target === modalOverlay) {
+    modalOverlay.classList.remove('active');
   }
 });
