@@ -10,6 +10,9 @@
   <link rel="stylesheet" href="../styles/subheader.css">
   <link rel="stylesheet" href="../styles/table.css">
   <link rel="stylesheet" href="../styles/page-view.css">
+  <link rel="stylesheet" href="../styles/modal.css">
+  <link rel="stylesheet" href="../styles/add-modals/companies.css">
+  <link rel="stylesheet" href="../styles/add-modals/shared-add-box.css">
   <script type="module" src="../js-scripts/header.js" defer></script>
   <script type="module" src="../js-scripts/subheader.js" defer></script>
   <script type="module" src="../js-scripts/table.js" defer></script>
@@ -41,6 +44,59 @@
   </main>
 
   <section class="page-view js-page-view"></section>
+
+
+  <dialog class="modal-overlay" id="modal-overlay">
+    <div class="add-container">
+      <div class="add-header">
+        <h3>New Company</h3>
+        <button>x</button>
+      </div>
+
+      <form action="/url-route" method="POST">
+        <div class="company-grid-container">
+          
+          <div class="company-box">
+            <label>Company Name</label>
+            <input>
+          </div>
+
+          <div class="industry-box">
+            <label>Industry</label>
+            <input>
+          </div>
+
+          <div class="city-box">
+            <label>City</label>
+            <input>
+          </div>
+
+          <div class="state-box">
+            <label>State</label>
+            <input>
+          </div>
+
+          <div class="website-box">
+            <label>Website</label>
+            <input>
+          </div>
+
+          <div class="notes-box">
+            <label>Notes</label>
+            <textarea></textarea>
+          </div>
+          
+        </div>
+      </form>
+
+
+
+      <div class="options">
+        <button class="cancel-btn">Cancel</button>
+        <button class="create-btn">Create</button>
+      </div>
+    </div>
+  </dialog>
 
 </body>
 </html>

@@ -1,48 +1,129 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jobs</title>
+    <link rel="stylesheet" href="../styles/general.css" />
+    <link rel="stylesheet" href="../styles/header.css" />
+    <link rel="stylesheet" href="../styles/subheader.css" />
+    <link rel="stylesheet" href="../styles/table.css" />
+    <link rel="stylesheet" href="../styles/page-view.css" />
+    <link rel="stylesheet" href="../styles/modal.css" />
+    <link rel="stylesheet" href="../styles/add-modals/shared-add-box.css" />
+    <link rel="stylesheet" href="../styles/add-modals/jobs.css" />
+    <script type="module" src="../js-scripts/header.js" defer></script>
+    <script type="module" src="../js-scripts/subheader.js" defer></script>
+    <script type="module" src="../js-scripts/table.js" defer></script>
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+      defer
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+      defer
+    ></script>
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Jobs</title>
-  <link rel="stylesheet" href="../styles/general.css">
-  <link rel="stylesheet" href="../styles/header.css">
-  <link rel="stylesheet" href="../styles/subheader.css">
-  <link rel="stylesheet" href="../styles/table.css">
-  <link rel="stylesheet" href="../styles/page-view.css">
-  <script type="module" src="../js-scripts/header.js" defer></script>
-  <script type="module" src="../js-scripts/subheader.js" defer></script>
-  <script type="module" src="../js-scripts/table.js" defer></script>
-  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js" defer></script>
-  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js" defer></script>
-</head>
+  <body>
+    <header class="js-header-nav"></header>
+    <section class="subheader js-subheader"></section>
 
-<body>
-  <header class="js-header-nav"></header>
-  <section class="subheader js-subheader"></section>
+    <main class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Job Title</th>
+            <th>Company</th>
+            <th>Salary Range</th>
+            <th>Type</th>
+            <th>Posted</th>
+            <th>Status</th>
+            <th>Link</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody class="js-table-rows"></tbody>
+      </table>
+    </main>
 
-  <main class="table-wrapper">
-    <table>
-      <thead>
-        <tr>
-          <th>Job Title</th>
-          <th>Company</th>
-          <th>Salary Range</th>
-          <th>Type</th>
-          <th>Posted</th>
-          <th>Status</th>
-          <th>Link</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody class="js-table-rows"></tbody>
-    </table>
-  </main>
+    <section class="page-view js-page-view"></section>
 
-  <section class="page-view js-page-view"></section>
+    <dialog class="modal-overlay" id="modal-overlay">
+      <div class="add-container">
+        <div class="add-header">
+          <h3>New Job</h3>
+          <button>x</button>
+        </div>
 
+        <form action="/url-route" method="POST">
+          <div class="job-grid-container">
+            <div class="job-box">
+              <label>Job Title</label>
+              <input />
+            </div>
 
+            <div class="company-box">
+              <label>Company</label>
+              <select>
+                <option value="" disabled selected>Select...</option>
+                <option value="1">Stripe</option>
+                <option value="2">Figma</option>
+                <option value="3">Notion</option>
+                <option value="4">Vercel</option>
+                <option value="5">Linear</option>
+                <option value="6">Datadog</option>
+                <option value="7">Plaid</option>
+              </select>
+            </div>
 
+            <div class="min-salary-box">
+              <label>Min Salary</label>
+              <input />
+            </div>
 
-</body>
+            <div class="max-salary-box">
+              <label>Max Salary</label>
+              <input />
+            </div>
+
+            <div class="job-type-box">
+              <label>Job Type</label>
+              <input />
+            </div>
+
+            <div class="date-box">
+              <label>Date Posted</label>
+              <input class="date-input" type="date" />
+            </div>
+
+            <div class="posting-box">
+              <label>Posting URL</label>
+              <input />
+            </div>
+
+            <div class="active-box">
+              <label>Active</label>
+              <label class="checkbox">
+                <input type="checkbox" checked />
+                Yes
+              </label>
+            </div>
+
+            <div class="description-box">
+              <label>Description</label>
+              <textarea></textarea>
+            </div>
+          </div>
+        </form>
+
+        <div class="options">
+          <button class="cancel-btn">Cancel</button>
+          <button class="create-btn">Create</button>
+        </div>
+      </div>
+    </dialog>
+  </body>
 </html>

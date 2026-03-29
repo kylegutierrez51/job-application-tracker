@@ -1,46 +1,132 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Applications</title>
+    <link rel="stylesheet" href="../styles/general.css" />
+    <link rel="stylesheet" href="../styles/header.css" />
+    <link rel="stylesheet" href="../styles/subheader.css" />
+    <link rel="stylesheet" href="../styles/table.css" />
+    <link rel="stylesheet" href="../styles/page-view.css" />
+    <link rel="stylesheet" href="../styles/modal.css" />
+    <link rel="stylesheet" href="../styles/add-modals/shared-add-box.css" />
+    <link rel="stylesheet" href="../styles/add-modals/applications.css" />
+    <script type="module" src="../js-scripts/header.js" defer></script>
+    <script type="module" src="../js-scripts/subheader.js" defrer></script>
+    <script type="module" src="../js-scripts/table.js" defer></script>
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+      defer
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+      defer
+    ></script>
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Applications</title>
-  <link rel="stylesheet" href="../styles/general.css">
-  <link rel="stylesheet" href="../styles/header.css">
-  <link rel="stylesheet" href="../styles/subheader.css">
-  <link rel="stylesheet" href="../styles/table.css">
-  <link rel="stylesheet" href="../styles/page-view.css">
-  <script type="module" src="../js-scripts/header.js" defer></script>
-  <script type="module" src="../js-scripts/subheader.js" defrer></script>
-  <script type="module" src="../js-scripts/table.js" defer></script>
-  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js" defer></script>
-  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js" defer></script>
-</head>
+  <body>
+    <header class="js-header-nav"></header>
+    <section class="subheader js-subheader"></section>
 
-<body>
-  <header class="js-header-nav"></header>
-  <section class="subheader js-subheader"></section>
+    <main class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Position</th>
+            <th>Applied</th>
+            <th>Status</th>
+            <th>Resume</th>
+            <th>Cover Letter</th>
+            <th>Response</th>
+            <th>Interview</th>
+            <th>Notes</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody class="js-table-rows"></tbody>
+      </table>
+    </main>
 
-  <main class="table-wrapper">
-    <table>
-      <thead>
-        <tr>
-          <th>Position</th>
-          <th>Applied</th>
-          <th>Status</th>
-          <th>Resume</th>
-          <th>Cover Letter</th>
-          <th>Response</th>
-          <th>Interview</th>
-          <th>Notes</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody class="js-table-rows"></tbody>
-    </table>
-  </main>
+    <section class="page-view js-page-view"></section>
 
-  <section class="page-view js-page-view"></section>
+    <dialog class="modal-overlay" id="modal-overlay">
+      <div class="add-container">
+        <div class="add-header">
+          <h3>New Job</h3>
+          <button>x</button>
+        </div>
+        
+        <form>
+          <div class="job-grid-container">
+            <div class="job-box">
+              <label>Job</label>
+              <select>
+                <option value="" disabled selected>Select...</option>
+                <option value="1">Senior Frontend Engineer - Stripe</option>
+                <option value="2">Product Designer - Figma</option>
+                <option value="3">Full Stack Engineer - Notion</option>
+                <option value="4">DevRel Engineer - Vercel</option>
+                <option value="5">Backend Engineer - Linear</option>
+                <option value="6">Site Reliability Engineer - Datadog</option>
+                <option value="7">API Engineer - Plaid</option>
+              </select>
+            </div>
 
-</body>
+            <div class="status-box">
+              <label>Status</label>
+              <select>
+                <option value="" disabled selected>Select...</option>
+                <option value="1">Applied</option>
+                <option value="2">Phone Screen</option>
+                <option value="3">Interview Scheduled</option>
+                <option value="4">Offer</option>
+                <option value="5">Rejected</option>
+              </select>
+            </div>
+
+            <div class="applied-date-box">
+              <label>Applied Date</label>
+              <input class="date-input" type="date" />
+            </div>
+
+            <div class="response-date-box">
+              <label>Response Date</label>
+              <input type="date" />
+            </div>
+
+            <div class="resume-box">
+              <label>Resume Version</label>
+              <input />
+            </div>
+
+            <div class="cover-letter-box">
+              <label>Cover Letter Sent</label>
+              <label class="checkbox">
+                <input type="checkbox" />
+                No
+              </label>
+            </div>
+
+            <div class="interview-date-box">
+              <label>Interview Date</label>
+              <input type="datetime-local" />
+            </div>
+
+            <div class="notes-box">
+              <label>Notes</label>
+              <textarea></textarea>
+            </div>
+          </div>
+        </form>
+
+        <div class="options">
+          <button class="cancel-btn">Cancel</button>
+          <button class="create-btn">Create</button>
+        </div>
+      </div>
+    </dialog>
+  </body>
 </html>

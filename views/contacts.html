@@ -1,45 +1,121 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contacts</title>
+    <link rel="stylesheet" href="../styles/general.css" />
+    <link rel="stylesheet" href="../styles/header.css" />
+    <link rel="stylesheet" href="../styles/subheader.css" />
+    <link rel="stylesheet" href="../styles/table.css" />
+    <link rel="stylesheet" href="../styles/page-view.css" />
+    <link rel="stylesheet" href="../styles/modal.css" />
+    <link rel="stylesheet" href="../styles/add-modals/shared-add-box.css" />
+    <link rel="stylesheet" href="../styles/add-modals/contacts.css" />
+    <script type="module" src="../js-scripts/header.js" defer></script>
+    <script type="module" src="../js-scripts/subheader.js" defer></script>
+    <script type="module" src="../js-scripts/table.js" defer></script>
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+      defer
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+      defer
+    ></script>
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contacts</title>
-  <link rel="stylesheet" href="../styles/general.css">
-  <link rel="stylesheet" href="../styles/header.css">
-  <link rel="stylesheet" href="../styles/subheader.css">
-  <link rel="stylesheet" href="../styles/table.css">
-  <link rel="stylesheet" href="../styles/page-view.css">
-  <script type="module" src="../js-scripts/header.js" defer></script>
-  <script type="module" src="../js-scripts/subheader.js" defer></script>
-  <script type="module" src="../js-scripts/table.js" defer></script>
-  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js" defer></script>
-  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js" defer></script>
-</head>
+  <body>
+    <header class="js-header-nav"></header>
+    <section class="subheader js-subheader"></section>
 
-<body>
-  <header class="js-header-nav"></header>
-  <section class="subheader js-subheader"></section>
+    <main class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Company</th>
+            <th>Title</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>LinkedIn</th>
+            <th>Notes</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody class="js-table-rows"></tbody>
+      </table>
+    </main>
 
-  <main class="table-wrapper">
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Company</th>
-          <th>Title</th>
-          <th>Email</th>
-          <th>Phone</th>
-          <th>LinkedIn</th>
-          <th>Notes</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody class="js-table-rows"></tbody>
-    </table>
-  </main>
+    <section class="page-view js-page-view"></section>
 
-  <section class="page-view js-page-view"></section>
+    <dialog class="modal-overlay" id="modal-overlay">
+      <div class="add-container">
+        <div class="add-header">
+          <h3>New Contact</h3>
+          <button>x</button>
+        </div>
+        
+        <form action="/url_route" method="POST">
+          <div class="contacts-grid-container">
+            <div class="firstname-box">
+              <label>First Name</label>
+              <input />
+            </div>
 
-</body>
+            <div class="lastname-box">
+              <label>Last Name</label>
+              <input />
+            </div>
+
+            <div class="company-box">
+              <label>Company</label>
+              <select>
+                <option value="" disabled selected>Select...</option>
+                <option value="1">Stripe</option>
+                <option value="2">Figma</option>
+                <option value="3">Notion</option>
+                <option value="4">Vercel</option>
+                <option value="5">Linear</option>
+                <option value="6">Datadog</option>
+                <option value="7">Plaid</option>
+              </select>
+            </div>
+
+            <div class="job-title-box">
+              <label>Job Title</label>
+              <input />
+            </div>
+
+            <div class="email-box">
+              <label>Email</label>
+              <input />
+            </div>
+
+            <div class="phone-box">
+              <label>Phone</label>
+              <input />
+            </div>
+
+            <div class="linkedin-box">
+              <label>LinkedIn URL</label>
+              <input />
+            </div>
+
+            <div class="notes-box">
+              <label>Notes</label>
+              <textarea></textarea>
+            </div>
+          </div>
+        </form>
+
+        <div class="options">
+          <button class="cancel-btn">Cancel</button>
+          <button class="create-btn">Create</button>
+        </div>
+      </div>
+    </dialog>
+  </body>
 </html>

@@ -1,0 +1,58 @@
+
+.contacts-grid-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(4, auto);
+  gap: 15px;
+
+  width: 100%;
+  padding: 30px 30px;
+  border-bottom: 1px solid gray;
+  overflow-y: auto;
+
+
+  grid-template-areas:
+    "a b"
+    "c d"
+    "e f"
+    "g g"
+    "h h";
+}
+
+.firstname-box {
+  grid-area: a;
+}
+
+.lastname-box {
+  grid-area: b;
+}
+
+.company-box {
+  grid-area: c;
+}
+
+.job-title-box {
+  grid-area: d;
+}
+
+.email-box {
+  grid-area: e;
+}
+
+.phone-box{
+  grid-area: f;
+}
+
+.linkedin-box {
+  grid-area: g;
+}
+
+.notes-box {
+  grid-area: h;
+}
+
+.firstname-box, .lastname-box, .company-box, .job-title-box, .email-box, .phone-box, .linkedin-box, .notes-box {
+  display: flex;
+  flex-direction: column;
+}
+

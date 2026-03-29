@@ -1,0 +1,49 @@
+
+.company-grid-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(4, auto);
+  gap: 15px;
+
+  width: 100%;
+  padding: 30px 30px;
+  border-bottom: 1px solid gray;
+  overflow-y: auto;
+
+
+  grid-template-areas:
+    "a b"
+    "c d"
+    "e e"
+    "f f";
+}
+
+.company-box {
+  grid-area: a;
+}
+
+.industry-box {
+  grid-area: b;
+}
+
+.state-box {
+  grid-area: c;
+}
+
+.city-box {
+  grid-area: d;
+}
+
+.website-box {
+  grid-area: e;
+}
+
+.notes-box {
+  grid-area: f;
+}
+
+.company-box, .industry-box, .state-box, .city-box, .website-box, .notes-box {
+  display: flex;
+  flex-direction: column;
+}
+

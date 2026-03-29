@@ -1,0 +1,74 @@
+form {
+  width: 100%;
+}
+.job-grid-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(4, auto);
+  gap: 15px;
+
+  width: 100%;
+  padding: 30px 30px;
+  border-bottom: 1px solid gray;
+  overflow-y: auto;
+
+
+  grid-template-areas:
+    "a b"
+    "c d"
+    "e f"
+    "g h"
+    "i i";
+}
+
+.job-box {
+  grid-area: a;
+}
+
+.company-box {
+  grid-area: b;
+}
+
+.min-salary-box {
+  grid-area: c;
+}
+
+.max-salary-box {
+  grid-area: d;
+}
+
+.job-type-box {
+  grid-area: e;
+}
+
+.date-box {
+  grid-area: f;
+}
+
+.active-box {
+  grid-area: g;
+}
+
+.posting-box {
+  grid-area: h;
+}
+
+
+
+.description-box {
+  grid-area: i;
+}
+
+.job-box, .company-box, .min-salary-box, .max-salary-box, .job-type-box, .date-box, .posting-box, .active-box, .description-box {
+  display: flex;
+  flex-direction: column;
+}
+
+.active-box {
+  gap: 10px;
+}
+.active-box .checkbox {
+  display: flex;
+  gap: 10px;
+}
+
