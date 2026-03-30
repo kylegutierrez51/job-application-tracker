@@ -1,0 +1,165 @@
+{% extends "base.html" %}
+
+{% block title %}Applications{% endblock %}
+
+{% block links %}
+  <link rel="stylesheet" href="../static/styles/subheader.css">
+  <link rel="stylesheet" href="../static/styles/table.css">
+  <link rel="stylesheet" href="../static/styles/page-view.css">
+  <link rel="stylesheet" href="../static/styles/modal.css">
+  <link rel="stylesheet" href="../static/styles/post-forms/companies.css">
+  <link rel="stylesheet" href="../static/styles/post-forms/shared-post-form.css">
+  <link rel="stylesheet" href="../static/styles/detail-modal.css">
+{% endblock %}
+
+{% block scripts %}
+  <script type="module" src="../static/js/subheader.js" defer></script>
+  <script type="module" src="../static/js/table.js" defer></script>
+  <script type="module" src="../static/js/modals/form-modal.js" defer></script>
+  <script type="module" src="../static/js/modals/company-detail-modal.js" defer></script>
+
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js" defer></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js" defer></script>
+{% endblock %}
+
+
+{% block content %}
+  <header class="js-header-nav"></header>
+  <section class="subheader js-subheader"></section>
+
+  <main class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>Company</th>
+          <th>Industry</th>
+          <th>Website</th>
+          <th>Location</th>
+          <th>Jobs</th>
+          <th>Contacts</th>
+          <th>Notes</th>
+          <th>Added</th>
+        </tr>
+      </thead>
+      <tbody class="js-table-rows"></tbody>
+    </table>
+  </main>
+
+  <section class="page-view js-page-view"></section>
+
+
+  <div class="modal-overlay" id="detail-modal-overlay">
+    <div class="container">
+      <div class="container-header">
+        <h3>Company Details</h3>
+        <button class="close-btn" id="close-details-btn">x</button>
+      </div>
+
+      <div class="detail-grid">
+        <div class="detail-field">
+          <label>Company</label>
+          <span id="detail-name" class="detail-view-value"></span>
+          <input id="edit-name" class="detail-edit-input" />
+        </div>
+        <div class="detail-field">
+          <label>Industry</label>
+          <span id="detail-industry" class="detail-view-value"></span>
+          <input id="edit-industry" class="detail-edit-input" />
+        </div>
+        <div class="detail-field">
+          <label>Website</label>
+          <span id="detail-website" class="detail-view-value"></span>
+          <input id="edit-website" class="detail-edit-input" />
+        </div>
+        <div class="detail-field">
+          <label>Location</label>
+          <span id="detail-location" class="detail-view-value"></span>
+          <input id="edit-location" class="detail-edit-input" />
+        </div>
+        <div class="detail-field">
+          <label>Jobs</label>
+          <span id="detail-jobs"></span>
+        </div>
+        <div class="detail-field">
+          <label>Contacts</label>
+          <span id="detail-contacts"></span>
+        </div>
+        <div class="detail-field">
+          <label>Added</label>
+          <span id="detail-added"></span>
+        </div>
+        <div class="detail-field detail-field--full">
+          <label>Notes</label>
+          <span id="detail-notes" class="detail-view-value"></span>
+          <textarea id="edit-notes" class="detail-edit-textarea"></textarea>
+        </div>
+      </div>
+
+      <div class="detail-actions">
+        <button class="delete-btn detail-view-btn">Delete</button>
+        <div class="detail-delete-div">
+          <div class="confirm-delete-text">Delete this record?</div>
+          <button class="delete-confirm-btn">Yes, delete</button>
+          <button class="delete-close-btn">No</button>
+        </div>
+        <button class="edit-btn detail-view-btn">Edit</button>
+        <button class="cancel-edit-btn detail-edit-btn">Cancel</button>
+        <button class="save-btn detail-edit-btn">Save</button>
+      </div>
+    </div>
+  </div>
+
+
+  
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="container">
+      <div class="container-header">
+        <h3>New Company</h3>
+        <button class="close-btn" id="close-btn">x</button>
+      </div>
+
+      <form action="/url-route" method="POST">
+        <div class="company-grid-container">
+          
+          <div class="company-box">
+            <label>Company Name</label>
+            <input>
+          </div>
+
+          <div class="industry-box">
+            <label>Industry</label>
+            <input>
+          </div>
+
+          <div class="city-box">
+            <label>City</label>
+            <input>
+          </div>
+
+          <div class="state-box">
+            <label>State</label>
+            <input>
+          </div>
+
+          <div class="website-box">
+            <label>Website</label>
+            <input>
+          </div>
+
+          <div class="notes-box">
+            <label>Notes</label>
+            <textarea></textarea>
+          </div>
+          
+        </div>
+      </form>
+
+
+
+      <div class="options">
+        <button id="cancel-btn" class="cancel-btn">Cancel</button>
+        <button id="create-btn" class="create-btn">Create</button>
+      </div>
+    </div>
+  </div>
+{% endblock %}
