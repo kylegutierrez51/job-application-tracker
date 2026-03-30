@@ -2,10 +2,16 @@ import { jobs } from '../sample-data.js';
 
 const modalOverlay = document.getElementById('detail-modal-overlay');
 const detailCloseBtn = document.getElementById('close-details-btn');
-const editBtn = document.querySelector('#detail-modal-overlay .edit-btn');
 
+const editBtn = document.querySelector('#detail-modal-overlay .edit-btn');
 const cancelEditBtn = document.querySelector('#detail-modal-overlay .cancel-edit-btn');
 const saveBtn = document.querySelector('#detail-modal-overlay .save-btn');
+
+
+const deleteBtn = document.querySelector('#detail-modal-overlay .delete-btn');
+const deleteConfirmationBtn = document.querySelector('#detail-modal-overlay .delete-confirm-btn');
+const cancelDeleteBtn = document.querySelector('#detail-modal-overlay .delete-close-btn');
+
 
 let currentJobIndex = null;
 let editMode = false;
@@ -50,6 +56,11 @@ function enterEditMode() {
   modalOverlay.classList.add('editing');
 }
 
+function enterDeleteMode() {
+  editMode = false;
+  modalOverlay.classList.add('deleting');
+}
+
 function saveEdit() {
   const job = jobs[currentJobIndex];
   if (!job) return;
@@ -69,6 +80,32 @@ function saveEdit() {
   editMode = false;
 }
 
+function deleteRow() {
+  /*
+   1. Removes the job from the jobs array via splice
+   2. Removes the matching <tr> from the DOM
+   3. Decrements data-index on all subsequent rows so clicks still map to the correct array index
+   4. Closes and resets the modal
+
+  */
+  if (currentJobIndex === null) return;
+
+  jobs.splice(currentJobIndex, 1);
+
+  const row = document.querySelector(`.js-table-rows tr[data-index="${currentJobIndex}"]`);
+  if (row) row.remove();
+
+  document.querySelectorAll('.js-table-rows tr[data-index]').forEach((tr) => {
+    const idx = Number(tr.dataset.index);
+    if (idx > currentJobIndex) tr.dataset.index = idx - 1;
+  });
+
+  modalOverlay.classList.remove('active', 'editing', 'deleting');
+  currentJobIndex = null;
+}
+
+
+/* edit buttons */
 editBtn.addEventListener('click', enterEditMode);
 
 cancelEditBtn.addEventListener('click', () => {
@@ -77,6 +114,25 @@ cancelEditBtn.addEventListener('click', () => {
 });
 
 saveBtn.addEventListener('click', saveEdit);
+
+
+/* delete buttons */
+deleteBtn.addEventListener('click', enterDeleteMode);
+
+deleteConfirmationBtn.addEventListener('click', deleteRow);
+
+cancelDeleteBtn.addEventListener('click', () => {
+  modalOverlay.classList.remove('deleting');
+})
+
+
+
+
+
+
+
+
+
 
 document.querySelector('.js-table-rows').addEventListener('click', (e) => {
   const row = e.target.closest('tr[data-index]');
@@ -91,6 +147,6 @@ detailCloseBtn.addEventListener('click', () => {
 
 modalOverlay.addEventListener('click', (e) => {
   if (e.target === modalOverlay && !editMode) {
-    modalOverlay.classList.remove('active', 'editing');
+    modalOverlay.classList.remove('active', 'editing', 'deleting');
   }
 });

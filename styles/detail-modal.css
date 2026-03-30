@@ -77,9 +77,54 @@ Detail Modal - Bottom
   cursor: pointer;
 }
 
+/*
+========================================
+Delete mode inputs — hidden in view mode
+========================================
+*/
 
 
 
+.detail-delete-div {
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+
+  display: none;
+}
+
+.detail-delete-div .confirm-delete-text {
+  color: rgb(180, 50, 50);
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.delete-confirm-btn {
+  background-color: rgb(180, 50, 50);
+  padding: 12px 15px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+}
+
+.delete-close-btn {
+  background-color: white;
+  color: rgb(63, 63, 63);
+  padding: 12px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* hide Delete and Edit button when deleting */
+#detail-modal-overlay.deleting .detail-view-btn {
+  display: none;
+}
+
+/* show confirmation when deleting */
+#detail-modal-overlay.deleting .detail-delete-div {
+  display: flex;
+}
 
 /*
 ====================================
@@ -115,6 +160,8 @@ Edit mode inputs — hidden in view mode
   display: block;
 }
 
+
+/* hides Delete and Edit button when editing */
 #detail-modal-overlay.editing .detail-view-btn {
   display: none;
 }
