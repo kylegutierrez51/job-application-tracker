@@ -40,11 +40,11 @@ function renderHeader() {
       <div>
         <nav>
           <a class="${activePage === 'a-dash' ? 'a-dash' : ''}"  href="/">Dashboard</a>
-          <a class="${activePage === 'a-jobs' ? 'a-jobs' : ''}" href="jobs">Jobs</a>
-          <a class="${activePage === 'a-comp' ? 'a-comp' : ''}" href="companies">Companies</a>
-          <a class="${activePage === 'a-appl' ? 'a-appl' : ''}" href="applications">Applications</a>
-          <a class="${activePage === 'a-cont' ? 'a-cont' : ''}" href="contacts">Contacts</a>
-          <a class="${activePage === 'a-match' ? 'a-match' : ''}" href="job-match">Job Match</a>
+          <a class="${activePage === 'a-jobs' ? 'a-jobs' : ''}" href="/jobs">Jobs</a>
+          <a class="${activePage === 'a-comp' ? 'a-comp' : ''}" href="/companies">Companies</a>
+          <a class="${activePage === 'a-appl' ? 'a-appl' : ''}" href="/applications">Applications</a>
+          <a class="${activePage === 'a-cont' ? 'a-cont' : ''}" href="/contacts">Contacts</a>
+          <a class="${activePage === 'a-match' ? 'a-match' : ''}" href="/job-match">Job Match</a>
         </nav>
       </div>
   `;
