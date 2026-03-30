@@ -5,6 +5,7 @@ from blueprints.companies import companies_bp
 from blueprints.contacts import contacts_bp
 from blueprints.dashboard import dashboard_bp
 from blueprints.jobs import jobs_bp
+from blueprints.job_match import job_match_bp
 
 def create_app():
   app = Flask(__name__)
@@ -14,6 +15,7 @@ def create_app():
   app.register_blueprint(contacts_bp, url_prefix="/contacts")
   app.register_blueprint(jobs_bp, url_prefix="/jobs")
   app.register_blueprint(applications_bp, url_prefix="/applications")
+  app.register_blueprint(job_match_bp, url_prefix="/job-match")
 
   return app
 
