@@ -4,12 +4,12 @@ import { jobs, companies, contacts, applications } from './sample-data.js'
 function renderTable() {
 
   const currentPagePath = window.location.pathname;
-  const currentHTMLFile = currentPagePath.split('/').pop();
+  const currentHTMLFile = currentPagePath.split('/').filter(Boolean).pop().replace('.html', '');
 
   let tableRows = '';
 
   switch (currentHTMLFile) {
-    case 'jobs.html':
+    case 'jobs':
       jobs.forEach((job, index) => {
         tableRows += `
           <tr data-index="${index}" class="clickable-row">
@@ -24,7 +24,7 @@ function renderTable() {
         `
       });
       break;
-    case 'companies.html':
+    case 'companies':
       companies.forEach((company, index) => {
         tableRows += `
           <tr data-index="${index}" class="clickable-row">
@@ -40,7 +40,7 @@ function renderTable() {
         `
       });
       break;
-    case 'applications.html':
+    case 'applications':
       applications.forEach((application, index) => {
         tableRows += `
           <tr data-index="${index}" class="clickable-row">
@@ -60,7 +60,7 @@ function renderTable() {
         `
       });
       break;
-    case 'contacts.html':
+    case 'contacts':
       contacts.forEach((contact, index) => {
         tableRows += `
           <tr data-index="${index}" class="clickable-row">
@@ -86,23 +86,23 @@ function renderPageView() {
   let data = null;
 
   const currentPagePath = window.location.pathname;
-  const currentHTMLFile = currentPagePath.split('/').pop();
+  const currentHTMLFile = currentPagePath.split('/').filter(Boolean).pop().replace('.html', '');
 
   switch (currentHTMLFile) {
-    case 'jobs.html':
+    case 'jobs':
       data = jobs;
       break;
-    case 'companies.html':
+    case 'companies':
       data = companies;
       break;
-    case 'applications.html':
+    case 'applications':
       data = applications;
       break;
-    case 'contacts.html':
+    case 'contacts':
       data = contacts;
       break;
   }
-  console.log(data.length);
+
   if (data.length > 1) { // supposed to be "data.length > 10", but it's 1 for testing purposes
 
     const pages = Math.floor(data.length / 10) + 1;
