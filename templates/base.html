@@ -4,8 +4,20 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% block title %}{% endblock %}</title>
+  <link rel="stylesheet" href="../static/styles/general.css">
+  <link rel="stylesheet" href="../static/styles/header.css">
+  {% block links %}
+  {% endblock %}
+
+  <script type="module" src="../static/js/header.js" defer></script>
+  {% block scripts %}
+  {% endblock %}
 </head>
 <body>
-  
+
+  <header class="js-header-nav"></header>
+
+  {% block content %}
+  {% endblock %}
 </body>
 </html>

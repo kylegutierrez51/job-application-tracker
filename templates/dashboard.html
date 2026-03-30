@@ -1,3 +1,38 @@
 {% extends "base.html" %}
 
-{% block title % }Dashboard{% endblock %}
+{% block title %}Dashboard{% endblock %}
+
+{% block links %}
+  <link rel="stylesheet" href="../static/styles/dashboard.css">
+  <link rel="stylesheet" href="../static/styles/page-view.css">
+{% endblock %}
+
+
+{% block scripts %}
+  <script type="module" src="../static/js/header.js" defer></script>
+  <script type="module" src="../static/js/dashboard.js" defer></script>
+{% endblock %}
+
+{% block content %}
+  <section class="summary-cards js-summary-cards"></section>
+
+  <section class="recent-upcoming">
+    <div class="container">
+
+      <div class="recent-activity-container">
+        <p>Recent Activity</p>
+        <div class="activity-layout js-activity-layout"></div>
+      </div>
+
+
+      <div class="upcoming-container">
+        <p>Upcoming Interviews</p>
+        <div class="upcoming-layout js-upcoming-layout"></div>
+      </div>
+    </div>
+  </section>
+
+
+
+  <section class="app-pipeline js-app-pipeline"></section>
+{% endblock %}
