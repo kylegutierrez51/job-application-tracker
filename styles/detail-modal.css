@@ -1,0 +1,202 @@
+/*
+====================================
+Detail Modal - Grid
+====================================
+*/
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  width: 100%;
+  padding: 30px 30px;
+  border-bottom: 1px solid gray;
+}
+
+.detail-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  overflow-wrap: break-word; /* prevent words from going outside container */
+}
+
+.detail-field label {
+  font-size: 12px;
+  color: rgb(160, 160, 160);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.detail-field span {
+  font-size: 15px;
+  color: white;
+}
+
+
+
+/*
+Description field appears as last row in detail grid and spans both columns via grid-column: 1 / -1. Pulls from job[7] in the sample data.
+*/
+.detail-field--full {
+  grid-column: 1 / -1;
+}
+
+
+
+
+
+/*
+====================================
+Detail Modal - Bottom
+====================================
+*/
+
+.detail-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 30px 30px;
+}
+
+.detail-actions .delete-btn {
+  background-color: rgb(180, 50, 50);
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.detail-actions .edit-btn {
+  background-color: rgb(68, 68, 228);
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/*
+========================================
+Delete mode inputs — hidden in view mode
+========================================
+*/
+
+
+
+.detail-delete-div {
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+
+  display: none;
+}
+
+.detail-delete-div .confirm-delete-text {
+  color: rgb(180, 50, 50);
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.delete-confirm-btn {
+  background-color: rgb(180, 50, 50);
+  padding: 12px 15px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+}
+
+.delete-close-btn {
+  background-color: white;
+  color: rgb(63, 63, 63);
+  padding: 12px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* hide Delete and Edit button when deleting */
+#detail-modal-overlay.deleting .detail-view-btn {
+  display: none;
+}
+
+/* show confirmation when deleting */
+#detail-modal-overlay.deleting .detail-delete-div {
+  display: flex;
+}
+
+/*
+====================================
+Edit mode inputs — hidden in view mode
+====================================
+*/
+
+.detail-edit-input,
+.detail-edit-select,
+.detail-edit-textarea {
+  display: none;
+  width: 100%;
+}
+
+.detail-edit-textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.detail-edit-btn {
+  display: none;
+}
+
+/* When overlay has .editing class — show inputs, hide spans */
+
+#detail-modal-overlay.editing .detail-view-value {
+  display: none;
+}
+
+#detail-modal-overlay.editing .detail-edit-input,
+#detail-modal-overlay.editing .detail-edit-select,
+#detail-modal-overlay.editing .detail-edit-textarea {
+  display: block;
+}
+
+
+/* hides Delete and Edit button when editing */
+#detail-modal-overlay.editing .detail-view-btn {
+  display: none;
+}
+
+#detail-modal-overlay.editing .detail-edit-btn {
+  display: inline-block;
+}
+
+.detail-actions .save-btn {
+  background-color: rgb(68, 68, 228);
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.detail-actions .cancel-edit-btn {
+  background-color: white;
+  color: rgb(63, 63, 63);
+  padding: 12px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+
+
+/* clickable tables */
+
+.clickable-row {
+  cursor: pointer;
+}
+
+.clickable-row:hover td {
+  background-color: rgb(55, 55, 55);
+}
+

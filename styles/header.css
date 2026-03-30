@@ -1,0 +1,56 @@
+/*
+the <a> tag's padding seems to pad the parent elements (<header>, <div>, <nav>), but it actually defines the height, and the parents grow to fit their children
+
+1. <a> has padding: 25px 8px — this makes each link 50px taller (25px top + 25px bottom) than the text alone
+
+2. <nav> has no set height — so it grows to fit its tallest child, which is the <a> tag
+
+3. <div> has no set height — so it grows to fit <nav>
+
+4.<header> has no set height — so it grows to fit <div>
+
+This means that the header's height is determined entirely by the <a> tag's padding
+
+
+
+Try putting "height: 2px" on the header, div, or nav to see the difference.
+*/
+
+header {
+    background-color: darkblue;
+    display: flex;
+    align-items: center;
+}
+
+header div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%; /* makes div stretch to header's width. This makes the items centered */
+}
+
+header div nav {
+    display: flex;
+    align-items: center;
+}
+
+header div a {
+    text-decoration: none;
+    margin-left: 16px;
+    padding: 25px 8px; /* try putting this in header to see the difference */
+    /* we move it down to the <a> tag so that they stretch to the full height of the header, then use border-bottom to make the border appear at the edge of the header */
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.75);
+    font-weight: bold;
+    transition: color 0.3s ease
+}
+
+header div a:hover {
+    color: white;
+}
+
+.a-dash, .a-appl, .a-comp, .a-cont, .a-jobs, .a-match {
+    border-bottom: 3px solid white;
+    color: rgb(255, 255, 255);
+}

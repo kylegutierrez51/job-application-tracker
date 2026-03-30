@@ -1,0 +1,32 @@
+.page-view {
+  padding: 75px 150px 75px 150px;
+}
+
+.page-flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.page-flex div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid gray;
+  padding: 12px 35px;
+}
+
+.page-flex .page-number {
+  border: none;
+}
+
+.page-flex div:hover {
+  background-color: rgb(27, 54, 90);
+  cursor: pointer;
+}
+
+.page-flex .page-number:hover {
+  background-color: transparent;
+  cursor: auto;
+}

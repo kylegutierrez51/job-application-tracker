@@ -2,6 +2,7 @@
 __pycache__
 .env
 sample_queries
+archived
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

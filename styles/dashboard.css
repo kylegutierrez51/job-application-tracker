@@ -1,0 +1,190 @@
+/* 
+==================================================
+Summary Cards
+==================================================
+*/
+
+.summary-cards {
+  padding: 60px 60px 100px 60px;
+}
+
+.grid-container {
+  display: grid;
+  /* grid-template-columns: repeat(3, 300px); */
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 24px;
+
+  justify-content: center;
+  align-content: center;
+}
+
+.summary-cards .card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  padding: 24px 32px;
+  background-color: rgb(48, 48, 48);
+  border-top: 3px solid rgb(68, 68, 228);
+  border-radius: 10px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.40);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.55);
+}
+
+.summary-cards .card-label {
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: rgb(180, 180, 180);
+  text-align: center;
+}
+
+.summary-cards .card-value {
+  font-size: 36px;
+  font-weight: 700;
+  color: rgb(98, 98, 255);
+  line-height: 1;
+}
+
+
+/* 
+==================================================
+Recent Activity, Upcoming Interviews, App Pipeline
+==================================================
+*/
+
+.recent-upcoming {
+  padding: 0px 60px 80px 60px;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 32px;
+}
+
+.recent-activity-container, .upcoming-container, .app-pipeline-container {
+  flex: 1; /* makes container take up however much space it can go up to (here, it goes to max-width: 700px) */
+  max-width: 700px; /* can remove flex: 1 and this, and just set width: 700px */
+  padding: 30px 30px;
+  border-radius: 10px;
+  background-color: rgb(48, 48, 48);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.40);
+  border-top: 3px solid rgb(68, 68, 228);
+}
+
+.recent-activity-container p, .upcoming-container p, .app-pipeline-container p {
+  margin-bottom: 20px;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.activity-layout, .upcoming-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.activity {
+  border: 1px solid gray;
+  border-radius: 7px;
+  padding: 15px 15px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 5px;
+  background-color: rgb(65, 65, 65);
+}
+
+.job-title {
+  font-weight: bold;
+}
+
+.company-date, .upcoming .company {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.upcoming {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 15px;
+  border: 1px solid gray;
+  border-radius: 7px;
+  background-color: rgb(65, 65, 65);
+}
+
+.upcoming .date {
+  text-align: end;
+}
+
+/* 
+==================================================
+Application Pipeline
+==================================================
+*/
+
+.app-pipeline {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 60px;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 5px;
+}
+
+.app-details {
+  display: flex;
+  justify-content: space-between;
+}
+
+.pipeline-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.bar-track {
+  width: 100%;
+  background-color: rgba(98, 98, 255, 0.15);
+  border-radius: 10px;
+}
+
+.applied-bar, .phone-bar, .interview-bar, .offer-bar, .rejected-bar {
+  border-radius: 10px;
+  padding: 5px;
+}
+
+.applied-bar {
+  background-color: rgb(68, 68, 228);
+}
+
+.phone-bar {
+  background-color: rgb(88, 88, 245);
+}
+
+.interview-bar {
+  background-color: rgb(110, 110, 255);
+}
+
+.offer-bar {
+  background-color: rgb(130, 130, 255);
+}
+
+.rejected-bar {
+  background-color: rgb(77, 77, 150);
+}
