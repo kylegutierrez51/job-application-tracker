@@ -129,7 +129,7 @@ class JobTrackerDB:
         cursor.close()
         return result
 
-    def get_last_row(self):
+    def get_last_job(self):
         cursor = self.connection.cursor(dictionary=True)
 
         get_last_row = '''
@@ -246,7 +246,7 @@ class JobTrackerDB:
 
     # Extra Query
 
-    def get_last_row(self):
+    def get_last_company(self):
         cursor = self.connection.cursor(dictionary=True)
         
         get_last_row = '''
@@ -352,7 +352,7 @@ class JobTrackerDB:
 
 
     # Extra Query
-    def get_last_row(self):
+    def get_last_application(self):
         cursor = self.connection.cursor(dictionary=True)
         
         get_last_row = '''
@@ -457,7 +457,7 @@ class JobTrackerDB:
 
 
     # Extra Query
-    def get_last_row(self):
+    def get_last_contact(self):
         cursor = self.connection.cursor(dictionary=True)
         
         get_last_row = '''
