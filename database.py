@@ -33,9 +33,9 @@ class JobTrackerDB:
 
 
 
-    # ======================================
+    # ============================================================================================
     # Job Queries
-    # ======================================
+    # ============================================================================================
 
     def get_all_jobs(self):
         cursor = self.connection.cursor(dictionary=True)
@@ -140,9 +140,9 @@ class JobTrackerDB:
         return result
 
 
-    # ======================================
+    # ============================================================================================
     # Company Queries
-    # ======================================
+    # ============================================================================================
 
 
     def get_all_companies(self):
@@ -244,10 +244,9 @@ class JobTrackerDB:
 
 
 
-    # ======================================
+    # ============================================================================================
     # Application Queries
-    # ======================================
-
+    # ============================================================================================
 
 
     def get_all_applications(self):
@@ -346,10 +345,103 @@ class JobTrackerDB:
         cursor.close()
 
 
+    # ============================================================================================
+    # Contact Queries
+    # ============================================================================================
+
+    def get_all_contacts(self):
+        cursor = self.connection.cursor(dictionary=True)
+        
+        query = '''
+            SELECT ct.first_name, ct.last_name, cm.company_name, ct.job_title, ct.email, ct.phone, ct.linkedin_url, ct.notes
+            FROM contacts AS ct
+            INNER JOIN companies AS cm ON ct.company_id = cm.company_id
+        '''
+
+        cursor.execute(query)
+        result = cursor.fetchall()
+        cursor.close()
+        return result
+
+
+    def get_contact(self, id):
+        cursor = self.connection.cursor(dictionary=True)
+        
+        query = '''
+            SELECT ct.first_name, ct.last_name, cm.company_name, ct.job_title, ct.email, ct.phone, ct.linkedin_url, ct.notes
+            FROM contacts AS ct
+            INNER JOIN companies AS cm ON ct.company_id = cm.company_id
+            WHERE ct.contact_id = %s
+        '''
+
+        cursor.execute(query, (id,))
+        result = cursor.fetchone()
+        cursor.close()
+        return result   
 
 
 
+    def add_contact(self, contact):
+        cursor = self.connection.cursor()
 
+        query = '''
+            INSERT INTO contacts (company_id, first_name, last_name, email, phone, job_title, linkedin_url, notes)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s);
+        '''
+
+        values = (contact['company_id'], contact['first_name'], contact['last_name'], contact['email'], contact['phone'], contact['job_title'], contact['linkedin_url'], contact['notes'])
+
+        cursor.execute(query, values)
+
+        self.connection.commit()
+
+        get_last_row = '''
+            SELECT * FROM contacts
+            ORDER BY contact_id DESC
+            LIMIT 1;
+        '''
+
+        cursor.execute(get_last_row)
+        result = cursor.fetchone()
+        cursor.close()
+        return result    
+
+
+    def edit_contact(self, contact, id):
+        cursor = self.connection.cursor()
+
+        query = '''
+            UPDATE contacts
+            SET company_id = %s, first_name = %s, last_name = %s, email = %s, phone = %s, job_title = %s, linkedin_url = %s, notes = %s
+            WHERE contact_id = %s
+        '''
+
+        values = (contact['company_id'], contact['first_name'], contact['last_name'], contact['email'], contact['phone'], contact['job_title'], contact['linkedin_url'], contact['notes'], id)
+
+        cursor.execute(query, values)
+
+        self.connection.commit()
+        cursor.close()
+
+
+
+    def delete_contact(self, id):
+        cursor = self.connection.cursor()
+
+        cursor.execute('SELECT * FROM contacts WHERE contact_id = %s', (id,))
+        to_delete = cursor.fetchall()
+
+        if to_delete:
+            print(f'About to delete: {to_delete}')
+
+            delete_query = 'DELETE FROM contacts WHERE contact_id = %s'
+            cursor.execute(delete_query, (id,))
+            self.connection.commit()
+            print(f'Deleted {cursor.rowcount} contact(s)')
+        else:
+            print('Contact not found.')
+
+        cursor.close()
 
 
 
