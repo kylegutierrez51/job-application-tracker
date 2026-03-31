@@ -16,7 +16,7 @@
   <script type="module" src="../static/js/subheader.js" defer></script>
   <script type="module" src="../static/js/table.js" defer></script>
   <script type="module" src="../static/js/modals/render-modals/companies.js" defer></script>
-  <script type="module" src="../static/js/modals/form-modal.js" defer></script>
+  <script type="module" src="../static/js/modals/form-modals/company-form-modal.js" defer></script>
   <script type="module" src="../static/js/modals/detail-modals/company-detail-modal.js" defer></script>
 
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js" defer></script>
@@ -42,6 +42,28 @@
         </tr>
       </thead>
       <tbody class="js-table-rows"></tbody>
+        {% for company in companies %}
+          <tr data-index="{{ loop.index0 }}" data-company='{{ company | tojson }}' class="clickable-row">
+            <td>{{ company['company_name'] }}</td>
+            <td>{{ company['industry'] if company['industry'] is not none else '-'}}</td>
+            <td>{{ company['website'] if company['website'] is not none else '-' }}</td>
+            <td>
+              {% if company['city'] is not none and company['state'] is not none %}
+                {{ company['city'] ~ ", " ~ company['state'] }}
+              {% elif company['city'] is not none %}
+                {{ company['city'] }}
+              {% elif company['state'] is not none %}
+                {{ company['state'] }}
+              {% else %}
+                -
+              {% endif %}
+            </td>
+            <td>{{ company['job_count'] }}</td>
+            <td>{{ company['contact_count'] }}</td>
+            <td>{{ company['notes'] if company['notes'] is not none else '-' }}</td>
+            <td>{{ company['created_at'] }}</td>
+          </tr>
+        {% endfor %}
     </table>
   </main>
 
