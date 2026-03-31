@@ -15,11 +15,19 @@ def serialize_job(job):
     }
 
 
-@jobs_bp.route("/")
+@jobs_bp.route("/", methods=["GET", "POST"])
 def index():
     db = current_app.db
-    jobs = [serialize_job(j) for j in db.get_all_jobs()]
-    return render_template("jobs.html", jobs=jobs)
+    
+    if request.method == 'POST':
+        # VALIDATION LOGIC
+        data = request.get_json()
+        db.add_job(data)
+        return jsonify({'success': True})
+    
+    if request.method == 'GET':
+        jobs = [serialize_job(j) for j in db.get_all_jobs()]
+        return render_template("jobs.html", jobs=jobs)
 
 
 
@@ -28,6 +36,7 @@ def modify_job(job_id):
     db = current_app.db
 
     if request.method == 'PUT':
+        # VALIDATION LOGIC
         data = request.get_json()
         db.edit_job(data, job_id)
         print('Edited Job: ', db.get_job(job_id), '\n')

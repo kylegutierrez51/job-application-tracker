@@ -67,12 +67,12 @@ function renderModalOverlay() {
             <textarea></textarea>
           </div>
         </div>
-      </form>
 
-      <div class="options">
-        <button id="cancel-btn" class="cancel-btn">Cancel</button>
-        <button id="create-btn" class="create-btn">Create</button>
-      </div>
+        <div class="options">
+          <button id="cancel-btn" class="cancel-btn">Cancel</button>
+          <button id="create-btn" class="create-btn">Create</button>
+        </div>
+      </form>
     </div>
   `;
 

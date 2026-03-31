@@ -17,7 +17,7 @@ function populateViewMode() {
   document.getElementById('detail-salary-min').textContent = job.salary_min ? `$${job.salary_min}` : '-';
   document.getElementById('detail-salary-max').textContent = job.salary_max ? `$${job.salary_max}` : '-';
 
-  document.getElementById('detail-type').textContent = job.job_type;
+  document.getElementById('detail-type').textContent = job.job_type ?? '-';
   document.getElementById('detail-posted').textContent = job.date_posted ?? '-';
   document.getElementById('detail-status').textContent = job.is_active ? 'Active' : 'Inactive';
   document.getElementById('detail-link').textContent = job.posting_url ? 'View Posting' : '-';
@@ -55,18 +55,38 @@ function enterDeleteMode() {
   modalOverlay.classList.add('deleting');
 }
 
+function updateRow() {
+  const row = document.querySelector(`.js-table-rows tr[data-index="${rowIndex}"]`);
+  if (!row) return;
+
+  row.dataset.job = JSON.stringify(job);
+
+  const cells = row.querySelectorAll('td');
+  cells[0].textContent = job.job_title || '-';
+  cells[1].textContent = job.company_name || '-';
+  cells[2].textContent = job.salary_min != null ? `$${job.salary_min}` : 'None';
+  cells[3].textContent = job.salary_max != null ? `$${job.salary_max}` : 'None';
+  cells[4].textContent = job.job_type || '-';
+  cells[5].textContent = job.date_posted || '-';
+  cells[6].textContent = job.is_active ? 'Active' : 'Inactive';
+  cells[7].innerHTML = job.posting_url ? `<a href="${job.posting_url}">View</a>` : '-';
+}
+
 async function saveEdit() {
-    job = {
-      ...job,
-      job_title: document.getElementById('edit-title').value,
-      company_id: document.getElementById('edit-company').value,
-      salary_min: document.getElementById('edit-salary-min').value || null,
-      salary_max: document.getElementById('edit-salary-max').value || null,
-      job_type: document.getElementById('edit-type').value,
-      date_posted: document.getElementById('edit-posted').value || null,
-      is_active: document.getElementById('edit-status').value === 'Active' ? 1 : 0,
-      posting_url: document.getElementById('edit-link').value || null,
-      job_description: document.getElementById('edit-description').value || null,
+  const companySelect = document.getElementById('edit-company');
+
+  job = {
+    ...job,
+    job_title: document.getElementById('edit-title').value,
+    company_id: companySelect.value,
+    company_name: companySelect.options[companySelect.selectedIndex].text,
+    salary_min: document.getElementById('edit-salary-min').value || null,
+    salary_max: document.getElementById('edit-salary-max').value || null,
+    job_type: document.getElementById('edit-type').value || null,
+    date_posted: document.getElementById('edit-posted').value || null,
+    is_active: document.getElementById('edit-status').value === 'Active' ? 1 : 0,
+    posting_url: document.getElementById('edit-link').value || null,
+    job_description: document.getElementById('edit-description').value || null,
   };
 
   const res = await fetch(`/jobs/${job.job_id}`, {
@@ -79,6 +99,7 @@ async function saveEdit() {
 
   if (res.ok) {
     populateViewMode();
+    updateRow();
     modalOverlay.classList.remove('editing');
     editMode = false;
   }

@@ -33,16 +33,16 @@ async function renderModalOverlay(companies) {
         <button class="close-btn" id="close-btn">x</button>
       </div>
 
-      <form action="/url-route" method="POST">
+      <form id="post-form" action="/jobs" method="POST">
         <div class="job-grid-container">
           <div class="job-box">
             <label>Job Title</label>
-            <input />
+            <input name="job_title" />
           </div>
 
           <div class="company-box">
             <label>Company</label>
-            <select>
+            <select name="company_id">
               <option value="" disabled selected>Select...</option>
               ${options}
             </select>
@@ -50,48 +50,48 @@ async function renderModalOverlay(companies) {
 
           <div class="min-salary-box">
             <label>Min Salary</label>
-            <input />
+            <input name="salary_min" />
           </div>
 
           <div class="max-salary-box">
             <label>Max Salary</label>
-            <input />
+            <input name="salary_max" />
           </div>
 
           <div class="job-type-box">
             <label>Job Type</label>
-            <input />
+            <input name="job_type" />
           </div>
 
           <div class="date-box">
             <label>Date Posted</label>
-            <input class="date-input" type="date" />
+            <input class="date-input" type="date" name="date_posted" />
           </div>
 
           <div class="posting-box">
             <label>Posting URL</label>
-            <input />
+            <input name="posting_url" />
           </div>
 
           <div class="active-box">
             <label>Active</label>
             <label class="checkbox">
-              <input type="checkbox" checked />
+              <input type="checkbox" name="is_active" value="1" checked />
               Yes
             </label>
           </div>
 
           <div class="description-box">
             <label>Description</label>
-            <textarea></textarea>
+            <textarea name="job_description"></textarea>
           </div>
         </div>
-      </form>
 
-      <div class="options">
-        <button id="cancel-btn" class="cancel-btn">Cancel</button>
-        <button id="create-btn" class="create-btn" type="submit">Create</button>
-      </div>
+        <div class="options">
+          <button id="cancel-btn" class="cancel-btn" type="button">Cancel</button>
+          <button id="create-btn" class="create-btn" type="submit">Create</button>
+        </div>
+      </form>
     </div>
   `;
 

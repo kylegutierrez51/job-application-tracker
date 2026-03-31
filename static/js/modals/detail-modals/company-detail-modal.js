@@ -1,4 +1,4 @@
-import { companies } from '../sample-data.js';
+import { companies } from '../../sample-data.js';
 
 const modalOverlay = document.getElementById('detail-modal-overlay');
 const detailCloseBtn = document.getElementById('close-details-btn');
