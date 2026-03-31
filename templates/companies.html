@@ -61,7 +61,7 @@
             <td>{{ company['job_count'] }}</td>
             <td>{{ company['contact_count'] }}</td>
             <td>{{ company['notes'] if company['notes'] is not none else '-' }}</td>
-            <td>{{ company['created_at'] }}</td>
+            <td>{{ company['created_at'][:10] if company['created_at'] is not none else '-' }}</td>
           </tr>
         {% endfor %}
     </table>
