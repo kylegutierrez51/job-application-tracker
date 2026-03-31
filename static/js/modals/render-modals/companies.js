@@ -6,44 +6,44 @@ function renderModalOverlay() {
         <button class="close-btn" id="close-btn">x</button>
       </div>
 
-      <form action="/url-route" method="POST">
+      <form action="/companies" method="POST">
         <div class="company-grid-container">
           
           <div class="company-box">
             <label>Company Name</label>
-            <input>
+            <input name="company_name">
           </div>
 
           <div class="industry-box">
             <label>Industry</label>
-            <input>
+            <input name="industry">
           </div>
 
           <div class="city-box">
             <label>City</label>
-            <input>
+            <input name="city">
           </div>
 
           <div class="state-box">
             <label>State</label>
-            <input>
+            <input name="state">
           </div>
 
           <div class="website-box">
             <label>Website</label>
-            <input>
+            <input name="website">
           </div>
 
           <div class="notes-box">
             <label>Notes</label>
-            <textarea></textarea>
+            <textarea name="notes"></textarea>
           </div>
           
         </div>
 
         <div class="options">
-          <button id="cancel-btn" class="cancel-btn">Cancel</button>
-          <button id="create-btn" class="create-btn">Create</button>
+          <button id="cancel-btn" class="cancel-btn" type="button">Cancel</button>
+          <button id="create-btn" class="create-btn" type="submit">Create</button>
         </div>
       </form>
     </div>
