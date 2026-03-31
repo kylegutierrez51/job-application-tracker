@@ -12,6 +12,7 @@ const cancelDeleteBtn = document.querySelector('#detail-modal-overlay .delete-cl
 
 
 let job = null;
+let rowIndex = null;
 let editMode = false;
 
 function populateViewMode() {
@@ -61,7 +62,7 @@ function enterDeleteMode() {
   modalOverlay.classList.add('deleting');
 }
 
-function saveEdit() {
+async function saveEdit() {
     job = {
       ...job,
       job_title: document.getElementById('edit-title').value,
@@ -75,7 +76,7 @@ function saveEdit() {
       job_description: document.getElementById('edit-description').value || null,
   };
 
-  const res = fetch(`/jobs/${job.job_id}`, {
+  const res = await fetch(`/jobs/${job.job_id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json'
@@ -90,28 +91,35 @@ function saveEdit() {
   }
 }
 
-function deleteRow() {
+async function deleteRow() {
   /*
-   1. Removes the job from the jobs array via splice
+   1. Removes the job from the database
    2. Removes the matching <tr> from the DOM
    3. Decrements data-index on all subsequent rows so clicks still map to the correct array index
    4. Closes and resets the modal
 
   */
-  if (currentJobIndex === null) return;
+  if (rowIndex === null) return;
 
-  jobs.splice(currentJobIndex, 1);
-
-  const row = document.querySelector(`.js-table-rows tr[data-index="${currentJobIndex}"]`);
-  if (row) row.remove();
-
-  document.querySelectorAll('.js-table-rows tr[data-index]').forEach((tr) => {
-    const idx = Number(tr.dataset.index);
-    if (idx > currentJobIndex) tr.dataset.index = idx - 1;
+  const res = await fetch(`/jobs/${job.job_id}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json'
+    }
   });
 
-  modalOverlay.classList.remove('active', 'editing', 'deleting');
-  currentJobIndex = null;
+  if (res.ok) {
+    const row = document.querySelector(`.js-table-rows tr[data-index="${rowIndex}"]`);
+    if (row) row.remove();
+
+    document.querySelectorAll('.js-table-rows tr[data-index]').forEach((tr) => {
+      const idx = Number(tr.dataset.index);
+      if (idx > rowIndex) tr.dataset.index = idx - 1;
+    });
+
+    modalOverlay.classList.remove('active', 'editing', 'deleting');
+    rowIndex = null;
+  }
 }
 
 
@@ -143,7 +151,8 @@ cancelDeleteBtn.addEventListener('click', () => {
 document.querySelector('.js-table-rows').addEventListener('click', (e) => {
   const row = e.target.closest('tr[data-index]');
   if (!row) return;
-  job = JSON.parse(row.dataset.job); // gets 'data-job' job json
+  rowIndex = Number(row.dataset.index);
+  job = JSON.parse(row.dataset.job);
   openDetailModal();
 });
 

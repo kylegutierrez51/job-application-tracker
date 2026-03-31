@@ -25,19 +25,17 @@ def index():
 
 @jobs_bp.route("/<int:job_id>", methods=["PUT", "DELETE"])
 def modify_job(job_id):
-
-    data = request.get_json()
     db = current_app.db
 
     if request.method == 'PUT':
-        # VALIDATION LOGIC BEFORE DB QUERY
-
+        data = request.get_json()
         db.edit_job(data, job_id)
-        print('Edited Job: ', db.get_job(job_id), '\n');
+        print('Edited Job: ', db.get_job(job_id), '\n')
         return jsonify({'success': True})
-    
+
     if request.method == 'DELETE':
-        db.delete_job(data, job_id)
+        db.delete_job(job_id)
+        return jsonify({'success': True})
 
 
 
