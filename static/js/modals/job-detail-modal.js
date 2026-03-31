@@ -1,5 +1,3 @@
-import { jobs } from '../sample-data.js';
-
 const modalOverlay = document.getElementById('detail-modal-overlay');
 const detailCloseBtn = document.getElementById('close-details-btn');
 
@@ -13,45 +11,47 @@ const deleteConfirmationBtn = document.querySelector('#detail-modal-overlay .del
 const cancelDeleteBtn = document.querySelector('#detail-modal-overlay .delete-close-btn');
 
 
-let currentJobIndex = null;
+let job = null;
 let editMode = false;
 
-function populateViewMode(job) {
-  document.getElementById('detail-title').textContent = job[0];
-  document.getElementById('detail-company').textContent = job[1];
-  document.getElementById('detail-salary').textContent = job[2];
-  document.getElementById('detail-type').textContent = job[3];
-  document.getElementById('detail-posted').textContent = job[4];
-  document.getElementById('detail-status').textContent = job[5];
-  document.getElementById('detail-link').textContent = job[6] === true ? 'View Posting' : '-';
-  document.getElementById('detail-description').textContent = job[7] ?? '-';
-  document.getElementById('detail-created').textContent = job[8];
+function populateViewMode() {
+  const creation_date = job.created_at.substring(0, 10);
+  const creation_time = job.created_at.substring(11, job.created_at.length);
+
+  document.getElementById('detail-title').textContent = job.job_title;
+  document.getElementById('detail-company').textContent = job.company_name;
+  document.getElementById('detail-salary-min').textContent = job.salary_min ? `$${job.salary_min}` : '-';
+  document.getElementById('detail-salary-max').textContent = job.salary_max ? `$${job.salary_max}` : '-';
+
+  document.getElementById('detail-type').textContent = job.job_type;
+  document.getElementById('detail-posted').textContent = job.date_posted ?? '-';
+  document.getElementById('detail-status').textContent = job.is_active ? 'Active' : 'Inactive';
+  document.getElementById('detail-link').textContent = job.posting_url ? 'View Posting' : '-';
+  document.getElementById('detail-description').textContent = job.job_description ?? '-';
+  document.getElementById('detail-created').textContent = creation_date + ", " + creation_time
 }
 
-function openDetailModal(index) {
-  currentJobIndex = index;
-  const job = jobs[index];
-  if (!job) return;
-
+function openDetailModal() {
   editMode = false;
   modalOverlay.classList.remove('editing');
   populateViewMode(job);
   modalOverlay.classList.add('active');
 }
 
-function enterEditMode() {
-  const job = jobs[currentJobIndex];
-  if (!job) return;
 
+function enterEditMode() {
   editMode = true;
-  document.getElementById('edit-title').value = job[0];
-  document.getElementById('edit-company').value = job[1];
-  document.getElementById('edit-salary').value = job[2];
-  document.getElementById('edit-type').value = job[3];
-  document.getElementById('edit-posted').value = job[4];
-  document.getElementById('edit-status').value = job[5];
-  document.getElementById('edit-link').value = job[6] === true ? '' : (job[6] || '');
-  document.getElementById('edit-description').value = job[7] ?? '';
+
+  document.getElementById('edit-title').value = job.job_title;
+  document.getElementById('edit-company').value = job.company_name;
+  document.getElementById('edit-salary-min').value = job.salary_min ?? '';
+  document.getElementById('edit-salary-max').value = job.salary_max ?? '';
+
+  document.getElementById('edit-type').value = job.job_type ?? '';
+  document.getElementById('edit-posted').value = job.date_posted ?? ''
+  document.getElementById('edit-status').value = job.is_active ? 'Active' : 'Inactive';
+  document.getElementById('edit-link').value = job.posting_url ?? '';
+  document.getElementById('edit-description').value = job.job_description ?? '';
 
   modalOverlay.classList.add('editing');
 }
@@ -62,22 +62,32 @@ function enterDeleteMode() {
 }
 
 function saveEdit() {
-  const job = jobs[currentJobIndex];
-  if (!job) return;
+    job = {
+      ...job,
+      job_title: document.getElementById('edit-title').value,
+      company_name: document.getElementById('edit-company').value,
+      salary_min: document.getElementById('edit-salary-min').value || null,
+      salary_max: document.getElementById('edit-salary-max').value || null,
+      job_type: document.getElementById('edit-type').value,
+      date_posted: document.getElementById('edit-posted').value || null,
+      is_active: document.getElementById('edit-status').value === 'Active' ? 1 : 0,
+      posting_url: document.getElementById('edit-link').value || null,
+      job_description: document.getElementById('edit-description').value || null,
+  };
 
-  job[0] = document.getElementById('edit-title').value;
-  job[1] = document.getElementById('edit-company').value;
-  job[2] = document.getElementById('edit-salary').value;
-  job[3] = document.getElementById('edit-type').value;
-  job[4] = document.getElementById('edit-posted').value;
-  job[5] = document.getElementById('edit-status').value;
-  const linkVal = document.getElementById('edit-link').value.trim();
-  job[6] = linkVal !== '' ? linkVal : true;
-  job[7] = document.getElementById('edit-description').value;
+  const res = fetch(`/jobs/${job.job_id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(job)
+  });
 
-  populateViewMode(job);
-  modalOverlay.classList.remove('editing');
-  editMode = false;
+  if (res.ok) {
+    populateViewMode();
+    modalOverlay.classList.remove('editing');
+    editMode = false;
+  }
 }
 
 function deleteRow() {
@@ -130,14 +140,11 @@ cancelDeleteBtn.addEventListener('click', () => {
 
 
 
-
-
-
-
 document.querySelector('.js-table-rows').addEventListener('click', (e) => {
   const row = e.target.closest('tr[data-index]');
   if (!row) return;
-  openDetailModal(Number(row.dataset.index));
+  job = JSON.parse(row.dataset.job); // gets 'data-job' job json
+  openDetailModal();
 });
 
 detailCloseBtn.addEventListener('click', () => {

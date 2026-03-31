@@ -41,7 +41,7 @@ class JobTrackerDB:
         cursor = self.connection.cursor(dictionary=True)
 
         query = '''
-            SELECT j.job_title, c.company_name, j.salary_min, j.salary_max, j.job_type, j.date_posted, j.is_active, j.posting_url
+            SELECT j.job_id, j.job_title, c.company_name, j.salary_min, j.salary_max, j.job_type, j.date_posted, j.is_active, j.posting_url, j.job_description, j.created_at, j.company_id
             FROM jobs AS j
             INNER JOIN companies AS c ON j.company_id = c.company_id
         '''
@@ -55,7 +55,7 @@ class JobTrackerDB:
         cursor = self.connection.cursor(dictionary=True)
 
         query = '''
-            SELECT j.job_title, c.company_name, j.salary_min, j.salary_max, j.job_type, j.date_posted, j.is_active, j.posting_url
+            SELECT j.job_id, j.job_title, c.company_name, j.salary_min, j.salary_max, j.job_type, j.date_posted, j.is_active, j.posting_url, j.company_id
             FROM jobs AS j
             INNER JOIN companies AS c ON j.company_id = c.company_id
             WHERE j.job_id = %s

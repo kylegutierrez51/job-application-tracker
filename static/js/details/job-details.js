@@ -109,9 +109,14 @@ function renderDetailModalOverlay() {
           </select>
         </div>
         <div class="detail-field">
-          <label>Salary Range</label>
-          <span id="detail-salary" class="detail-view-value"></span>
-          <input id="edit-salary" class="detail-edit-input" />
+          <label>Salary Min</label>
+          <span id="detail-salary-min" class="detail-view-value"></span>
+          <input id="edit-salary-min" class="detail-edit-input" />
+        </div>
+        <div class="detail-field">
+          <label>Salary Max</label>
+          <span id="detail-salary-max" class="detail-view-value"></span>
+          <input id="edit-salary-max" class="detail-edit-input" />
         </div>
         <div class="detail-field">
           <label>Type</label>

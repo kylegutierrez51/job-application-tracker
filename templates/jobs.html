@@ -32,14 +32,34 @@
         <tr>
           <th>Job Title</th>
           <th>Company</th>
-          <th>Salary Range</th>
+          <th>Salary Min</th>
+          <th>Salary Max</th>
           <th>Type</th>
           <th>Posted</th>
           <th>Status</th>
           <th>Link</th>
         </tr>
       </thead>
-      <tbody class="js-table-rows"></tbody>
+      <tbody class="js-table-rows">
+        {% for job in jobs %}
+          <tr data-index="{{ loop.index0 }}" data-job='{{ job | tojson }}' class="clickable-row">
+            <td>{{ job['job_title'] }}</td>
+            <td>{{ job['company_name'] }}</td>
+            <td>{{ '$' ~ job['salary_min'] if job['salary_min'] is not none else 'None' }}</td>
+            <td>{{ '$' ~ job['salary_max'] if job['salary_max'] is not none else 'None' }}</td>
+            <td>{{ job['job_type'] }}</td>
+            <td>{{ job['date_posted'] }}</td>
+            <td>{{ 'Active' if job['is_active'] != 0 else 'Inactive' }}</td>
+            <td>
+              {% if job['posting_url'] is not none %}
+                <a href="{{ job['posting_url'] }}">View</a>
+              {% else %}
+                -
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
     </table>
   </main>
 

@@ -119,5 +119,5 @@ function renderPageView() {
   }
 }
 
-renderTable();
+// renderTable();
 renderPageView();
