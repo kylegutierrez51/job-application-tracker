@@ -79,17 +79,7 @@ class JobTrackerDB:
         cursor.execute(query, values)
 
         self.connection.commit()
-
-        get_last_row = '''
-            SELECT * FROM jobs
-            ORDER BY job_id DESC
-            LIMIT 1;
-        '''
-
-        cursor.execute(get_last_row)
-        result = cursor.fetchone()
         cursor.close()
-        return result
 
 
     def edit_job(self, job, id):
@@ -129,7 +119,7 @@ class JobTrackerDB:
 
 
 
-    # Extra Job Query
+    # Extra Job Queries
 
     def get_jobs_by_salary(self, min_salary):
         cursor = self.connection.cursor(dictionary=True)
@@ -139,6 +129,19 @@ class JobTrackerDB:
         cursor.close()
         return result
 
+    def get_last_row(self):
+        cursor = self.connection.cursor(dictionary=True)
+
+        get_last_row = '''
+            SELECT * FROM jobs
+            ORDER BY job_id DESC
+            LIMIT 1;
+        '''
+
+        cursor.execute(get_last_row)
+        result = cursor.fetchone()
+        cursor.close()
+        return result
 
     # ============================================================================================
     # Company Queries
@@ -200,17 +203,7 @@ class JobTrackerDB:
         cursor.execute(query, values)
 
         self.connection.commit()
-
-        get_last_row = '''
-            SELECT * FROM companies
-            ORDER BY company_id DESC
-            LIMIT 1;
-        '''
-
-        cursor.execute(get_last_row)
-        result = cursor.fetchone()
         cursor.close()
-        return result    
 
 
     def edit_company(self, company, id):
@@ -250,6 +243,22 @@ class JobTrackerDB:
         cursor.close()    
 
 
+
+    # Extra Query
+
+    def get_last_row(self):
+        cursor = self.connection.cursor(dictionary=True)
+        
+        get_last_row = '''
+            SELECT * FROM companies
+            ORDER BY company_id DESC
+            LIMIT 1;
+        '''
+
+        cursor.execute(get_last_row)
+        result = cursor.fetchone()
+        cursor.close()
+        return result
 
     # ============================================================================================
     # Application Queries
@@ -302,17 +311,7 @@ class JobTrackerDB:
         cursor.execute(query, values)
 
         self.connection.commit()
-
-        get_last_row = '''
-            SELECT * FROM applications
-            ORDER BY application_id DESC
-            LIMIT 1;
-        '''
-
-        cursor.execute(get_last_row)
-        result = cursor.fetchone()
         cursor.close()
-        return result    
 
 
     def edit_application(self, application, id):
@@ -350,6 +349,22 @@ class JobTrackerDB:
             print('Application not found.')
 
         cursor.close()
+
+
+    # Extra Query
+    def get_last_row(self):
+        cursor = self.connection.cursor(dictionary=True)
+        
+        get_last_row = '''
+            SELECT * FROM applications
+            ORDER BY application_id DESC
+            LIMIT 1;
+        '''
+
+        cursor.execute(get_last_row)
+        result = cursor.fetchone()
+        cursor.close()
+        return result
 
 
     # ============================================================================================
@@ -401,17 +416,7 @@ class JobTrackerDB:
         cursor.execute(query, values)
 
         self.connection.commit()
-
-        get_last_row = '''
-            SELECT * FROM contacts
-            ORDER BY contact_id DESC
-            LIMIT 1;
-        '''
-
-        cursor.execute(get_last_row)
-        result = cursor.fetchone()
-        cursor.close()
-        return result    
+        cursor.close() 
 
 
     def edit_contact(self, contact, id):
@@ -449,6 +454,22 @@ class JobTrackerDB:
             print('Contact not found.')
 
         cursor.close()
+
+
+    # Extra Query
+    def get_last_row(self):
+        cursor = self.connection.cursor(dictionary=True)
+        
+        get_last_row = '''
+            SELECT * FROM contacts
+            ORDER BY contact_id DESC
+            LIMIT 1;
+        '''
+
+        cursor.execute(get_last_row)
+        result = cursor.fetchone()
+        cursor.close()
+        return result
 
 
 
