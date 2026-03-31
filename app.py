@@ -7,6 +7,8 @@ from blueprints.dashboard import dashboard_bp
 from blueprints.jobs import jobs_bp
 from blueprints.job_match import job_match_bp
 
+from database import JobTrackerDB
+
 def create_app():
   app = Flask(__name__)
   
@@ -22,5 +24,10 @@ def create_app():
 
 
 if __name__ == "__main__":
-  app = create_app()
-  app.run(debug=True)
+  db = JobTrackerDB()
+
+  if db.connect():
+      app = create_app()
+      app.run(debug=True)
+      db.disconnect()
+  

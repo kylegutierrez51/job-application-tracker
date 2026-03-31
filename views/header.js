@@ -24,7 +24,7 @@ function renderHeader() {
     case 'contacts.html':
       activePage = 'a-cont';
       break;
-    case 'job_match.html':
+    case 'job-match.html':
       activePage = 'a-match';
       break;
   }
@@ -38,7 +38,7 @@ function renderHeader() {
           <a class="${activePage === 'a-comp' ? 'a-comp' : ''}" href="companies.html">Companies</a>
           <a class="${activePage === 'a-appl' ? 'a-appl' : ''}" href="applications.html">Applications</a>
           <a class="${activePage === 'a-cont' ? 'a-cont' : ''}" href="contacts.html">Contacts</a>
-          <a class="${activePage === 'a-match' ? 'a-match' : ''}" href="job_match.html">Job Match</a>
+          <a class="${activePage === 'a-match' ? 'a-match' : ''}" href="job-match.html">Job Match</a>
         </nav>
       </div>
   `;
