@@ -10,24 +10,25 @@ from blueprints.job_match import job_match_bp
 from database import JobTrackerDB
 
 def create_app():
-  app = Flask(__name__)
-  
-  app.register_blueprint(dashboard_bp)
-  app.register_blueprint(companies_bp, url_prefix="/companies")
-  app.register_blueprint(contacts_bp, url_prefix="/contacts")
-  app.register_blueprint(jobs_bp, url_prefix="/jobs")
-  app.register_blueprint(applications_bp, url_prefix="/applications")
-  app.register_blueprint(job_match_bp, url_prefix="/job-match")
+    app = Flask(__name__)
 
-  return app
+    db = JobTrackerDB()
+    db.connect()
+    app.db = db
+    
+    app.register_blueprint(dashboard_bp)
+    app.register_blueprint(companies_bp, url_prefix="/companies")
+    app.register_blueprint(contacts_bp, url_prefix="/contacts")
+    app.register_blueprint(jobs_bp, url_prefix="/jobs")
+    app.register_blueprint(applications_bp, url_prefix="/applications")
+    app.register_blueprint(job_match_bp, url_prefix="/job-match")
+
+
+
+    return app
 
 
 
 if __name__ == "__main__":
-  db = JobTrackerDB()
-
-  if db.connect():
-      app = create_app()
-      app.run(debug=True)
-      db.disconnect()
-  
+    app = create_app()
+    app.run(debug=True)
