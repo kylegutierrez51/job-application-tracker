@@ -145,6 +145,13 @@ class JobTrackerDB:
     # ============================================================================================
 
 
+    def get_companies_for_select(self):
+        cursor = self.connection.cursor(dictionary=True)
+        cursor.execute('SELECT company_id, company_name FROM companies ORDER BY company_name')
+        result = cursor.fetchall()
+        cursor.close()
+        return result
+
     def get_all_companies(self):
         cursor = self.connection.cursor(dictionary=True)
         

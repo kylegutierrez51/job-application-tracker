@@ -1,4 +1,31 @@
-function renderModalOverlay() {
+async function fetchCompanies() {
+  const res = await fetch(`/companies/api`, {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' }
+  });
+  const data = await res.json();
+  return data.companies;
+}
+
+
+async function init() {
+  const companies = await fetchCompanies();
+  renderModalOverlay(companies);
+  renderDetailModalOverlay(companies);
+}
+
+init();
+
+
+
+async function renderModalOverlay(companies) {
+
+  const options = companies.map(c =>
+    `<option value="${c.company_id}">${c.company_name}</option>`
+  ).join('');
+
+
+
   const modalOverlay = `
     <div class="container">
       <div class="container-header">
@@ -17,13 +44,7 @@ function renderModalOverlay() {
             <label>Company</label>
             <select>
               <option value="" disabled selected>Select...</option>
-              <option value="1">Stripe</option>
-              <option value="2">Figma</option>
-              <option value="3">Notion</option>
-              <option value="4">Vercel</option>
-              <option value="5">Linear</option>
-              <option value="6">Datadog</option>
-              <option value="7">Plaid</option>
+              ${options}
             </select>
           </div>
 
@@ -80,7 +101,13 @@ function renderModalOverlay() {
 
 
 
-function renderDetailModalOverlay() {
+async function renderDetailModalOverlay(companies) {
+
+  const options = companies.map(c =>
+    `<option value="${c.company_id}">${c.company_name}</option>`
+  ).join('');
+
+
   const detailModalOverlay = `
     <div class="container">
       <div class="container-header">
@@ -98,14 +125,7 @@ function renderDetailModalOverlay() {
           <label>Company</label>
           <span id="detail-company" class="detail-view-value"></span>
           <select id="edit-company" class="detail-edit-select">
-            <option value="" disabled>Select...</option>
-            <option value="Stripe">Stripe</option>
-            <option value="Figma">Figma</option>
-            <option value="Notion">Notion</option>
-            <option value="Vercel">Vercel</option>
-            <option value="Linear">Linear</option>
-            <option value="Datadog">Datadog</option>
-            <option value="Plaid">Plaid</option>
+            ${options}
           </select>
         </div>
         <div class="detail-field">
@@ -167,5 +187,3 @@ function renderDetailModalOverlay() {
   document.querySelector('.js-detail-modal-overlay').innerHTML = detailModalOverlay;
 }
 
-renderModalOverlay();
-renderDetailModalOverlay();

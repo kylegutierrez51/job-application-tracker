@@ -1,15 +1,8 @@
 const modalOverlay = document.getElementById('detail-modal-overlay');
-const detailCloseBtn = document.getElementById('close-details-btn');
 
-const editBtn = document.querySelector('#detail-modal-overlay .edit-btn');
-const cancelEditBtn = document.querySelector('#detail-modal-overlay .cancel-edit-btn');
-const saveBtn = document.querySelector('#detail-modal-overlay .save-btn');
-
-
-const deleteBtn = document.querySelector('#detail-modal-overlay .delete-btn');
-const deleteConfirmationBtn = document.querySelector('#detail-modal-overlay .delete-confirm-btn');
-const cancelDeleteBtn = document.querySelector('#detail-modal-overlay .delete-close-btn');
-
+/*
+Read form-modal.js to understand why we don't have "editButton", "deleteButton", etc. but just "modalOverlay"
+*/
 
 let job = null;
 let rowIndex = null;
@@ -44,7 +37,7 @@ function enterEditMode() {
   editMode = true;
 
   document.getElementById('edit-title').value = job.job_title;
-  document.getElementById('edit-company').value = job.company_name;
+  document.getElementById('edit-company').value = job.company_id;
   document.getElementById('edit-salary-min').value = job.salary_min ?? '';
   document.getElementById('edit-salary-max').value = job.salary_max ?? '';
 
@@ -66,7 +59,7 @@ async function saveEdit() {
     job = {
       ...job,
       job_title: document.getElementById('edit-title').value,
-      company_name: document.getElementById('edit-company').value,
+      company_id: document.getElementById('edit-company').value,
       salary_min: document.getElementById('edit-salary-min').value || null,
       salary_max: document.getElementById('edit-salary-max').value || null,
       job_type: document.getElementById('edit-type').value,
@@ -123,28 +116,6 @@ async function deleteRow() {
 }
 
 
-/* edit buttons */
-editBtn.addEventListener('click', enterEditMode);
-
-cancelEditBtn.addEventListener('click', () => {
-  modalOverlay.classList.remove('editing');
-  editMode = false;
-});
-
-saveBtn.addEventListener('click', saveEdit);
-
-
-/* delete buttons */
-deleteBtn.addEventListener('click', enterDeleteMode);
-
-deleteConfirmationBtn.addEventListener('click', deleteRow);
-
-cancelDeleteBtn.addEventListener('click', () => {
-  modalOverlay.classList.remove('deleting');
-})
-
-
-
 
 
 
@@ -156,13 +127,21 @@ document.querySelector('.js-table-rows').addEventListener('click', (e) => {
   openDetailModal();
 });
 
-detailCloseBtn.addEventListener('click', () => {
-  modalOverlay.classList.remove('active', 'editing');
-  editMode = false;
-});
-
 modalOverlay.addEventListener('click', (e) => {
   if (e.target === modalOverlay && !editMode) {
     modalOverlay.classList.remove('active', 'editing', 'deleting');
   }
+  if (e.target.id === 'close-details-btn') {
+    modalOverlay.classList.remove('active', 'editing');
+    editMode = false;
+  }
+  if (e.target.classList.contains('edit-btn')) enterEditMode();
+  if (e.target.classList.contains('cancel-edit-btn')) {
+    modalOverlay.classList.remove('editing');
+    editMode = false;
+  }
+  if (e.target.classList.contains('save-btn')) saveEdit();
+  if (e.target.classList.contains('delete-btn')) enterDeleteMode();
+  if (e.target.classList.contains('delete-confirm-btn')) deleteRow();
+  if (e.target.classList.contains('delete-close-btn')) modalOverlay.classList.remove('deleting');
 });
