@@ -81,6 +81,11 @@ document.addEventListener('submit', async (e) => {
   const formData = new FormData(e.target);
   const data = Object.fromEntries(formData.entries());
 
+  if (!data.company_name) {
+    alert('Company Name is required.');
+    return;
+  }
+
   const res = await fetch('/companies/', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

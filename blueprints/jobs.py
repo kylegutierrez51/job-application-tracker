@@ -22,8 +22,10 @@ def index():
     db = current_app.db
     
     if request.method == 'POST':
-        # VALIDATION LOGIC
         data = request.get_json()
+        data['salary_min'] = data['salary_min'] if data.get('salary_min') != '' else None
+        data['salary_max'] = data['salary_max'] if data.get('salary_max') != '' else None
+        data['date_posted'] = data['date_posted'] if data.get('date_posted') != '' else None
         new_id = db.add_job(data)
         job = db.get_job(new_id)
         return jsonify({'success': True, 'job': serialize_job(job)})
@@ -39,8 +41,10 @@ def modify_job(job_id):
     db = current_app.db
 
     if request.method == 'PUT':
-        # VALIDATION LOGIC
         data = request.get_json()
+        data['salary_min'] = data['salary_min'] if data.get('salary_min') != '' else None
+        data['salary_max'] = data['salary_max'] if data.get('salary_max') != '' else None
+        data['date_posted'] = data['date_posted'] if data.get('date_posted') != '' else None
         db.edit_job(data, job_id)
         print('Edited Job: ', db.get_job(job_id), '\n')
         return jsonify({'success': True})

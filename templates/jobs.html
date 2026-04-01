@@ -13,7 +13,6 @@
 {% endblock %}
 
 {% block scripts %}
-  <script type="module" src="../static/js/subheader.js" defer></script>
   <script type="module" src="../static/js/modals/render-modals/jobs.js" defer></script>
   <script type="module" src="../static/js/modals/form-modals/job-form-modal.js" defer></script>
   <script type="module" src="../static/js/modals/detail-modals/job-detail-modal.js" defer></script>
@@ -23,7 +22,23 @@
 {% endblock %}
 
 {% block content %}
-  <section class="subheader js-subheader"></section>
+  <section class="subheader js-subheader">
+    <div class="subheader-flex">
+      <div class="title-group">
+          <h1>Jobs</h1>
+          <div class='subtitle'>
+            <span>Open positions you're tracking:</span>
+            <span id='subtitle-count'>{{ jobs | length }}</span>
+          </div>
+      </div>
+      <div class="add-div">
+        <button id='add-btn'>
+          <ion-icon name="add-outline"></ion-icon>
+          Add Job
+        </button>
+      </div>
+    </div>
+  </section>
 
   <main class="table-wrapper">
     <table>

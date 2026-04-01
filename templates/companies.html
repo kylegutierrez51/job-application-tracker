@@ -13,7 +13,6 @@
 {% endblock %}
 
 {% block scripts %}
-  <script type="module" src="../static/js/subheader.js" defer></script>
   <script type="module" src="../static/js/modals/render-modals/companies.js" defer></script>
   <script type="module" src="../static/js/modals/form-modals/company-form-modal.js" defer></script>
   <script type="module" src="../static/js/modals/detail-modals/company-detail-modal.js" defer></script>
@@ -24,7 +23,23 @@
 
 
 {% block content %}
-  <section class="subheader js-subheader"></section>
+  <section class="subheader js-subheader">
+    <div class="subheader-flex">
+      <div class="title-group">
+          <h1>Companies</h1>
+          <div class='subtitle'>
+            <span>Organizations you're targeting:</span>
+            <span id='subtitle-count'>{{ companies | length }}</span>
+          </div>
+      </div>
+      <div class="add-div">
+        <button id='add-btn'>
+          <ion-icon name="add-outline"></ion-icon>
+          Add Company
+        </button>
+      </div>
+    </div>
+  </section>
 
   <main class="table-wrapper">
     <table>

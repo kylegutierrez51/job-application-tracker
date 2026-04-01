@@ -169,6 +169,45 @@ async function deleteRow() {
   }
 }
 
+function validateInputs(data) {
+  if (!data.job_title.trim() || !data.company_id) {
+    alert('Job Title and Company are required.');
+    return;
+  }
+
+  const DECIMAL_MAX = 99999999.99;
+  const DECIMAL_MIN = -99999999.99;
+
+  if (data.job_title !== '' && data.job_type.length > 100) {
+    alert('Job Type cannot be greater than 100 characters.')
+    return;
+  }
+
+  if (data.salary_min !== '' && (Number(data.salary_min) < DECIMAL_MIN || Number(data.salary_min) > DECIMAL_MAX)) {
+    alert(`Salary Min must be between ${DECIMAL_MIN.toLocaleString()} and ${DECIMAL_MAX.toLocaleString()}.`);
+    return;
+  }
+  
+  if (data.salary_max !== '' && (Number(data.salary_max) < DECIMAL_MIN || Number(data.salary_max) > DECIMAL_MAX)) {
+    alert(`Salary Max must be between ${DECIMAL_MIN.toLocaleString()} and ${DECIMAL_MAX.toLocaleString()}.`);
+    return;
+  }
+  if (data.job_type !== '' && data.job_type.length > 20) {
+    alert('Job Type cannot be greater than 20 characters.')
+    return;
+  }
+
+  if (data.posting_url !== '' && data.posting_url.length > 500) {
+    alert('Posting URL cannot be greater than 500 characters.');
+    return;
+  }
+  
+  if (data.posting_url && !/^https?:\/\//i.test(data.posting_url)) {
+    data.posting_url = 'https://' + data.posting_url;
+  }
+
+  return data
+}
 
 
 document.querySelector('.js-table-rows').addEventListener('click', (e) => {

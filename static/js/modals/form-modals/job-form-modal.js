@@ -35,8 +35,8 @@ function addRow(job) {
   tr.innerHTML = `
     <td>${job.job_title || '-'}</td>
     <td>${job.company_name || '-'}</td>
-    <td>${job.salary_min !== null ? '$' + job.salary_min : 'None'}</td>
-    <td>${job.salary_max !== null ? '$' + job.salary_max : 'None'}</td>
+    <td>${job.salary_min !== null ? '$' + job.salary_min : '-'}</td>
+    <td>${job.salary_max !== null ? '$' + job.salary_max : '-'}</td>
     <td>${job.job_type || '-'}</td>
     <td>${job.date_posted || '-'}</td>
     <td>${job.is_active ? 'Active' : 'Inactive'}</td>
@@ -49,6 +49,45 @@ function addRow(job) {
   countElement.textContent = ++currCount;
 }
 
+function validateInputs(data) {
+  let message = '';
+  if (!data.job_title.trim() || !data.company_id) {
+    message += 'Job Title and Company are required. '
+  }
+
+  const DECIMAL_MAX = 99999999.99;
+  const DECIMAL_MIN = -99999999.99;
+
+  if (data.job_title !== '' && data.job_title.length > 100) {
+    message += 'Job Title cannot be greater than 100 characters. '
+  }
+
+  if (data.salary_min !== '' && (Number(data.salary_min) < DECIMAL_MIN || Number(data.salary_min) > DECIMAL_MAX)) {
+    message += `Salary Min must be between ${DECIMAL_MIN.toLocaleString()} and ${DECIMAL_MAX.toLocaleString()}. `
+  }
+  
+  if (data.salary_max !== '' && (Number(data.salary_max) < DECIMAL_MIN || Number(data.salary_max) > DECIMAL_MAX)) {
+    message += `Salary Max must be between ${DECIMAL_MIN.toLocaleString()} and ${DECIMAL_MAX.toLocaleString()}. `
+  }
+  if (data.job_type !== '' && data.job_type.length > 20) {
+    message += 'Job Type cannot be greater than 20 characters. '
+  }
+
+  if (data.posting_url !== '' && data.posting_url.length > 500) {
+    message += 'Posting URL cannot be greater than 500 characters. '
+  }
+  else if (data.posting_url && !/^https?:\/\//i.test(data.posting_url)) {
+    data.posting_url = 'https://' + data.posting_url;
+  }
+
+
+  if (message.length > 0) {
+    alert(message);
+    return undefined;
+  }
+
+  return data
+}
 
 subheader.addEventListener('click', (e) => {
   if (e.target.id === 'add-btn') modalOverlay.classList.add('active');
@@ -82,16 +121,16 @@ modalOverlay.addEventListener('keydown', (e) => {
 });
 
 
+
 document.addEventListener('submit', async (e) => {
   if (e.target.id !== 'post-form') return;
   e.preventDefault();
 
   const formData = new FormData(e.target);
-  const data = Object.fromEntries(formData.entries());
+  let data = Object.fromEntries(formData.entries());
 
-  if (data.posting_url && !/^https?:\/\//i.test(data.posting_url)) {
-    data.posting_url = 'https://' + data.posting_url;
-  }
+  data = validateInputs(data);
+  if (!data) return;
 
   const skills = collectSkills('skills-tags');
   const customFields = collectCustomFields('requirements-custom-rows');
