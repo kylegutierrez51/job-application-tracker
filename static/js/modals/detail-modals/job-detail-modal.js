@@ -22,7 +22,12 @@ function populateViewMode() {
   document.getElementById('detail-type').textContent = job.job_type ?? '-';
   document.getElementById('detail-posted').textContent = job.date_posted ?? '-';
   document.getElementById('detail-status').textContent = job.is_active ? 'Active' : 'Inactive';
-  document.getElementById('detail-link').textContent = job.posting_url ? 'View Posting' : '-';
+  const linkEl = document.getElementById('detail-link');
+  if (job.posting_url) {
+    linkEl.innerHTML = `<a href="${job.posting_url}" target="_blank">View Posting</a>`;
+  } else {
+    linkEl.textContent = '-';
+  }
   document.getElementById('detail-description').textContent = job.job_description ?? '-';
   document.getElementById('detail-created').textContent = creation_date + ", " + creation_time;
   document.getElementById('detail-requirements').innerHTML = renderRequirementsHtml(job.requirements);
@@ -79,7 +84,6 @@ function updateRow() {
   cells[4].textContent = job.job_type || '-';
   cells[5].textContent = job.date_posted || '-';
   cells[6].textContent = job.is_active ? 'Active' : 'Inactive';
-  cells[7].innerHTML = job.posting_url ? `<a href="${job.posting_url}" target="_blank">View</a>` : '-';
 }
 
 async function saveEdit() {
@@ -89,6 +93,11 @@ async function saveEdit() {
   const customFields = collectCustomFields('detail-requirements-custom-rows');
   const requirements = { ...customFields };
   if (skills.length > 0) requirements.required_skills = skills;
+
+  let postingUrl = document.getElementById('edit-link').value || null;
+  if (postingUrl && !/^https?:\/\//i.test(postingUrl)) {
+    postingUrl = 'https://' + postingUrl;
+  }
 
   job = {
     ...job,
@@ -100,7 +109,7 @@ async function saveEdit() {
     job_type: document.getElementById('edit-type').value || null,
     date_posted: document.getElementById('edit-posted').value || null,
     is_active: document.getElementById('edit-status').value === 'Active' ? 1 : 0,
-    posting_url: document.getElementById('edit-link').value || null,
+    posting_url: postingUrl,
     job_description: document.getElementById('edit-description').value || null,
     requirements: Object.keys(requirements).length > 0 ? requirements : null,
   };

@@ -36,7 +36,6 @@
           <th>Type</th>
           <th>Posted</th>
           <th>Status</th>
-          <th>Link</th>
         </tr>
       </thead>
       <tbody class="js-table-rows">
@@ -49,13 +48,6 @@
             <td>{{ job['job_type'] if job['job_type'] is not none else '-' }}</td>
             <td>{{ job['date_posted'] if job['date_posted'] is not none else '-' }}</td>
             <td>{{ 'Active' if job['is_active'] != 0 else 'Inactive' }}</td>
-            <td>
-              {% if job['posting_url'] is not none %}
-                <a href="{{ job['posting_url'] }}" target="_blank">View</a>
-              {% else %}
-                -
-              {% endif %}
-            </td>
           </tr>
         {% endfor %}
       </tbody>

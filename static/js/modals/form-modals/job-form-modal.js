@@ -40,7 +40,6 @@ function addRow(job) {
     <td>${job.job_type || '-'}</td>
     <td>${job.date_posted || '-'}</td>
     <td>${job.is_active ? 'Active' : 'Inactive'}</td>
-    <td>${job.posting_url ? `<a href="${job.posting_url}" target="_blank">View</a>` : '-'}</td>
   `;
 
   tbody.appendChild(tr);
@@ -89,6 +88,10 @@ document.addEventListener('submit', async (e) => {
 
   const formData = new FormData(e.target);
   const data = Object.fromEntries(formData.entries());
+
+  if (data.posting_url && !/^https?:\/\//i.test(data.posting_url)) {
+    data.posting_url = 'https://' + data.posting_url;
+  }
 
   const skills = collectSkills('skills-tags');
   const customFields = collectCustomFields('requirements-custom-rows');
