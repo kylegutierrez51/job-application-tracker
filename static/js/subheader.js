@@ -35,35 +35,35 @@ async function renderSubheader() {
   let title = '';
   let subtitle = '';
   let buttonText = '';
-  let count = '-';
+  let count = '0';
 
   switch (currentHTMLFile) {
     case 'jobs':
       count = await get_count('/jobs/api/count')
 
       title = 'Jobs';
-      subtitle = `Open positions you\'re tracking: ${count}`;
+      subtitle = `Open positions you\'re tracking: `;
       buttonText = 'Add Job';
       break;
     case 'companies':
       count = await get_count('/companies/api/count')
 
       title = 'Companies';
-      subtitle = `Organizations you\'re targeting: ${count}`;
+      subtitle = `Organizations you\'re targeting: `;
       buttonText = 'Add Company';
       break;
     case 'applications':
       count = await get_count('/applications/api/count')
 
       title = 'Applications';
-      subtitle = `Track every application you\'ve submitted: ${count}`;
+      subtitle = `Track every application you\'ve submitted: `;
       buttonText = 'Add Application';
       break;
     case 'contacts':
       count = await get_count('/contacts/api/count')
 
       title = 'Contacts';
-      subtitle = `People in your professional network: ${count}`;
+      subtitle = `People in your professional network: `;
       buttonText = 'Add Contact';
       break;
     case 'job-match':
@@ -77,7 +77,10 @@ async function renderSubheader() {
     <div class="subheader-flex">
       <div class="title-group">
           <h1>${title}</h1>
-          ${subtitle}
+          <div class='subtitle'>
+            <span>${subtitle}</span>
+            <span id='subtitle-count'>${count}</span>
+          </div>
       </div>
       <div class="add-div">
         <button id='add-btn'>

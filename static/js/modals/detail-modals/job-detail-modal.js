@@ -131,6 +131,14 @@ async function deleteRow() {
       if (idx > rowIndex) tr.dataset.index = idx - 1;
     });
 
+
+    /* decrement subheader count if not already 0 */
+    const countElement = document.getElementById('subtitle-count');
+    let currCount = Number(countElement.textContent);
+    if (currCount !== 0) {
+      countElement.textContent = --currCount;
+    }
+
     modalOverlay.classList.remove('active', 'editing', 'deleting');
     rowIndex = null;
   }

@@ -23,6 +23,13 @@
     margin-left: 15px;
 }
 
+.subheader .subtitle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+}
+
 .subheader .add-div {
     display: flex;
     justify-content: end;
