@@ -5,7 +5,8 @@ applications_bp = Blueprint("applications", __name__)
 def serialize_application(application):
     return {
         **application,
-        'date_posted': application['date_posted'].isoformat() if application['date_posted'] is not None else None,
+        'application_date': application['application_date'].isoformat() if application['application_date'] is not None else None,
+        'response_date': application['response_date'].isoformat() if application['response_date'] is not None else None,
         'interview_date': application['interview_date'].isoformat() if application['interview_date'] is not None else None,
         'created_at': application['created_at'].isoformat() if application['created_at'] is not None else None,
     }
@@ -22,7 +23,7 @@ def index():
         return jsonify({'success': True})
     
     if request.method == 'GET':
-        applications = [serialize_application(a) for a in db.get_applications_count()]
+        applications = [serialize_application(a) for a in db.get_all_applications()]
         return render_template("applications.html", applications=applications)
 
 

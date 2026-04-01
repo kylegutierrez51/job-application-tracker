@@ -40,7 +40,29 @@
           <th>Notes</th>
         </tr>
       </thead>
-      <tbody class="js-table-rows"></tbody>
+      <tbody class="js-table-rows">
+        {% for application in applications %}
+          <tr data-index="{{ loop.index0 }}" data-application='{{ application | tojson }}' class="clickable-row">
+            <td>
+              <div>{{ application['job_title']}}</div>
+              <div class="company">{{application['company_id']}}</div>
+            </td>
+            <td>{{ application['application_date'][:10] }}</td>
+            <td>{{ application['status'] if application['status'] is not none else '-' }}</td>
+            <td>{{ application['resume_version'] if application['resume_version'] is not none else '-' }}</td>
+            <td>{{ 'Sent' if application['cover_letter_sent'] != 0 else '-' }}</td>
+            <td>{{ application['response_date'][:10] if application['response_date'] is not none else '-' }}</td>
+            <td>
+              {% if application['interview_date'] is not none %}
+                {{ application['interview_date'][:10] ~ "\n" ~ application['interview_date'][11:] }}
+              {% else %}
+                -
+              {% endif %}
+            </td>
+            <td>{{ application['notes'] if application['notes'] is not none else '-' }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
     </table>
   </main>
 
