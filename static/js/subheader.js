@@ -1,6 +1,26 @@
 
 
-function renderSubheader() {
+
+
+
+
+async function get_count(url) {
+  const res = await fetch(`${url}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+
+  if (res.ok) {
+    const data = await res.json();
+    return data['count']
+  }
+  return null;
+}
+
+
+async function renderSubheader() {
 
   const currentPagePath = window.location.pathname;
   const currentHTMLFile = currentPagePath.split('/').filter(Boolean).pop().replace('.html', '');
@@ -15,25 +35,35 @@ function renderSubheader() {
   let title = '';
   let subtitle = '';
   let buttonText = '';
+  let count = null;
+
   switch (currentHTMLFile) {
     case 'jobs':
+      count = await get_count('/jobs/api/count')
+
       title = 'Jobs';
-      subtitle = 'Open positions you\'re tracking: 8';
+      subtitle = `Open positions you\'re tracking: ${count}`;
       buttonText = 'Add Job';
       break;
     case 'companies':
+      count = await get_count('/companies/api/count')
+
       title = 'Companies';
-      subtitle = 'Organizations you\'re targeting: 7';
+      subtitle = `Organizations you\'re targeting: ${count}`;
       buttonText = 'Add Company';
       break;
     case 'applications':
+      count = await get_count('/applications/api/count')
+
       title = 'Applications';
-      subtitle = 'Track every application you\'ve submitted: 8';
+      subtitle = `Track every application you\'ve submitted: ${count}`;
       buttonText = 'Add Application';
       break;
     case 'contacts':
+      count = await get_count('/contacts/api/count')
+
       title = 'Contacts';
-      subtitle = 'People in your professional network: 7';
+      subtitle = `People in your professional network: ${count}`;
       buttonText = 'Add Contact';
       break;
     case 'job-match':

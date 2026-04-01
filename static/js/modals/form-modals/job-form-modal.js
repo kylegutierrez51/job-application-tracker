@@ -1,5 +1,5 @@
-const addButton = document.getElementById('add-btn');
-const modalOverlay = document.getElementById('modal-overlay'); 
+const subheader = document.querySelector('.js-subheader');
+const modalOverlay = document.getElementById('modal-overlay');
 
 /*
 Event delegation -- rather than defining xButton and cancelButton button variables, we
@@ -9,6 +9,8 @@ We define modalOverlay since job-details.js's renderModalOverlay is async since 
 This means that this js file runs before renderModalOverlay finishes, meaning that buttons like the xButton and cancelButton give errors since they're rendered only in renderModalOverlay.
 
 But the id #modal-overlay is in the static HTML (templates/jobs.html) from the start.
+
+ALSO use event delegation w/ subheader since subheader.js is async, meaning just using the addButton may not work/
 
 We do the same thing in job-detail-modal.js. -- Remove Edit, Delete, Cancel, X buttons
 */
@@ -34,7 +36,7 @@ function addRow(job) {
     <td>${job.job_type || '-'}</td>
     <td>${job.date_posted || '-'}</td>
     <td>${job.is_active ? 'Active' : 'Inactive'}</td>
-    <td>${job.posting_url ? `<a href="${job.posting_url}">View</a>` : '-'}</td>
+    <td>${job.posting_url ? `<a href="${job.posting_url}" target="_blank">View</a>` : '-'}</td>
   `
 
   tbody.appendChild(tr);
@@ -42,8 +44,8 @@ function addRow(job) {
 }
 
 
-addButton.addEventListener('click', () => {
-  modalOverlay.classList.add('active');
+subheader.addEventListener('click', (e) => {
+  if (e.target.id === 'add-btn') modalOverlay.classList.add('active');
 });
 
 modalOverlay.addEventListener('click', (e) => {

@@ -1,5 +1,4 @@
-import mysql.connector
-from mysql.connector import Error
+from mysql.connector import Error, pooling
 import os
 from dotenv import load_dotenv
 
@@ -15,21 +14,21 @@ class JobTrackerDB:
             'password': os.getenv("DB_PASSWORD"),
             'database': os.getenv("DB_NAME")
         }
-        self.connection = None
+        self.pool = None
 
     def connect(self):
         try:
-            self.connection = mysql.connector.connect(**self.config)
+            self.pool = pooling.MySQLConnectionPool(pool_name="tracker_pool", pool_size=5, **self.config)
             return True
         except Error as e:
             print(f'Connection error: {e}')
             return False
 
+    def _get_connection(self):
+        return self.pool.get_connection()
+
     def disconnect(self):
-        if self.connection and self.connection.is_connected():
-            self.connection.close()
-
-
+        pass  # pool manages its own connections
 
 
 
@@ -38,7 +37,8 @@ class JobTrackerDB:
     # ============================================================================================
 
     def get_all_jobs(self):
-        cursor = self.connection.cursor(dictionary=True)
+        conn = self._get_connection()
+        cursor = conn.cursor(dictionary=True)
 
         query = '''
             SELECT j.job_id, j.job_title, c.company_name, j.salary_min, j.salary_max, j.job_type, j.date_posted, j.is_active, j.posting_url, j.job_description, j.created_at, j.company_id
@@ -49,10 +49,12 @@ class JobTrackerDB:
         cursor.execute(query)
         result = cursor.fetchall()
         cursor.close()
+        conn.close()
         return result
 
     def get_job(self, id):
-        cursor = self.connection.cursor(dictionary=True)
+        conn = self._get_connection()
+        cursor = conn.cursor(dictionary=True)
 
         query = '''
             SELECT j.job_id, j.job_title, c.company_name, j.salary_min, j.salary_max, j.job_type, j.date_posted, j.is_active, j.posting_url, j.company_id
@@ -64,10 +66,12 @@ class JobTrackerDB:
         cursor.execute(query, (id,))
         result = cursor.fetchone()
         cursor.close()
+        conn.close()
         return result
 
     def add_job(self, job):
-        cursor = self.connection.cursor()
+        conn = self._get_connection()
+        cursor = conn.cursor()
 
         query = '''
             INSERT INTO jobs (company_id, job_title, job_description, salary_min, salary_max, job_type, posting_url, date_posted, is_active)
@@ -78,12 +82,14 @@ class JobTrackerDB:
 
         cursor.execute(query, values)
 
-        self.connection.commit()
+        conn.commit()
         cursor.close()
+        conn.close()
 
 
     def edit_job(self, job, id):
-        cursor = self.connection.cursor()
+        conn = self._get_connection()
+        cursor = conn.cursor()
 
         query = '''
             UPDATE jobs
@@ -95,12 +101,14 @@ class JobTrackerDB:
 
         cursor.execute(query, values)
 
-        self.connection.commit()
+        conn.commit()
         cursor.close()
+        conn.close()
 
 
     def delete_job(self, id):
-        cursor = self.connection.cursor()
+        conn = self._get_connection()
+        cursor = conn.cursor()
 
         cursor.execute('SELECT * FROM jobs WHERE job_id = %s', (id,))
         to_delete = cursor.fetchall()
@@ -110,27 +118,31 @@ class JobTrackerDB:
 
             delete_query = 'DELETE FROM jobs WHERE job_id = %s'
             cursor.execute(delete_query, (id,))
-            self.connection.commit()
+            conn.commit()
             print(f'Deleted {cursor.rowcount} job')
         else:
             print('Job not found.')
 
         cursor.close()
+        conn.close()
 
 
 
     # Extra Job Queries
 
     def get_jobs_by_salary(self, min_salary):
-        cursor = self.connection.cursor(dictionary=True)
+        conn = self._get_connection()
+        cursor = conn.cursor(dictionary=True)
         query = "SELECT * FROM jobs WHERE salary_min >= %s"
         cursor.execute(query, (min_salary,))
         result = cursor.fetchall()
         cursor.close()
+        conn.close()
         return result
 
     def get_last_job(self):
-        cursor = self.connection.cursor(dictionary=True)
+        conn = self._get_connection()
+        cursor = conn.cursor(dictionary=True)
 
         get_last_row = '''
             SELECT * FROM jobs
@@ -141,6 +153,17 @@ class JobTrackerDB:
         cursor.execute(get_last_row)
         result = cursor.fetchone()
         cursor.close()
+        conn.close()
+        return result
+
+
+    def get_jobs_count(self):
+        conn = self._get_connection()
+        cursor = conn.cursor()
+        cursor.execute("SELECT COUNT(*) FROM jobs")
+        result = cursor.fetchone()
+        cursor.close()
+        conn.close()
         return result
 
     # ============================================================================================
@@ -149,15 +172,18 @@ class JobTrackerDB:
 
 
     def get_companies_for_select(self):
-        cursor = self.connection.cursor(dictionary=True)
+        conn = self._get_connection()
+        cursor = conn.cursor(dictionary=True)
         cursor.execute('SELECT company_id, company_name FROM companies ORDER BY company_name')
         result = cursor.fetchall()
         cursor.close()
+        conn.close()
         return result
 
     def get_all_companies(self):
-        cursor = self.connection.cursor(dictionary=True)
-        
+        conn = self._get_connection()
+        cursor = conn.cursor(dictionary=True)
+
         query = '''
             SELECT c.company_id, c.company_name, c.industry, c.website, c.city, c.state,
             (SELECT COUNT(*) FROM jobs where jobs.company_id = c.company_id) AS job_count,
@@ -169,15 +195,17 @@ class JobTrackerDB:
         cursor.execute(query)
         result = cursor.fetchall()
         cursor.close()
+        conn.close()
         return result
 
-    
+
     def get_company(self, id):
-        cursor = self.connection.cursor(dictionary=True)
+        conn = self._get_connection()
+        cursor = conn.cursor(dictionary=True)
 
         query = '''
-            SELECT c.company_name, c.industry, c.website, c.city, c.state, 
-            (SELECT COUNT(*) FROM jobs where jobs.company_id = c.company_id) AS job_count, 
+            SELECT c.company_name, c.industry, c.website, c.city, c.state,
+            (SELECT COUNT(*) FROM jobs where jobs.company_id = c.company_id) AS job_count,
             (SELECT COUNT(*) FROM contacts where contacts.company_id = c.company_id) AS contact_count,
             c.created_at, c.notes
             FROM companies AS c
@@ -187,12 +215,14 @@ class JobTrackerDB:
         cursor.execute(query, (id,))
         result = cursor.fetchone()
         cursor.close()
-        return result      
-    
+        conn.close()
+        return result
+
 
 
     def add_company(self, company):
-        cursor = self.connection.cursor()
+        conn = self._get_connection()
+        cursor = conn.cursor()
 
         query = '''
             INSERT INTO companies (company_name, industry, website, city, state, notes)
@@ -203,12 +233,14 @@ class JobTrackerDB:
 
         cursor.execute(query, values)
 
-        self.connection.commit()
+        conn.commit()
         cursor.close()
+        conn.close()
 
 
     def edit_company(self, company, id):
-        cursor = self.connection.cursor()
+        conn = self._get_connection()
+        cursor = conn.cursor()
 
         query = '''
             UPDATE companies
@@ -220,13 +252,15 @@ class JobTrackerDB:
 
         cursor.execute(query, values)
 
-        self.connection.commit()
+        conn.commit()
         cursor.close()
+        conn.close()
 
 
 
     def delete_company(self, id):
-        cursor = self.connection.cursor(dictionary=True)
+        conn = self._get_connection()
+        cursor = conn.cursor(dictionary=True)
 
         cursor.execute('SELECT COUNT(*) AS count FROM jobs WHERE company_id = %s', (id,))
         job_count = cursor.fetchone()['count']
@@ -236,6 +270,7 @@ class JobTrackerDB:
 
         if job_count > 0 or contact_count > 0:
             cursor.close()
+            conn.close()
             parts = []
             if job_count > 0:
                 parts.append(f"{job_count} job{'s' if job_count != 1 else ''}")
@@ -244,8 +279,9 @@ class JobTrackerDB:
             return {'success': False, 'message': f"Cannot delete: this company has {' and '.join(parts)} linked to it."}
 
         cursor.execute('DELETE FROM companies WHERE company_id = %s', (id,))
-        self.connection.commit()
+        conn.commit()
         cursor.close()
+        conn.close()
         return {'success': True}
 
 
@@ -253,8 +289,9 @@ class JobTrackerDB:
     # Extra Query
 
     def get_last_company(self):
-        cursor = self.connection.cursor(dictionary=True)
-        
+        conn = self._get_connection()
+        cursor = conn.cursor(dictionary=True)
+
         get_last_row = '''
             SELECT * FROM companies
             ORDER BY company_id DESC
@@ -264,7 +301,19 @@ class JobTrackerDB:
         cursor.execute(get_last_row)
         result = cursor.fetchone()
         cursor.close()
+        conn.close()
         return result
+
+    def get_companies_count(self):
+        conn = self._get_connection()
+        cursor = conn.cursor()
+        cursor.execute("SELECT COUNT(*) FROM companies")
+        result = cursor.fetchone()
+        cursor.close()
+        conn.close()
+        return result
+
+
 
     # ============================================================================================
     # Application Queries
@@ -272,8 +321,9 @@ class JobTrackerDB:
 
 
     def get_all_applications(self):
-        cursor = self.connection.cursor(dictionary=True)
-        
+        conn = self._get_connection()
+        cursor = conn.cursor(dictionary=True)
+
         query = '''
             SELECT j.job_title, c.company_name, a.application_date, a.status, a.resume_version, a.cover_letter_sent, a.response_date, a.interview_date, a.notes
             FROM applications AS a
@@ -284,12 +334,14 @@ class JobTrackerDB:
         cursor.execute(query)
         result = cursor.fetchall()
         cursor.close()
+        conn.close()
         return result
 
 
     def get_application(self, id):
-        cursor = self.connection.cursor(dictionary=True)
-        
+        conn = self._get_connection()
+        cursor = conn.cursor(dictionary=True)
+
         query = '''
             SELECT j.job_title, c.company_name, a.application_date, a.status, a.resume_version, a.cover_letter_sent, a.response_date, a.interview_date, a.notes
             FROM applications AS a
@@ -301,11 +353,13 @@ class JobTrackerDB:
         cursor.execute(query, (id,))
         result = cursor.fetchone()
         cursor.close()
+        conn.close()
         return result
 
 
     def add_application(self, application):
-        cursor = self.connection.cursor()
+        conn = self._get_connection()
+        cursor = conn.cursor()
 
         query = '''
             INSERT INTO applications (job_id, application_date, status, resume_version, cover_letter_sent, response_date, interview_date, notes)
@@ -316,12 +370,14 @@ class JobTrackerDB:
 
         cursor.execute(query, values)
 
-        self.connection.commit()
+        conn.commit()
         cursor.close()
+        conn.close()
 
 
     def edit_application(self, application, id):
-        cursor = self.connection.cursor()
+        conn = self._get_connection()
+        cursor = conn.cursor()
 
         query = '''
             UPDATE applications
@@ -333,13 +389,15 @@ class JobTrackerDB:
 
         cursor.execute(query, values)
 
-        self.connection.commit()
+        conn.commit()
         cursor.close()
+        conn.close()
 
 
 
     def delete_application(self, id):
-        cursor = self.connection.cursor()
+        conn = self._get_connection()
+        cursor = conn.cursor()
 
         cursor.execute('SELECT * FROM applications WHERE application_id = %s', (id,))
         to_delete = cursor.fetchall()
@@ -349,18 +407,20 @@ class JobTrackerDB:
 
             delete_query = 'DELETE FROM applications WHERE application_id = %s'
             cursor.execute(delete_query, (id,))
-            self.connection.commit()
+            conn.commit()
             print(f'Deleted {cursor.rowcount} application(s)')
         else:
             print('Application not found.')
 
         cursor.close()
+        conn.close()
 
 
-    # Extra Query
+    # Extra Queries
     def get_last_application(self):
-        cursor = self.connection.cursor(dictionary=True)
-        
+        conn = self._get_connection()
+        cursor = conn.cursor(dictionary=True)
+
         get_last_row = '''
             SELECT * FROM applications
             ORDER BY application_id DESC
@@ -370,7 +430,18 @@ class JobTrackerDB:
         cursor.execute(get_last_row)
         result = cursor.fetchone()
         cursor.close()
+        conn.close()
         return result
+
+    def get_applications_count(self):
+        conn = self._get_connection()
+        cursor = conn.cursor()
+        cursor.execute("SELECT COUNT(*) FROM applications")
+        result = cursor.fetchone()
+        cursor.close()
+        conn.close()
+        return result
+
 
 
     # ============================================================================================
@@ -378,8 +449,9 @@ class JobTrackerDB:
     # ============================================================================================
 
     def get_all_contacts(self):
-        cursor = self.connection.cursor(dictionary=True)
-        
+        conn = self._get_connection()
+        cursor = conn.cursor(dictionary=True)
+
         query = '''
             SELECT ct.first_name, ct.last_name, cm.company_name, ct.job_title, ct.email, ct.phone, ct.linkedin_url, ct.notes
             FROM contacts AS ct
@@ -389,12 +461,14 @@ class JobTrackerDB:
         cursor.execute(query)
         result = cursor.fetchall()
         cursor.close()
+        conn.close()
         return result
 
 
     def get_contact(self, id):
-        cursor = self.connection.cursor(dictionary=True)
-        
+        conn = self._get_connection()
+        cursor = conn.cursor(dictionary=True)
+
         query = '''
             SELECT ct.first_name, ct.last_name, cm.company_name, ct.job_title, ct.email, ct.phone, ct.linkedin_url, ct.notes
             FROM contacts AS ct
@@ -405,12 +479,14 @@ class JobTrackerDB:
         cursor.execute(query, (id,))
         result = cursor.fetchone()
         cursor.close()
-        return result   
+        conn.close()
+        return result
 
 
 
     def add_contact(self, contact):
-        cursor = self.connection.cursor()
+        conn = self._get_connection()
+        cursor = conn.cursor()
 
         query = '''
             INSERT INTO contacts (company_id, first_name, last_name, email, phone, job_title, linkedin_url, notes)
@@ -421,12 +497,14 @@ class JobTrackerDB:
 
         cursor.execute(query, values)
 
-        self.connection.commit()
-        cursor.close() 
+        conn.commit()
+        cursor.close()
+        conn.close()
 
 
     def edit_contact(self, contact, id):
-        cursor = self.connection.cursor()
+        conn = self._get_connection()
+        cursor = conn.cursor()
 
         query = '''
             UPDATE contacts
@@ -438,13 +516,15 @@ class JobTrackerDB:
 
         cursor.execute(query, values)
 
-        self.connection.commit()
+        conn.commit()
         cursor.close()
+        conn.close()
 
 
 
     def delete_contact(self, id):
-        cursor = self.connection.cursor()
+        conn = self._get_connection()
+        cursor = conn.cursor()
 
         cursor.execute('SELECT * FROM contacts WHERE contact_id = %s', (id,))
         to_delete = cursor.fetchall()
@@ -454,18 +534,20 @@ class JobTrackerDB:
 
             delete_query = 'DELETE FROM contacts WHERE contact_id = %s'
             cursor.execute(delete_query, (id,))
-            self.connection.commit()
+            conn.commit()
             print(f'Deleted {cursor.rowcount} contact(s)')
         else:
             print('Contact not found.')
 
         cursor.close()
+        conn.close()
 
 
-    # Extra Query
+    # Extra Queries
     def get_last_contact(self):
-        cursor = self.connection.cursor(dictionary=True)
-        
+        conn = self._get_connection()
+        cursor = conn.cursor(dictionary=True)
+
         get_last_row = '''
             SELECT * FROM contacts
             ORDER BY contact_id DESC
@@ -475,9 +557,17 @@ class JobTrackerDB:
         cursor.execute(get_last_row)
         result = cursor.fetchone()
         cursor.close()
+        conn.close()
         return result
 
-
+    def get_contacts_count(self):
+        conn = self._get_connection()
+        cursor = conn.cursor()
+        cursor.execute("SELECT COUNT(*) FROM contacts")
+        result = cursor.fetchone()
+        cursor.close()
+        conn.close()
+        return result
 
 
 if __name__ == '__main__':
@@ -518,8 +608,7 @@ if __name__ == '__main__':
         print("Delete Job")
         print("===========================================\n")
 
-        db.delete_job(21) 
-
+        db.delete_job(21)
 
 
 
@@ -529,7 +618,7 @@ if __name__ == '__main__':
         print("===========================================\n")
 
         job_id = 26
-        
+
         print("Unedited Version: ")
         print(db.get_job(job_id), "\n")
 

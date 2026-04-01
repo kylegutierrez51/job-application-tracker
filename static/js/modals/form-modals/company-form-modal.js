@@ -1,4 +1,4 @@
-const addButton = document.getElementById('add-btn');
+const subheader = document.querySelector('.js-subheader');
 const modalOverlay = document.getElementById('modal-overlay'); 
 
 /*
@@ -9,6 +9,8 @@ We define modalOverlay since job-details.js's renderModalOverlay is async since 
 This means that this js file runs before renderModalOverlay finishes, meaning that buttons like the xButton and cancelButton give errors since they're rendered only in renderModalOverlay.
 
 But the id #modal-overlay is in the static HTML (templates/jobs.html) from the start.
+
+ALSO use event delegation w/ subheader since subheader.js is async, meaning just using the addButton may not work/
 
 We do the same thing in job-detail-modal.js. -- Remove Edit, Delete, Cancel, X buttons
 */
@@ -55,8 +57,8 @@ function concatenateCityState(company) {
 
 
 
-addButton.addEventListener('click', () => {
-  modalOverlay.classList.add('active');
+subheader.addEventListener('click', () => {
+  if (e.target.id === 'add-btn') modalOverlay.classList.add('active');
 });
 
 modalOverlay.addEventListener('click', (e) => {

@@ -51,3 +51,11 @@ def api_companies():
     db = current_app.db
     companies = db.get_companies_for_select()
     return jsonify({'companies': companies})
+
+
+
+@companies_bp.route("/api/count")
+def api_companies_count():
+    db = current_app.db
+    companies_count = db.get_companies_count()
+    return jsonify({'count': companies_count})

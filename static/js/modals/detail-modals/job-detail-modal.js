@@ -69,7 +69,7 @@ function updateRow() {
   cells[4].textContent = job.job_type || '-';
   cells[5].textContent = job.date_posted || '-';
   cells[6].textContent = job.is_active ? 'Active' : 'Inactive';
-  cells[7].innerHTML = job.posting_url ? `<a href="${job.posting_url}">View</a>` : '-';
+  cells[7].innerHTML = job.posting_url ? `<a href="${job.posting_url}" target="_blank">View</a>` : '-';
 }
 
 async function saveEdit() {

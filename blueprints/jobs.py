@@ -48,6 +48,11 @@ def modify_job(job_id):
 
 
 
+@jobs_bp.route("/api/count")
+def api_jobs_count():
+    db = current_app.db
+    jobs_count = db.get_jobs_count()
+    return jsonify({'count': jobs_count})
     
 
 
