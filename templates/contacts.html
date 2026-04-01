@@ -39,7 +39,30 @@
           <th>Notes</th>
         </tr>
       </thead>
-      <tbody class="js-table-rows"></tbody>
+      <tbody class="js-table-rows">
+        {% for contact in contacts %}
+          <tr data-index="{{ loop.index0 }}" data-contact='{{ contact | tojson }}' class="clickable-row">
+            <td>{{ company['company_name'] }}</td>
+            <td>{{ company['industry'] if company['industry'] is not none else '-'}}</td>
+            <td>{{ company['website'] if company['website'] is not none else '-' }}</td>
+            <td>
+              {% if company['city'] is not none and company['state'] is not none %}
+                {{ company['city'] ~ ", " ~ company['state'] }}
+              {% elif company['city'] is not none %}
+                {{ company['city'] }}
+              {% elif company['state'] is not none %}
+                {{ company['state'] }}
+              {% else %}
+                -
+              {% endif %}
+            </td>
+            <td>{{ company['job_count'] }}</td>
+            <td>{{ company['contact_count'] }}</td>
+            <td>{{ company['notes'] if company['notes'] is not none else '-' }}</td>
+            <td>{{ company['created_at'][:10] if company['created_at'] is not none else '-' }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
     </table>
   </main>
 

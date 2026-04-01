@@ -16,7 +16,7 @@ async function get_count(url) {
     const data = await res.json();
     return data['count']
   }
-  return null;
+  return '-';
 }
 
 
@@ -35,7 +35,7 @@ async function renderSubheader() {
   let title = '';
   let subtitle = '';
   let buttonText = '';
-  let count = null;
+  let count = '-';
 
   switch (currentHTMLFile) {
     case 'jobs':

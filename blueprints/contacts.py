@@ -1,10 +1,45 @@
-from flask import Blueprint, render_template, current_app, jsonify
+from flask import Blueprint, render_template, request, current_app, jsonify
 
 contacts_bp = Blueprint("contacts", __name__)
 
-@contacts_bp.route("/")
+def serialize_contact(contact):
+    return {
+        **contact,
+        'created_at': contact['created_at'].isoformat() if contact['created_at'] is not None else None,
+    }
+
+
+@contacts_bp.route("/", methods=["GET", "POST"])
 def index():
-    return render_template("contacts.html")
+    db = current_app.db
+    
+    if request.method == 'POST':
+        # VALIDATION LOGIC
+        data = request.get_json()
+        db.add_contact(data)
+        return jsonify({'success': True})
+    
+    if request.method == 'GET':
+        contacts = [serialize_contact(c) for c in db.get_all_contacts()]
+        return render_template("contacts.html", contacts=contacts)
+
+
+
+@contacts_bp.route("/<int:contact_id>", methods=["PUT", "DELETE"])
+def modify_contact(contact_id):
+    db = current_app.db
+
+    if request.method == 'PUT':
+        # VALIDATION LOGIC
+        data = request.get_json()
+        db.edit_contact(data, contact_id)
+        print('Edited Contact: ', db.get_contact(contact_id), '\n')
+        return jsonify({'success': True})
+
+    if request.method == 'DELETE':
+        db.delete_contact(contact_id)
+        return jsonify({'success': True})
+
 
 
 

@@ -28,7 +28,7 @@ def index():
 
 
 @companies_bp.route("/<int:company_id>", methods=["PUT", "DELETE"])
-def modify_job(company_id):
+def modify_company(company_id):
     db = current_app.db
 
     if request.method == 'PUT':

@@ -1,10 +1,46 @@
-from flask import Blueprint, render_template, current_app, jsonify
+from flask import Blueprint, render_template, request, current_app, jsonify
 
 applications_bp = Blueprint("applications", __name__)
 
-@applications_bp.route("/")
+def serialize_application(application):
+    return {
+        **application,
+        'date_posted': application['date_posted'].isoformat() if application['date_posted'] is not None else None,
+        'interview_date': application['interview_date'].isoformat() if application['interview_date'] is not None else None,
+        'created_at': application['created_at'].isoformat() if application['created_at'] is not None else None,
+    }
+
+
+@applications_bp.route("/", methods=["GET", "POST"])
 def index():
-    return render_template("applications.html")
+    db = current_app.db
+    
+    if request.method == 'POST':
+        # VALIDATION LOGIC
+        data = request.get_json()
+        db.add_application(data)
+        return jsonify({'success': True})
+    
+    if request.method == 'GET':
+        applications = [serialize_application(a) for a in db.get_applications_count()]
+        return render_template("applications.html", applications=applications)
+
+
+
+@applications_bp.route("/<int:application_id>", methods=["PUT", "DELETE"])
+def modify_application(application_id):
+    db = current_app.db
+
+    if request.method == 'PUT':
+        # VALIDATION LOGIC
+        data = request.get_json()
+        db.edit_application(data, application_id)
+        print('Edited Application: ', db.get_application(application_id), '\n')
+        return jsonify({'success': True})
+
+    if request.method == 'DELETE':
+        db.delete_application(application_id)
+        return jsonify({'success': True})
 
 
 
@@ -13,3 +49,12 @@ def api_applications_count():
     db = current_app.db
     applications_count = db.get_applications_count()
     return jsonify({'count': applications_count})
+
+
+
+
+
+
+
+
+

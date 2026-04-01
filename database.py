@@ -325,7 +325,7 @@ class JobTrackerDB:
         cursor = conn.cursor(dictionary=True)
 
         query = '''
-            SELECT j.job_title, c.company_name, a.application_date, a.status, a.resume_version, a.cover_letter_sent, a.response_date, a.interview_date, a.notes
+            SELECT a.application_id, j.job_title, c.company_name, a.application_date, a.status, a.resume_version, a.cover_letter_sent, a.response_date, a.interview_date, a.notes
             FROM applications AS a
             INNER JOIN jobs AS j ON a.job_id = j.job_id
             LEFT JOIN companies AS c ON j.company_id = c.company_id
@@ -453,7 +453,7 @@ class JobTrackerDB:
         cursor = conn.cursor(dictionary=True)
 
         query = '''
-            SELECT ct.first_name, ct.last_name, cm.company_name, ct.job_title, ct.email, ct.phone, ct.linkedin_url, ct.notes
+            SELECT ct.contact_id, cm.company_id, ct.first_name, ct.last_name, cm.company_name, ct.job_title, ct.email, ct.phone, ct.linkedin_url, ct.notes
             FROM contacts AS ct
             INNER JOIN companies AS cm ON ct.company_id = cm.company_id
         '''
