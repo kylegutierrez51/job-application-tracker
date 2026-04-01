@@ -164,7 +164,7 @@ Application Pipeline
   border-radius: 10px;
 }
 
-.applied-bar, .phone-bar, .interview-bar, .offer-bar, .rejected-bar {
+.applied-bar, .phone-bar, .interview-bar, .interview-completed-bar, .offer-bar, .rejected-bar {
   border-radius: 10px;
   padding: 5px;
 }
@@ -179,6 +179,10 @@ Application Pipeline
 
 .interview-bar {
   background-color: rgb(110, 110, 255);
+}
+
+.interview-completed-bar {
+  background-color: rgb(120, 120, 255);
 }
 
 .offer-bar {

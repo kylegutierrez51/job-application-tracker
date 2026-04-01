@@ -42,6 +42,7 @@ function renderModalOverlay(jobs) {
               <option value="Applied">Applied</option>
               <option value="Phone Screen">Phone Screen</option>
               <option value="Interview Scheduled">Interview Scheduled</option>
+              <option value="Interview Completed">Interview Completed</option>
               <option value="Offer">Offer</option>
               <option value="Rejected">Rejected</option>
             </select>
@@ -131,6 +132,7 @@ function renderDetailModalOverlay(jobs) {
             <option value="Applied">Applied</option>
             <option value="Phone Screen">Phone Screen</option>
             <option value="Interview Scheduled">Interview Scheduled</option>
+            <option value="Interview Completed">Interview Completed</option>
             <option value="Offer">Offer</option>
             <option value="Rejected">Rejected</option>
           </select>

@@ -391,6 +391,85 @@ class JobTrackerDB:
         conn.close()
 
 
+    # Dashboard Queries
+
+    def get_dashboard_stats(self):
+        conn = self._get_connection()
+        cursor = conn.cursor(dictionary=True)
+
+        query = '''
+            SELECT
+                COUNT(*) AS total_applications,
+                SUM(CASE WHEN status NOT IN ('Rejected', 'Offer') THEN 1 ELSE 0 END) AS active_applications,
+                (SELECT COUNT(*) FROM companies) AS companies_count,
+                ROUND(SUM(CASE WHEN response_date IS NOT NULL THEN 1 ELSE 0 END) / COUNT(*) * 100) AS response_rate,
+                ROUND(SUM(CASE WHEN cover_letter_sent = 1 THEN 1 ELSE 0 END) / COUNT(*) * 100) AS cover_letter_rate,
+                SUM(CASE WHEN status = 'Offer' THEN 1 ELSE 0 END) AS offers_received
+            FROM applications
+        '''
+
+        cursor.execute(query)
+        result = cursor.fetchone()
+        cursor.close()
+        conn.close()
+        return result
+
+    def get_pipeline_stats(self):
+        conn = self._get_connection()
+        cursor = conn.cursor(dictionary=True)
+
+        query = '''
+            SELECT status, COUNT(*) AS count
+            FROM applications
+            GROUP BY status
+        '''
+
+        cursor.execute(query)
+        result = cursor.fetchall()
+        cursor.close()
+        conn.close()
+        return result
+
+    def get_recent_activity(self, limit=5):
+        conn = self._get_connection()
+        cursor = conn.cursor(dictionary=True)
+
+        query = '''
+            SELECT j.job_title, c.company_name, a.application_date, a.status
+            FROM applications AS a
+            INNER JOIN jobs AS j ON a.job_id = j.job_id
+            LEFT JOIN companies AS c ON j.company_id = c.company_id
+            ORDER BY a.application_date DESC, a.created_at DESC
+            LIMIT %s
+        '''
+
+        cursor.execute(query, (limit,))
+        result = cursor.fetchall()
+        cursor.close()
+        conn.close()
+        return result
+
+    def get_upcoming_interviews(self, limit=5):
+        conn = self._get_connection()
+        cursor = conn.cursor(dictionary=True)
+
+        query = '''
+            SELECT j.job_title, c.company_name, a.interview_date
+            FROM applications AS a
+            INNER JOIN jobs AS j ON a.job_id = j.job_id
+            LEFT JOIN companies AS c ON j.company_id = c.company_id
+            WHERE a.interview_date >= NOW()
+            ORDER BY a.interview_date ASC
+            LIMIT %s
+        '''
+
+        cursor.execute(query, (limit,))
+        result = cursor.fetchall()
+        cursor.close()
+        conn.close()
+        return result
+
+
     # Extra Queries
     def get_last_application(self):
         conn = self._get_connection()
