@@ -15,8 +15,8 @@
 {% block scripts %}
   <script type="module" src="../static/js/subheader.js" defrer></script>
   <script type="module" src="../static/js/table.js" defer></script>
-  <script type="module" src="../static/js/modals/render-modals/application.js" defer></script>
-  <script type="module" src="../static/js/modals/form-modal.js" defer></script>
+  <script type="module" src="../static/js/modals/render-modals/applications.js" defer></script>
+  <script type="module" src="../static/js/modals/form-modals/application-form-modal.js" defer></script>
   <script type="module" src="../static/js/modals/detail-modals/application-detail-modal.js" defer></script>
 
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js" defer></script>
@@ -45,7 +45,7 @@
           <tr data-index="{{ loop.index0 }}" data-application='{{ application | tojson }}' class="clickable-row">
             <td>
               <div>{{ application['job_title']}}</div>
-              <div class="company">{{application['company_id']}}</div>
+              <div class="company">{{ application['company_name'] }}</div>
             </td>
             <td>{{ application['application_date'][:10] }}</td>
             <td>{{ application['status'] if application['status'] is not none else '-' }}</td>
