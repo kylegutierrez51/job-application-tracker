@@ -1,24 +1,26 @@
 const subheader = document.querySelector('.js-subheader');
 const modalOverlay = document.getElementById('modal-overlay');
 
-function addRow(contact) {
+function addRow(app) {
   const tbody = document.querySelector('.js-table-rows');
   const index = tbody.rows.length;
   const tr = document.createElement('tr');
   tr.dataset.index = index;
-  tr.dataset.contact = JSON.stringify(contact);
+  tr.dataset.application = JSON.stringify(app);
   tr.classList.add('clickable-row');
 
-  const name = [contact.first_name, contact.last_name].filter(Boolean).join(' ') || '-';
-
   tr.innerHTML = `
-    <td>${name}</td>
-    <td>${contact.company_name || '-'}</td>
-    <td>${contact.job_title || '-'}</td>
-    <td>${contact.email || '-'}</td>
-    <td>${contact.phone || '-'}</td>
-    <td>${contact.linkedin_url || '-'}</td>
-    <td>${contact.notes || '-'}</td>
+    <td>
+      <div>${app.job_title || '-'}</div>
+      <div class="company">${app.company_name || '-'}</div>
+    </td>
+    <td>${app.application_date ? app.application_date.substring(0, 10) : '-'}</td>
+    <td>${app.status || '-'}</td>
+    <td>${app.resume_version || '-'}</td>
+    <td>${app.cover_letter_sent ? 'Sent' : '-'}</td>
+    <td>${app.response_date ? app.response_date.substring(0, 10) : '-'}</td>
+    <td>${app.interview_date ? app.interview_date.substring(0, 16).replace('T', ' ') : '-'}</td>
+    <td>${app.notes || '-'}</td>
   `;
 
   tbody.appendChild(tr);
@@ -45,8 +47,9 @@ document.addEventListener('submit', async (e) => {
 
   const formData = new FormData(e.target);
   const data = Object.fromEntries(formData.entries());
+  data.cover_letter_sent = formData.has('cover_letter_sent') ? '1' : '0';
 
-  const res = await fetch('/contacts/', {
+  const res = await fetch('/applications/', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data)
@@ -54,7 +57,7 @@ document.addEventListener('submit', async (e) => {
 
   if (res.ok) {
     const resData = await res.json();
-    addRow(resData.contact);
+    addRow(resData.application);
     modalOverlay.classList.remove('active');
     e.target.reset();
   }

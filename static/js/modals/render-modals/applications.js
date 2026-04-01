@@ -1,87 +1,103 @@
-function renderModalOverlay() {
+async function fetchJobs() {
+  const res = await fetch('/jobs/api');
+  const data = await res.json();
+  return data.jobs;
+}
+
+async function init() {
+  const jobs = await fetchJobs();
+  renderModalOverlay(jobs);
+  renderDetailModalOverlay(jobs);
+}
+
+init();
+
+
+function renderModalOverlay(jobs) {
+  const jobOptions = jobs.map(j =>
+    `<option value="${j.job_id}">${j.job_title} - ${j.company_name}</option>`
+  ).join('');
+
   const modalOverlay = `
     <div class="container">
       <div class="container-header">
         <h3>New Application</h3>
         <button class="close-btn" id="close-btn">x</button>
       </div>
-      
-      <form>
+
+      <form id="post-form">
         <div class="applications-grid-container">
           <div class="job-box">
             <label>Job</label>
-            <select>
+            <select name="job_id">
               <option value="" disabled selected>Select...</option>
-              <option value="1">Senior Frontend Engineer - Stripe</option>
-              <option value="2">Product Designer - Figma</option>
-              <option value="3">Full Stack Engineer - Notion</option>
-              <option value="4">DevRel Engineer - Vercel</option>
-              <option value="5">Backend Engineer - Linear</option>
-              <option value="6">Site Reliability Engineer - Datadog</option>
-              <option value="7">API Engineer - Plaid</option>
+              ${jobOptions}
             </select>
           </div>
 
           <div class="status-box">
             <label>Status</label>
-            <select>
+            <select name="status">
               <option value="" disabled selected>Select...</option>
-              <option value="1">Applied</option>
-              <option value="2">Phone Screen</option>
-              <option value="3">Interview Scheduled</option>
-              <option value="4">Offer</option>
-              <option value="5">Rejected</option>
+              <option value="Applied">Applied</option>
+              <option value="Phone Screen">Phone Screen</option>
+              <option value="Interview Scheduled">Interview Scheduled</option>
+              <option value="Offer">Offer</option>
+              <option value="Rejected">Rejected</option>
             </select>
           </div>
 
           <div class="applied-date-box">
             <label>Applied Date</label>
-            <input class="date-input" type="date" />
+            <input class="date-input" type="date" name="application_date" />
           </div>
 
           <div class="response-date-box">
             <label>Response Date</label>
-            <input type="date" />
+            <input type="date" name="response_date" />
           </div>
 
           <div class="resume-box">
             <label>Resume Version</label>
-            <input />
+            <input name="resume_version" />
           </div>
 
           <div class="cover-letter-box">
             <label>Cover Letter Sent</label>
             <label class="checkbox">
-              <input type="checkbox" />
-              No
+              <input type="checkbox" name="cover_letter_sent" value="1" />
+              Yes
             </label>
           </div>
 
           <div class="interview-date-box">
             <label>Interview Date</label>
-            <input type="datetime-local" />
+            <input type="datetime-local" name="interview_date" />
           </div>
 
           <div class="notes-box">
             <label>Notes</label>
-            <textarea></textarea>
+            <textarea name="notes"></textarea>
           </div>
         </div>
 
         <div class="options">
-          <button id="cancel-btn" class="cancel-btn">Cancel</button>
-          <button id="create-btn" class="create-btn">Create</button>
+          <button id="cancel-btn" class="cancel-btn" type="button">Cancel</button>
+          <button id="create-btn" class="create-btn" type="submit">Create</button>
         </div>
       </form>
     </div>
   `;
 
-  
   document.querySelector('.js-modal-overlay').innerHTML = modalOverlay;
 }
 
 
-function renderDetailModalOverlay() {
+function renderDetailModalOverlay(jobs) {
+  const jobOptions = jobs.map(j =>
+    `<option value="${j.job_id}">${j.job_title} - ${j.company_name}</option>`
+  ).join('');
+
   const detailModalOverlay = `
     <div class="container">
       <div class="container-header">
@@ -93,35 +109,19 @@ function renderDetailModalOverlay() {
         <div class="detail-field">
           <label>Position</label>
           <span id="detail-position" class="detail-view-value"></span>
-          <select id="edit-position" class="detail-edit-select">
+          <select id="edit-job" class="detail-edit-select">
             <option value="" disabled>Select...</option>
-            <option value="Senior Frontend Engineer - Stripe">Senior Frontend Engineer - Stripe</option>
-            <option value="Product Designer - Figma">Product Designer - Figma</option>
-            <option value="Full Stack Engineer - Notion">Full Stack Engineer - Notion</option>
-            <option value="DevRel Engineer - Vercel">DevRel Engineer - Vercel</option>
-            <option value="Backend Engineer - Linear">Backend Engineer - Linear</option>
-            <option value="Site Reliability Engineer - Datadog">Site Reliability Engineer - Datadog</option>
-            <option value="API Engineer - Plaid">API Engineer - Plaid</option>
+            ${jobOptions}
           </select>
         </div>
         <div class="detail-field">
           <label>Company</label>
           <span id="detail-company" class="detail-view-value"></span>
-          <select id="edit-company" class="detail-edit-select">
-            <option value="" disabled>Select...</option>
-            <option value="Stripe">Stripe</option>
-            <option value="Figma">Figma</option>
-            <option value="Notion">Notion</option>
-            <option value="Vercel">Vercel</option>
-            <option value="Linear">Linear</option>
-            <option value="Datadog">Datadog</option>
-            <option value="Plaid">Plaid</option>
-          </select>
         </div>
         <div class="detail-field">
           <label>Applied</label>
           <span id="detail-applied" class="detail-view-value"></span>
-          <input id="edit-applied" class="detail-edit-input" />
+          <input id="edit-applied" class="detail-edit-input" type="date" />
         </div>
         <div class="detail-field">
           <label>Status</label>
@@ -143,17 +143,20 @@ function renderDetailModalOverlay() {
         <div class="detail-field">
           <label>Cover Letter</label>
           <span id="detail-cover-letter" class="detail-view-value"></span>
-          <input id="edit-cover-letter" class="detail-edit-input" />
+          <label class="checkbox detail-edit-input">
+            <input id="edit-cover-letter" type="checkbox" value="1" />
+            Sent
+          </label>
         </div>
         <div class="detail-field">
           <label>Response Date</label>
           <span id="detail-response" class="detail-view-value"></span>
-          <input id="edit-response" class="detail-edit-input" />
+          <input id="edit-response" class="detail-edit-input" type="date" />
         </div>
         <div class="detail-field">
           <label>Interview</label>
           <span id="detail-interview" class="detail-view-value"></span>
-          <input id="edit-interview" class="detail-edit-input" />
+          <input id="edit-interview" class="detail-edit-input" type="datetime-local" />
         </div>
         <div class="detail-field">
           <label>Created</label>
@@ -182,6 +185,3 @@ function renderDetailModalOverlay() {
 
   document.querySelector('.js-detail-modal-overlay').innerHTML = detailModalOverlay;
 }
-
-renderModalOverlay();
-renderDetailModalOverlay();

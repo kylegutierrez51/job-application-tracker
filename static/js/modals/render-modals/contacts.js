@@ -1,77 +1,93 @@
-function renderModalOverlay() {
+async function fetchCompanies() {
+  const res = await fetch('/companies/api');
+  const data = await res.json();
+  return data.companies;
+}
+
+async function init() {
+  const companies = await fetchCompanies();
+  renderModalOverlay(companies);
+  renderDetailModalOverlay(companies);
+}
+
+init();
+
+
+function renderModalOverlay(companies) {
+  const companyOptions = companies.map(c =>
+    `<option value="${c.company_id}">${c.company_name}</option>`
+  ).join('');
+
   const modalOverlay = `
     <div class="container">
       <div class="container-header">
         <h3>New Contact</h3>
         <button class="close-btn" id="close-btn">x</button>
       </div>
-      
-      <form action="/url_route" method="POST">
+
+      <form id="post-form">
         <div class="contacts-grid-container">
           <div class="firstname-box">
             <label>First Name</label>
-            <input />
+            <input name="first_name" />
           </div>
 
           <div class="lastname-box">
             <label>Last Name</label>
-            <input />
+            <input name="last_name" />
           </div>
 
           <div class="company-box">
             <label>Company</label>
-            <select>
+            <select name="company_id">
               <option value="" disabled selected>Select...</option>
-              <option value="1">Stripe</option>
-              <option value="2">Figma</option>
-              <option value="3">Notion</option>
-              <option value="4">Vercel</option>
-              <option value="5">Linear</option>
-              <option value="6">Datadog</option>
-              <option value="7">Plaid</option>
+              ${companyOptions}
             </select>
           </div>
 
           <div class="job-title-box">
             <label>Job Title</label>
-            <input />
+            <input name="job_title" />
           </div>
 
           <div class="email-box">
             <label>Email</label>
-            <input />
+            <input name="email" />
           </div>
 
           <div class="phone-box">
             <label>Phone</label>
-            <input />
+            <input name="phone" />
           </div>
 
           <div class="linkedin-box">
             <label>LinkedIn URL</label>
-            <input />
+            <input name="linkedin_url" />
           </div>
 
           <div class="notes-box">
             <label>Notes</label>
-            <textarea></textarea>
+            <textarea name="notes"></textarea>
           </div>
         </div>
-        
+
         <div class="options">
-          <button id="cancel-btn" class="cancel-btn">Cancel</button>
-          <button id="create-btn" class="create-btn">Create</button>
+          <button id="cancel-btn" class="cancel-btn" type="button">Cancel</button>
+          <button id="create-btn" class="create-btn" type="submit">Create</button>
         </div>
       </form>
     </div>
   `;
 
-  
   document.querySelector('.js-modal-overlay').innerHTML = modalOverlay;
 }
 
 
-function renderDetailModalOverlay() {
+function renderDetailModalOverlay(companies) {
+  const companyOptions = companies.map(c =>
+    `<option value="${c.company_id}">${c.company_name}</option>`
+  ).join('');
+
   const detailModalOverlay = `
     <div class="container">
       <div class="container-header">
@@ -81,22 +97,21 @@ function renderDetailModalOverlay() {
 
       <div class="detail-grid">
         <div class="detail-field">
-          <label>Name</label>
-          <span id="detail-name" class="detail-view-value"></span>
-          <input id="edit-name" class="detail-edit-input" />
+          <label>First Name</label>
+          <span id="detail-fname" class="detail-view-value"></span>
+          <input id="edit-fname" class="detail-edit-input" />
+        </div>
+        <div class="detail-field">
+          <label>Last Name</label>
+          <span id="detail-lname" class="detail-view-value"></span>
+          <input id="edit-lname" class="detail-edit-input" />
         </div>
         <div class="detail-field">
           <label>Company</label>
           <span id="detail-company" class="detail-view-value"></span>
           <select id="edit-company" class="detail-edit-select">
             <option value="" disabled>Select...</option>
-            <option value="Stripe">Stripe</option>
-            <option value="Figma">Figma</option>
-            <option value="Notion">Notion</option>
-            <option value="Vercel">Vercel</option>
-            <option value="Linear">Linear</option>
-            <option value="Datadog">Datadog</option>
-            <option value="Plaid">Plaid</option>
+            ${companyOptions}
           </select>
         </div>
         <div class="detail-field">
@@ -146,6 +161,3 @@ function renderDetailModalOverlay() {
 
   document.querySelector('.js-detail-modal-overlay').innerHTML = detailModalOverlay;
 }
-
-renderModalOverlay();
-renderDetailModalOverlay();

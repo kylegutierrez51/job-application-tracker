@@ -16,8 +16,12 @@ def index():
     if request.method == 'POST':
         # VALIDATION LOGIC
         data = request.get_json()
-        db.add_contact(data)
-        return jsonify({'success': True})
+        for key in ['email', 'phone', 'job_title', 'linkedin_url', 'notes']:
+            if data.get(key) == '':
+                data[key] = None
+        new_id = db.add_contact(data)
+        contact = db.get_contact(new_id)
+        return jsonify({'success': True, 'contact': serialize_contact(contact)})
     
     if request.method == 'GET':
         contacts = [serialize_contact(c) for c in db.get_all_contacts()]
@@ -32,9 +36,12 @@ def modify_contact(contact_id):
     if request.method == 'PUT':
         # VALIDATION LOGIC
         data = request.get_json()
+        for key in ['email', 'phone', 'job_title', 'linkedin_url', 'notes']:
+            if data.get(key) == '':
+                data[key] = None
         db.edit_contact(data, contact_id)
-        print('Edited Contact: ', db.get_contact(contact_id), '\n')
-        return jsonify({'success': True})
+        contact = db.get_contact(contact_id)
+        return jsonify({'success': True, 'contact': serialize_contact(contact)})
 
     if request.method == 'DELETE':
         db.delete_contact(contact_id)

@@ -19,8 +19,13 @@ def index():
     if request.method == 'POST':
         # VALIDATION LOGIC
         data = request.get_json()
-        db.add_application(data)
-        return jsonify({'success': True})
+        for key in ['application_date', 'status', 'resume_version', 'response_date', 'interview_date', 'notes']:
+            if data.get(key) == '':
+                data[key] = None
+        data['cover_letter_sent'] = 1 if data.get('cover_letter_sent') in ('1', 1, True) else 0
+        new_id = db.add_application(data)
+        application = db.get_application(new_id)
+        return jsonify({'success': True, 'application': serialize_application(application)})
     
     if request.method == 'GET':
         applications = [serialize_application(a) for a in db.get_all_applications()]
@@ -35,9 +40,13 @@ def modify_application(application_id):
     if request.method == 'PUT':
         # VALIDATION LOGIC
         data = request.get_json()
+        for key in ['application_date', 'status', 'resume_version', 'response_date', 'interview_date', 'notes']:
+            if data.get(key) == '':
+                data[key] = None
+        data['cover_letter_sent'] = 1 if data.get('cover_letter_sent') in ('1', 1, True) else 0
         db.edit_application(data, application_id)
-        print('Edited Application: ', db.get_application(application_id), '\n')
-        return jsonify({'success': True})
+        application = db.get_application(application_id)
+        return jsonify({'success': True, 'application': serialize_application(application)})
 
     if request.method == 'DELETE':
         db.delete_application(application_id)

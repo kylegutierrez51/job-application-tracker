@@ -1,124 +1,140 @@
-import { contacts } from '../../sample-data.js';
-
 const modalOverlay = document.getElementById('detail-modal-overlay');
-const detailCloseBtn = document.getElementById('close-details-btn');
-const editBtn = document.querySelector('#detail-modal-overlay .edit-btn');
-const cancelEditBtn = document.querySelector('#detail-modal-overlay .cancel-edit-btn');
-const saveBtn = document.querySelector('#detail-modal-overlay .save-btn');
 
-const deleteBtn = document.querySelector('#detail-modal-overlay .delete-btn');
-const deleteConfirmationBtn = document.querySelector('#detail-modal-overlay .delete-confirm-btn');
-const cancelDeleteBtn = document.querySelector('#detail-modal-overlay .delete-close-btn');
-
-let currentIndex = null;
+let contact = null;
+let rowIndex = null;
 let editMode = false;
 
-function populateViewMode(contact) {
-  document.getElementById('detail-name').textContent = contact[0];
-  document.getElementById('detail-company').textContent = contact[1];
-  document.getElementById('detail-title').textContent = contact[2];
-  document.getElementById('detail-email').textContent = contact[3];
-  document.getElementById('detail-phone').textContent = contact[4];
-  document.getElementById('detail-linkedin').textContent = contact[5];
-  document.getElementById('detail-created').textContent = contact[7];
-  document.getElementById('detail-notes').textContent = contact[6];
-}
-
-function openDetailModal(index) {
-  currentIndex = index;
-  const contact = contacts[index];
-  if (!contact) return;
-
-  editMode = false;
-  modalOverlay.classList.remove('editing');
-  populateViewMode(contact);
-  modalOverlay.classList.add('active');
+function populateViewMode() {
+  // const name = [contact.first_name, contact.last_name].filter(Boolean).join(' ') || '-'; -- if you want to display the full name
+  document.getElementById('detail-fname').textContent = contact.first_name;
+  document.getElementById('detail-lname').textContent = contact.last_name;
+  document.getElementById('detail-company').textContent = contact.company_name ?? '-';
+  document.getElementById('detail-title').textContent = contact.job_title ?? '-';
+  document.getElementById('detail-email').textContent = contact.email ?? '-';
+  document.getElementById('detail-phone').textContent = contact.phone ?? '-';
+  document.getElementById('detail-linkedin').textContent = contact.linkedin_url ?? '-';
+  document.getElementById('detail-created').textContent = contact.created_at ? contact.created_at.substring(0, 10) : '-';
+  document.getElementById('detail-notes').textContent = contact.notes ?? '-';
 }
 
 function enterEditMode() {
-  const contact = contacts[currentIndex];
-  if (!contact) return;
+  document.getElementById('edit-fname').value = contact.first_name
+  document.getElementById('edit-lname').value = contact.last_name
+  document.getElementById('edit-company').value = contact.company_id ?? '';
+  document.getElementById('edit-title').value = contact.job_title ?? '';
+  document.getElementById('edit-email').value = contact.email ?? '';
+  document.getElementById('edit-phone').value = contact.phone ?? '';
+  document.getElementById('edit-linkedin').value = contact.linkedin_url ?? '';
+  document.getElementById('edit-notes').value = contact.notes ?? '';
 
   editMode = true;
-  document.getElementById('edit-name').value = contact[0];
-  document.getElementById('edit-company').value = contact[1];
-  document.getElementById('edit-title').value = contact[2];
-  document.getElementById('edit-email').value = contact[3];
-  document.getElementById('edit-phone').value = contact[4];
-  document.getElementById('edit-linkedin').value = contact[5];
-  document.getElementById('edit-notes').value = contact[6];
-
   modalOverlay.classList.add('editing');
 }
 
-function saveEdit() {
-  const contact = contacts[currentIndex];
-  if (!contact) return;
+async function saveEdit() {
+  const data = {
+    first_name: document.getElementById('edit-fname').value,
+    last_name: document.getElementById('edit-lname').value,
+    company_id: document.getElementById('edit-company').value,
+    job_title: document.getElementById('edit-title').value || null,
+    email: document.getElementById('edit-email').value || null,
+    phone: document.getElementById('edit-phone').value || null,
+    linkedin_url: document.getElementById('edit-linkedin').value || null,
+    notes: document.getElementById('edit-notes').value || null,
+  };
 
-  contact[0] = document.getElementById('edit-name').value;
-  contact[1] = document.getElementById('edit-company').value;
-  contact[2] = document.getElementById('edit-title').value;
-  contact[3] = document.getElementById('edit-email').value;
-  contact[4] = document.getElementById('edit-phone').value;
-  contact[5] = document.getElementById('edit-linkedin').value;
-  contact[6] = document.getElementById('edit-notes').value;
-
-  populateViewMode(contact);
-  modalOverlay.classList.remove('editing');
-  editMode = false;
-}
-
-function enterDeleteMode() {
-  editMode = false;
-  modalOverlay.classList.add('deleting');
-}
-
-function deleteRow() {
-  if (currentIndex === null) return;
-
-  contacts.splice(currentIndex, 1);
-
-  const row = document.querySelector(`.js-table-rows tr[data-index="${currentIndex}"]`);
-  if (row) row.remove();
-
-  document.querySelectorAll('.js-table-rows tr[data-index]').forEach((tr) => {
-    const idx = Number(tr.dataset.index);
-    if (idx > currentIndex) tr.dataset.index = idx - 1;
+  const res = await fetch(`/contacts/${contact.contact_id}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
   });
 
-  modalOverlay.classList.remove('active', 'editing', 'deleting');
-  currentIndex = null;
+  if (res.ok) {
+    const resData = await res.json();
+    contact = resData.contact;
+    populateViewMode();
+    updateRow();
+    editMode = false;
+    modalOverlay.classList.remove('editing');
+  }
 }
 
-deleteBtn.addEventListener('click', enterDeleteMode);
-deleteConfirmationBtn.addEventListener('click', deleteRow);
-cancelDeleteBtn.addEventListener('click', () => {
-  modalOverlay.classList.remove('deleting');
-});
+function updateRow() {
+  const row = document.querySelector(`.js-table-rows tr[data-index="${rowIndex}"]`);
+  if (!row) return;
 
-editBtn.addEventListener('click', enterEditMode);
+  row.dataset.contact = JSON.stringify(contact);
 
-cancelEditBtn.addEventListener('click', () => {
-  modalOverlay.classList.remove('editing');
+  const name = [contact.first_name, contact.last_name].filter(Boolean).join(' ') || '-';
+  const cells = row.querySelectorAll('td');
+  cells[0].textContent = name;
+  cells[1].textContent = contact.company_name || '-';
+  cells[2].textContent = contact.job_title || '-';
+  cells[3].textContent = contact.email || '-';
+  cells[4].textContent = contact.phone || '-';
+  cells[5].textContent = contact.linkedin_url || '-';
+  cells[6].textContent = contact.notes || '-';
+}
+
+async function deleteRow() {
+  const res = await fetch(`/contacts/${contact.contact_id}`, {
+    method: 'DELETE',
+    headers: { 'Content-Type': 'application/json' }
+  });
+
+  if (res.ok) {
+    const row = document.querySelector(`.js-table-rows tr[data-index="${rowIndex}"]`);
+    if (row) row.remove();
+
+    document.querySelectorAll('.js-table-rows tr[data-index]').forEach((tr) => {
+      const idx = Number(tr.dataset.index);
+      if (idx > rowIndex) tr.dataset.index = idx - 1;
+    });
+
+
+    /* decrement subheader count if not already 0 */
+    const countElement = document.getElementById('subtitle-count');
+    let currCount = Number(countElement.textContent);
+    if (currCount !== 0) {
+      countElement.textContent = --currCount;
+    }
+
+    modalOverlay.classList.remove('active', 'editing', 'deleting');
+    contact = null;
+    rowIndex = null;
+  }
+}
+
+function openDetailModal() {
   editMode = false;
-});
-
-saveBtn.addEventListener('click', saveEdit);
+  modalOverlay.classList.remove('editing', 'deleting');
+  populateViewMode();
+  modalOverlay.classList.add('active');
+}
 
 document.querySelector('.js-table-rows').addEventListener('click', (e) => {
   const row = e.target.closest('tr[data-index]');
   if (!row) return;
-  openDetailModal(Number(row.dataset.index));
-});
-
-detailCloseBtn.addEventListener('click', () => {
-  modalOverlay.classList.remove('active', 'editing');
-  editMode = false;
+  rowIndex = Number(row.dataset.index);
+  contact = JSON.parse(row.dataset.contact);
+  openDetailModal();
 });
 
 modalOverlay.addEventListener('click', (e) => {
   if (e.target === modalOverlay && !editMode) {
     modalOverlay.classList.remove('active', 'editing', 'deleting');
-
   }
+  if (e.target.id === 'close-details-btn') {
+    modalOverlay.classList.remove('active', 'editing');
+    editMode = false;
+  }
+  if (e.target.classList.contains('edit-btn')) enterEditMode();
+  if (e.target.classList.contains('cancel-edit-btn')) {
+    modalOverlay.classList.remove('editing');
+    editMode = false;
+  }
+  if (e.target.classList.contains('save-btn')) saveEdit();
+  if (e.target.classList.contains('delete-btn')) modalOverlay.classList.add('deleting');
+  if (e.target.classList.contains('delete-confirm-btn')) deleteRow();
+  if (e.target.classList.contains('delete-close-btn')) modalOverlay.classList.remove('deleting');
 });
