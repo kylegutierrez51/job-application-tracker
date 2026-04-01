@@ -1,3 +1,5 @@
+import { addSkillTag, addCustomFieldRow, collectSkills, collectCustomFields, clearExtras } from '../extras-utils.js';
+
 const subheader = document.querySelector('.js-subheader');
 const modalOverlay = document.getElementById('modal-overlay');
 
@@ -5,7 +7,7 @@ const modalOverlay = document.getElementById('modal-overlay');
 Event delegation -- rather than defining xButton and cancelButton button variables, we
 define "modalOverlay".
 
-We define modalOverlay since job-details.js's renderModalOverlay is async since it has to fetch data. 
+We define modalOverlay since job-details.js's renderModalOverlay is async since it has to fetch data.
 This means that this js file runs before renderModalOverlay finishes, meaning that buttons like the xButton and cancelButton give errors since they're rendered only in renderModalOverlay.
 
 But the id #modal-overlay is in the static HTML (templates/jobs.html) from the start.
@@ -18,6 +20,7 @@ We do the same thing in job-detail-modal.js. -- Remove Edit, Delete, Cancel, X b
 
 function resetInputs() {
   document.getElementById("post-form").reset();
+  clearExtras('skills-tags', 'requirements-custom-rows');
 }
 
 
@@ -56,8 +59,28 @@ modalOverlay.addEventListener('click', (e) => {
   if (e.target.id === 'close-btn' || e.target.id === 'cancel-btn') {
     modalOverlay.classList.remove('active');
     resetInputs();
-}});
+  }
+  if (e.target.id === 'add-requirements-field') {
+    addCustomFieldRow('requirements-custom-rows');
+  }
+  if (e.target.classList.contains('remove-field-btn')) {
+    e.target.closest('.custom-row').remove();
+  }
+  if (e.target.classList.contains('tag-remove')) {
+    e.target.closest('.skill-tag').remove();
+  }
+});
 
+modalOverlay.addEventListener('keydown', (e) => {
+  if (e.target.id === 'skill-input' && (e.key === 'Enter' || e.key === ',')) {
+    e.preventDefault();
+    const val = e.target.value.trim().replace(/,$/, '');
+    if (val) {
+      addSkillTag('skills-tags', val);
+      e.target.value = '';
+    }
+  }
+});
 
 
 document.addEventListener('submit', async (e) => {
@@ -66,6 +89,12 @@ document.addEventListener('submit', async (e) => {
 
   const formData = new FormData(e.target);
   const data = Object.fromEntries(formData.entries());
+
+  const skills = collectSkills('skills-tags');
+  const customFields = collectCustomFields('requirements-custom-rows');
+  const requirements = { ...customFields };
+  if (skills.length > 0) requirements.required_skills = skills;
+  if (Object.keys(requirements).length > 0) data.requirements = requirements;
 
   const res = await fetch('/jobs/', {
     method: 'POST',
@@ -80,4 +109,3 @@ document.addEventListener('submit', async (e) => {
     resetInputs();
   }
 });
-

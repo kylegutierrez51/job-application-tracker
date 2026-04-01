@@ -11,6 +11,10 @@ Detail Modal - Grid
   width: 100%;
   padding: 30px 30px;
   border-bottom: 1px solid gray;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .detail-field {
@@ -57,6 +61,7 @@ Detail Modal - Bottom
   align-items: center;
   width: 100%;
   padding: 30px 30px;
+  flex-shrink: 0;
 }
 
 .detail-actions .delete-btn {
@@ -198,5 +203,64 @@ Edit mode inputs — hidden in view mode
 
 .clickable-row:hover td {
   background-color: rgb(55, 55, 55);
+}
+
+
+/*
+====================================
+Requirements / Interview Data — view mode
+====================================
+*/
+
+.req-skills-display {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.skill-tag-view {
+  display: inline-flex;
+  background-color: rgb(55, 55, 180);
+  color: white;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 13px;
+}
+
+.req-custom-display {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.req-custom-row {
+  font-size: 14px;
+}
+
+.req-key {
+  color: rgb(160, 160, 160);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-right: 6px;
+}
+
+/*
+====================================
+Requirements / Interview Data — edit mode
+====================================
+*/
+
+.requirements-editor,
+.interview-data-editor {
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Override display:block from the generic .detail-edit-input rule */
+#detail-modal-overlay.editing .requirements-editor,
+#detail-modal-overlay.editing .interview-data-editor {
+  display: flex;
 }
 

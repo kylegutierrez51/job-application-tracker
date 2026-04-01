@@ -1,3 +1,5 @@
+import { addSkillTag, addCustomFieldRow, collectSkills, collectCustomFields, clearExtras, renderRequirementsHtml } from '../extras-utils.js';
+
 const modalOverlay = document.getElementById('detail-modal-overlay');
 
 /*
@@ -22,7 +24,8 @@ function populateViewMode() {
   document.getElementById('detail-status').textContent = job.is_active ? 'Active' : 'Inactive';
   document.getElementById('detail-link').textContent = job.posting_url ? 'View Posting' : '-';
   document.getElementById('detail-description').textContent = job.job_description ?? '-';
-  document.getElementById('detail-created').textContent = creation_date + ", " + creation_time
+  document.getElementById('detail-created').textContent = creation_date + ", " + creation_time;
+  document.getElementById('detail-requirements').innerHTML = renderRequirementsHtml(job.requirements);
 }
 
 function openDetailModal() {
@@ -46,6 +49,13 @@ function enterEditMode() {
   document.getElementById('edit-status').value = job.is_active ? 'Active' : 'Inactive';
   document.getElementById('edit-link').value = job.posting_url ?? '';
   document.getElementById('edit-description').value = job.job_description ?? '';
+
+  clearExtras('detail-skills-tags', 'detail-requirements-custom-rows');
+  if (job.requirements) {
+    const { required_skills, ...customFields } = job.requirements;
+    (required_skills || []).forEach(skill => addSkillTag('detail-skills-tags', skill));
+    Object.entries(customFields).forEach(([k, v]) => addCustomFieldRow('detail-requirements-custom-rows', k, v));
+  }
 
   modalOverlay.classList.add('editing');
 }
@@ -75,6 +85,11 @@ function updateRow() {
 async function saveEdit() {
   const companySelect = document.getElementById('edit-company');
 
+  const skills = collectSkills('detail-skills-tags');
+  const customFields = collectCustomFields('detail-requirements-custom-rows');
+  const requirements = { ...customFields };
+  if (skills.length > 0) requirements.required_skills = skills;
+
   job = {
     ...job,
     job_title: document.getElementById('edit-title').value,
@@ -87,6 +102,7 @@ async function saveEdit() {
     is_active: document.getElementById('edit-status').value === 'Active' ? 1 : 0,
     posting_url: document.getElementById('edit-link').value || null,
     job_description: document.getElementById('edit-description').value || null,
+    requirements: Object.keys(requirements).length > 0 ? requirements : null,
   };
 
   const res = await fetch(`/jobs/${job.job_id}`, {
@@ -146,8 +162,6 @@ async function deleteRow() {
 
 
 
-
-
 document.querySelector('.js-table-rows').addEventListener('click', (e) => {
   const row = e.target.closest('tr[data-index]');
   if (!row) return;
@@ -173,4 +187,18 @@ modalOverlay.addEventListener('click', (e) => {
   if (e.target.classList.contains('delete-btn')) enterDeleteMode();
   if (e.target.classList.contains('delete-confirm-btn')) deleteRow();
   if (e.target.classList.contains('delete-close-btn')) modalOverlay.classList.remove('deleting');
+  if (e.target.id === 'detail-add-requirements-field') addCustomFieldRow('detail-requirements-custom-rows');
+  if (e.target.classList.contains('remove-field-btn')) e.target.closest('.custom-row').remove();
+  if (e.target.classList.contains('tag-remove')) e.target.closest('.skill-tag').remove();
+});
+
+modalOverlay.addEventListener('keydown', (e) => {
+  if (e.target.id === 'detail-skill-input' && (e.key === 'Enter' || e.key === ',')) {
+    e.preventDefault();
+    const val = e.target.value.trim().replace(/,$/, '');
+    if (val) {
+      addSkillTag('detail-skills-tags', val);
+      e.target.value = '';
+    }
+  }
 });

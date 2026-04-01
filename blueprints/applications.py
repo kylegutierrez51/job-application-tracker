@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, request, current_app, jsonify
+import json
 
 applications_bp = Blueprint("applications", __name__)
 
@@ -9,6 +10,7 @@ def serialize_application(application):
         'response_date': application['response_date'].isoformat() if application['response_date'] is not None else None,
         'interview_date': application['interview_date'].isoformat() if application['interview_date'] is not None else None,
         'created_at': application['created_at'].isoformat() if application['created_at'] is not None else None,
+        'interview_data': json.loads(application['interview_data']) if application.get('interview_data') else None,
     }
 
 

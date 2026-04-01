@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, current_app, request, jsonify
+import json
 
 jobs_bp = Blueprint("jobs", __name__)
 
@@ -12,6 +13,7 @@ def serialize_job(job):
         'salary_max': float(job['salary_max']) if job['salary_max'] is not None else None,
         'date_posted': job['date_posted'].isoformat() if job['date_posted'] is not None else None,
         'created_at': job['created_at'].isoformat() if job['created_at'] is not None else None,
+        'requirements': json.loads(job['requirements']) if job.get('requirements') else None,
     }
 
 

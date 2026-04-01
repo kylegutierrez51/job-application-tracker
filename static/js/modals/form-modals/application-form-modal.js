@@ -1,3 +1,5 @@
+import { addCustomFieldRow, collectCustomFields, clearExtras } from '../extras-utils.js';
+
 const subheader = document.querySelector('.js-subheader');
 const modalOverlay = document.getElementById('modal-overlay');
 
@@ -38,6 +40,13 @@ modalOverlay.addEventListener('click', (e) => {
   if (e.target.id === 'close-btn' || e.target.id === 'cancel-btn') {
     modalOverlay.classList.remove('active');
     document.getElementById('post-form').reset();
+    clearExtras(null, 'interview-data-rows');
+  }
+  if (e.target.id === 'add-interview-field') {
+    addCustomFieldRow('interview-data-rows');
+  }
+  if (e.target.classList.contains('remove-field-btn')) {
+    e.target.closest('.custom-row').remove();
   }
 });
 
@@ -48,6 +57,9 @@ document.addEventListener('submit', async (e) => {
   const formData = new FormData(e.target);
   const data = Object.fromEntries(formData.entries());
   data.cover_letter_sent = formData.has('cover_letter_sent') ? '1' : '0';
+
+  const interviewData = collectCustomFields('interview-data-rows');
+  if (Object.keys(interviewData).length > 0) data.interview_data = interviewData;
 
   const res = await fetch('/applications/', {
     method: 'POST',
@@ -60,5 +72,6 @@ document.addEventListener('submit', async (e) => {
     addRow(resData.application);
     modalOverlay.classList.remove('active');
     e.target.reset();
+    clearExtras(null, 'interview-data-rows');
   }
 });

@@ -8,9 +8,10 @@
   background-color: rgb(48, 48, 48);
   box-shadow: 0 4px 16px rgba(43, 43, 43, 0.4);
 
-
   width: 100%;
   max-width: 560px;
+  max-height: 90vh;
+  overflow: hidden;
 
 }
 
@@ -42,6 +43,10 @@
 
 form {
   width: 100%;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 input, textarea, select {
@@ -74,6 +79,10 @@ input[type="date"]::-webkit-calendar-picker-indicator, input[type="datetime-loca
   gap: 10px;
   width: 100%;
   padding: 30px 30px;
+  position: sticky;
+  bottom: 0;
+  background-color: rgb(48, 48, 48);
+  z-index: 1;
 }
 
 .modal-overlay .container .options .create-btn {
@@ -91,5 +100,156 @@ input[type="date"]::-webkit-calendar-picker-indicator, input[type="datetime-loca
   border: none;
   border-radius: 5px;
   cursor: pointer;
+}
+
+
+/*
+====================================
+Extras Section (Requirements / Interview Data)
+====================================
+*/
+
+.extras-section {
+  width: 100%;
+  padding: 0 30px;
+  border-bottom: 1px solid gray;
+}
+
+.extras-summary {
+  cursor: pointer;
+  font-size: 12px;
+  color: rgb(160, 160, 160);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 14px 0;
+  user-select: none;
+  list-style: none;
+}
+
+.extras-summary::-webkit-details-marker {
+  display: none;
+}
+
+.extras-summary::before {
+  content: '▶ ';
+  font-size: 10px;
+}
+
+details[open] .extras-summary::before {
+  content: '▼ ';
+}
+
+.extras-hint {
+  font-size: 11px;
+  color: rgb(110, 110, 110);
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.extras-body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 4px 0 20px 0;
+}
+
+.extras-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Tag input */
+
+.tag-input-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 6px 8px;
+  border: 1px solid gray;
+  border-radius: 10px;
+  min-height: 42px;
+  align-items: center;
+}
+
+.tag-text-input {
+  border: none !important;
+  padding: 4px 4px !important;
+  min-width: 120px;
+  flex: 1;
+  background: transparent !important;
+  outline: none;
+  border-radius: 0 !important;
+}
+
+.skill-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background-color: rgb(55, 55, 180);
+  color: white;
+  padding: 3px 8px;
+  border-radius: 20px;
+  font-size: 13px;
+}
+
+.tag-remove {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  padding: 0;
+  font-size: 15px;
+  line-height: 1;
+}
+
+.tag-remove:hover {
+  color: white;
+}
+
+/* Custom field rows */
+
+.custom-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.custom-row .field-key {
+  flex: 1;
+}
+
+.custom-row .field-value {
+  flex: 2;
+}
+
+.remove-field-btn {
+  background: none;
+  border: none;
+  color: rgb(160, 80, 80);
+  cursor: pointer;
+  font-size: 20px;
+  padding: 0 4px;
+  line-height: 1;
+}
+
+.remove-field-btn:hover {
+  color: rgb(220, 80, 80);
+}
+
+.add-field-btn {
+  background: none;
+  border: 1px dashed gray;
+  color: rgb(160, 160, 160);
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  align-self: flex-start;
+}
+
+.add-field-btn:hover {
+  border-color: rgb(160, 160, 160);
+  color: white;
 }
 

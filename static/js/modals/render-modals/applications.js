@@ -82,6 +82,16 @@ function renderModalOverlay(jobs) {
           </div>
         </div>
 
+        <details class="extras-section">
+          <summary class="extras-summary">Interview Data <span class="extras-hint">— optional</span></summary>
+          <div class="extras-body">
+            <div class="extras-field">
+              <div id="interview-data-rows"></div>
+              <button type="button" class="add-field-btn" id="add-interview-field">+ Add field</button>
+            </div>
+          </div>
+        </details>
+
         <div class="options">
           <button id="cancel-btn" class="cancel-btn" type="button">Cancel</button>
           <button id="create-btn" class="create-btn" type="submit">Create</button>
@@ -168,6 +178,17 @@ function renderDetailModalOverlay(jobs) {
           <label>Notes</label>
           <span id="detail-notes" class="detail-view-value"></span>
           <textarea id="edit-notes" class="detail-edit-textarea"></textarea>
+        </div>
+
+        <div class="detail-field detail-field--full">
+          <label>Interview Data</label>
+          <div id="detail-interview-data" class="detail-view-value"></div>
+          <div id="edit-interview-data" class="detail-edit-input interview-data-editor">
+            <div class="extras-field">
+              <div id="detail-interview-data-rows"></div>
+              <button type="button" class="add-field-btn" id="detail-add-interview-field">+ Add field</button>
+            </div>
+          </div>
         </div>
       </div>
 

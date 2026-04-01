@@ -1,3 +1,5 @@
+import { addCustomFieldRow, collectCustomFields, clearExtras, renderKeyValueHtml } from '../extras-utils.js';
+
 const modalOverlay = document.getElementById('detail-modal-overlay');
 
 let application = null;
@@ -15,6 +17,7 @@ function populateViewMode() {
   document.getElementById('detail-interview').textContent = application.interview_date ? application.interview_date.substring(0, 16).replace('T', ' ') : '-';
   document.getElementById('detail-created').textContent = application.created_at ? application.created_at.substring(0, 10) : '-';
   document.getElementById('detail-notes').textContent = application.notes ?? '-';
+  document.getElementById('detail-interview-data').innerHTML = renderKeyValueHtml(application.interview_data);
 }
 
 function enterEditMode() {
@@ -27,11 +30,18 @@ function enterEditMode() {
   document.getElementById('edit-interview').value = application.interview_date ? application.interview_date.substring(0, 16) : '';
   document.getElementById('edit-notes').value = application.notes ?? '';
 
+  clearExtras(null, 'detail-interview-data-rows');
+  if (application.interview_data) {
+    Object.entries(application.interview_data).forEach(([k, v]) => addCustomFieldRow('detail-interview-data-rows', k, v));
+  }
+
   editMode = true;
   modalOverlay.classList.add('editing');
 }
 
 async function saveEdit() {
+  const interviewData = collectCustomFields('detail-interview-data-rows');
+
   const data = {
     job_id: document.getElementById('edit-job').value,
     application_date: document.getElementById('edit-applied').value || null,
@@ -41,6 +51,7 @@ async function saveEdit() {
     response_date: document.getElementById('edit-response').value || null,
     interview_date: document.getElementById('edit-interview').value || null,
     notes: document.getElementById('edit-notes').value || null,
+    interview_data: Object.keys(interviewData).length > 0 ? interviewData : null,
   };
 
   const res = await fetch(`/applications/${application.application_id}`, {
@@ -138,4 +149,6 @@ modalOverlay.addEventListener('click', (e) => {
   if (e.target.classList.contains('delete-btn')) modalOverlay.classList.add('deleting');
   if (e.target.classList.contains('delete-confirm-btn')) deleteRow();
   if (e.target.classList.contains('delete-close-btn')) modalOverlay.classList.remove('deleting');
+  if (e.target.id === 'detail-add-interview-field') addCustomFieldRow('detail-interview-data-rows');
+  if (e.target.classList.contains('remove-field-btn')) e.target.closest('.custom-row').remove();
 });

@@ -87,6 +87,24 @@ async function renderModalOverlay(companies) {
           </div>
         </div>
 
+        <details class="extras-section">
+          <summary class="extras-summary">Requirements <span class="extras-hint">— optional</span></summary>
+          <div class="extras-body">
+            <div class="extras-field">
+              <label>Required Skills</label>
+              <div class="tag-input-wrapper">
+                <div class="tags-container" id="skills-tags"></div>
+                <input type="text" id="skill-input" class="tag-text-input" placeholder="Type a skill, press Enter" autocomplete="off" />
+              </div>
+            </div>
+            <div class="extras-field">
+              <label>Custom Fields</label>
+              <div id="requirements-custom-rows"></div>
+              <button type="button" class="add-field-btn" id="add-requirements-field">+ Add field</button>
+            </div>
+          </div>
+        </details>
+
         <div class="options">
           <button id="cancel-btn" class="cancel-btn" type="button">Cancel</button>
           <button id="create-btn" class="create-btn" type="submit">Create</button>
@@ -168,6 +186,25 @@ async function renderDetailModalOverlay(companies) {
           <span id="detail-description" class="detail-view-value"></span>
           <textarea id="edit-description" class="detail-edit-textarea"></textarea>
         </div>
+
+        <div class="detail-field detail-field--full">
+          <label>Requirements</label>
+          <div id="detail-requirements" class="detail-view-value"></div>
+          <div id="edit-requirements" class="detail-edit-input requirements-editor">
+            <div class="extras-field">
+              <label>Required Skills</label>
+              <div class="tag-input-wrapper">
+                <div class="tags-container" id="detail-skills-tags"></div>
+                <input type="text" id="detail-skill-input" class="tag-text-input" placeholder="Type a skill, press Enter" autocomplete="off" />
+              </div>
+            </div>
+            <div class="extras-field">
+              <label>Custom Fields</label>
+              <div id="detail-requirements-custom-rows"></div>
+              <button type="button" class="add-field-btn" id="detail-add-requirements-field">+ Add field</button>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div class="detail-actions">
@@ -186,4 +223,3 @@ async function renderDetailModalOverlay(companies) {
 
   document.querySelector('.js-detail-modal-overlay').innerHTML = detailModalOverlay;
 }
-
