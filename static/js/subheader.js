@@ -67,6 +67,7 @@ async function renderSubheader() {
       buttonText = 'Add Contact';
       break;
     case 'job-match':
+      count = '';
       title = 'Job Match';
       subtitle = 'Enter your skills to see jobs you fit!';
       buttonText = 'Add Skill';

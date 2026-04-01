@@ -103,6 +103,16 @@ class JobTrackerDB:
 
     # Extra Job Queries
 
+    def get_jobs_for_matching(self):
+        with self._cursor(dictionary=True) as (_, cursor):
+            cursor.execute('''
+                SELECT j.job_id, j.job_title, c.company_name, j.salary_min, j.salary_max, j.job_type, j.posting_url, j.is_active, j.requirements
+                FROM jobs AS j
+                INNER JOIN companies AS c ON j.company_id = c.company_id
+                WHERE j.requirements IS NOT NULL
+            ''')
+            return cursor.fetchall()
+
     def get_jobs_by_salary(self, min_salary):
         with self._cursor(dictionary=True) as (_, cursor):
             cursor.execute("SELECT * FROM jobs WHERE salary_min >= %s", (min_salary,))
