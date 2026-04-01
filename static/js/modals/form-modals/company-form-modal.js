@@ -25,6 +25,7 @@ function addRow(company) {
   const index = tbody.rows.length;
   const tr = document.createElement('tr');
   tr.dataset.index = index;
+  tr.dataset.company = JSON.stringify(company);
   tr.classList.add('clickable-row');
 
   tr.innerHTML = `
@@ -39,6 +40,10 @@ function addRow(company) {
   `
 
   tbody.appendChild(tr);
+
+  const countElement = document.getElementById('subtitle-count');
+  let currCount = Number(countElement.textContent);
+  countElement.textContent = ++currCount;
 }
 
 function concatenateCityState(company) {
@@ -57,7 +62,7 @@ function concatenateCityState(company) {
 
 
 
-subheader.addEventListener('click', () => {
+subheader.addEventListener('click', (e) => {
   if (e.target.id === 'add-btn') modalOverlay.classList.add('active');
 });
 
@@ -85,7 +90,7 @@ document.addEventListener('submit', async (e) => {
   console.log(res.ok);
   if (res.ok) {
     const resData = await res.json();
-    addRow({ ...data, created_at: resData.created_at });
+    addRow(resData.company);
     modalOverlay.classList.remove('active');
     resetInputs();
   }

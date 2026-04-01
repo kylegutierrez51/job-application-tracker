@@ -22,8 +22,9 @@ def index():
     if request.method == 'POST':
         # VALIDATION LOGIC
         data = request.get_json()
-        db.add_job(data)
-        return jsonify({'success': True})
+        new_id = db.add_job(data)
+        job = db.get_job(new_id)
+        return jsonify({'success': True, 'job': serialize_job(job)})
     
     if request.method == 'GET':
         jobs = [serialize_job(j) for j in db.get_all_jobs()]
@@ -46,6 +47,13 @@ def modify_job(job_id):
         db.delete_job(job_id)
         return jsonify({'success': True})
 
+
+
+@jobs_bp.route("/api")
+def api_jobs():
+    db = current_app.db
+    jobs = db.get_all_jobs()
+    return jsonify({'jobs': [{'job_id': j['job_id'], 'job_title': j['job_title'], 'company_name': j['company_name']} for j in jobs]})
 
 
 @jobs_bp.route("/api/count")

@@ -17,9 +17,9 @@ def index():
     if request.method == 'POST':
         # VALIDATION LOGIC
         data = request.get_json()
-        db.add_company(data)
-        new_company = db.get_last_company()
-        return jsonify({'success': True, 'created_at': new_company['created_at'].isoformat()})
+        new_id = db.add_company(data)
+        new_company = db.get_company(new_id)
+        return jsonify({'success': True, 'company': serialize_company(new_company)})
 
     if request.method == 'GET':
         companies = [serialize_company(c) for c in db.get_all_companies()]

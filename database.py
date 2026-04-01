@@ -57,7 +57,7 @@ class JobTrackerDB:
         cursor = conn.cursor(dictionary=True)
 
         query = '''
-            SELECT j.job_id, j.job_title, c.company_name, j.salary_min, j.salary_max, j.job_type, j.date_posted, j.is_active, j.posting_url, j.company_id
+            SELECT j.job_id, j.job_title, c.company_name, j.salary_min, j.salary_max, j.job_type, j.date_posted, j.is_active, j.posting_url, j.company_id, j.job_description, j.created_at
             FROM jobs AS j
             INNER JOIN companies AS c ON j.company_id = c.company_id
             WHERE j.job_id = %s
@@ -83,8 +83,10 @@ class JobTrackerDB:
         cursor.execute(query, values)
 
         conn.commit()
+        new_id = cursor.lastrowid
         cursor.close()
         conn.close()
+        return new_id
 
 
     def edit_job(self, job, id):
@@ -140,21 +142,6 @@ class JobTrackerDB:
         conn.close()
         return result
 
-    def get_last_job(self):
-        conn = self._get_connection()
-        cursor = conn.cursor(dictionary=True)
-
-        get_last_row = '''
-            SELECT * FROM jobs
-            ORDER BY job_id DESC
-            LIMIT 1;
-        '''
-
-        cursor.execute(get_last_row)
-        result = cursor.fetchone()
-        cursor.close()
-        conn.close()
-        return result
 
 
     def get_jobs_count(self):
@@ -204,7 +191,7 @@ class JobTrackerDB:
         cursor = conn.cursor(dictionary=True)
 
         query = '''
-            SELECT c.company_name, c.industry, c.website, c.city, c.state,
+            SELECT c.company_id, c.company_name, c.industry, c.website, c.city, c.state,
             (SELECT COUNT(*) FROM jobs where jobs.company_id = c.company_id) AS job_count,
             (SELECT COUNT(*) FROM contacts where contacts.company_id = c.company_id) AS contact_count,
             c.created_at, c.notes
@@ -234,8 +221,10 @@ class JobTrackerDB:
         cursor.execute(query, values)
 
         conn.commit()
+        new_id = cursor.lastrowid
         cursor.close()
         conn.close()
+        return new_id
 
 
     def edit_company(self, company, id):
@@ -288,22 +277,6 @@ class JobTrackerDB:
 
     # Extra Query
 
-    def get_last_company(self):
-        conn = self._get_connection()
-        cursor = conn.cursor(dictionary=True)
-
-        get_last_row = '''
-            SELECT * FROM companies
-            ORDER BY company_id DESC
-            LIMIT 1;
-        '''
-
-        cursor.execute(get_last_row)
-        result = cursor.fetchone()
-        cursor.close()
-        conn.close()
-        return result
-
     def get_companies_count(self):
         conn = self._get_connection()
         cursor = conn.cursor()
@@ -325,7 +298,7 @@ class JobTrackerDB:
         cursor = conn.cursor(dictionary=True)
 
         query = '''
-            SELECT a.application_id, j.job_title, c.company_name, a.application_date, a.status, a.resume_version, a.cover_letter_sent, a.response_date, a.interview_date, a.notes, a.created_at
+            SELECT a.application_id, a.job_id, j.job_title, c.company_name, a.application_date, a.status, a.resume_version, a.cover_letter_sent, a.response_date, a.interview_date, a.notes, a.created_at
             FROM applications AS a
             INNER JOIN jobs AS j ON a.job_id = j.job_id
             LEFT JOIN companies AS c ON j.company_id = c.company_id
@@ -343,7 +316,7 @@ class JobTrackerDB:
         cursor = conn.cursor(dictionary=True)
 
         query = '''
-            SELECT j.job_title, c.company_name, a.application_date, a.status, a.resume_version, a.cover_letter_sent, a.response_date, a.interview_date, a.notes
+            SELECT a.application_id, a.job_id, j.job_title, c.company_name, a.application_date, a.status, a.resume_version, a.cover_letter_sent, a.response_date, a.interview_date, a.notes, a.created_at
             FROM applications AS a
             INNER JOIN jobs AS j ON a.job_id = j.job_id
             LEFT JOIN companies AS c ON j.company_id = c.company_id
@@ -371,8 +344,10 @@ class JobTrackerDB:
         cursor.execute(query, values)
 
         conn.commit()
+        new_id = cursor.lastrowid
         cursor.close()
         conn.close()
+        return new_id
 
 
     def edit_application(self, application, id):
@@ -470,7 +445,7 @@ class JobTrackerDB:
         cursor = conn.cursor(dictionary=True)
 
         query = '''
-            SELECT ct.first_name, ct.last_name, cm.company_name, ct.job_title, ct.email, ct.phone, ct.linkedin_url, ct.notes
+            SELECT ct.contact_id, ct.company_id, ct.first_name, ct.last_name, cm.company_name, ct.job_title, ct.email, ct.phone, ct.linkedin_url, ct.notes, ct.created_at
             FROM contacts AS ct
             INNER JOIN companies AS cm ON ct.company_id = cm.company_id
             WHERE ct.contact_id = %s
@@ -498,8 +473,10 @@ class JobTrackerDB:
         cursor.execute(query, values)
 
         conn.commit()
+        new_id = cursor.lastrowid
         cursor.close()
         conn.close()
+        return new_id
 
 
     def edit_contact(self, contact, id):

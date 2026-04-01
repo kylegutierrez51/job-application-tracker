@@ -26,6 +26,7 @@ function addRow(job) {
   const index = tbody.rows.length;
   const tr = document.createElement('tr');
   tr.dataset.index = index;
+  tr.dataset.job = JSON.stringify(job);
   tr.classList.add('clickable-row');
 
   tr.innerHTML = `
@@ -37,10 +38,13 @@ function addRow(job) {
     <td>${job.date_posted || '-'}</td>
     <td>${job.is_active ? 'Active' : 'Inactive'}</td>
     <td>${job.posting_url ? `<a href="${job.posting_url}" target="_blank">View</a>` : '-'}</td>
-  `
+  `;
 
   tbody.appendChild(tr);
 
+  const countElement = document.getElementById('subtitle-count');
+  let currCount = Number(countElement.textContent);
+  countElement.textContent = ++currCount;
 }
 
 
@@ -70,13 +74,8 @@ document.addEventListener('submit', async (e) => {
   });
 
   if (res.ok) {
-    // Gets company id, then uses it to find the company name before adding the row
-    const companySelect = e.target.querySelector('select[name="company_id"]');
-    data.company_name = companySelect.options[companySelect.selectedIndex].text;
-    // the "const options" in render-modals/jobs.js adds in the company name as the input.
-    // this just gets the text that's put in the <input> tag BEFORE resetInputs() is called.
-
-    addRow(data);
+    const resData = await res.json();
+    addRow(resData.job);
     modalOverlay.classList.remove('active');
     resetInputs();
   }
