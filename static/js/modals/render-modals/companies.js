@@ -80,9 +80,14 @@ function renderDetailModalOverlay() {
           <input id="edit-website" class="detail-edit-input" />
         </div>
         <div class="detail-field">
-          <label>Location</label>
-          <span id="detail-location" class="detail-view-value"></span>
-          <input id="edit-location" class="detail-edit-input" />
+          <label>State</label>
+          <span id="detail-state" class="detail-view-value"></span>
+          <input id="edit-state" class="detail-edit-input" />
+        </div>
+        <div class="detail-field">
+          <label>City</label>
+          <span id="detail-city" class="detail-view-value"></span>
+          <input id="edit-city" class="detail-edit-input" />
         </div>
         <div class="detail-field">
           <label>Jobs</label>

@@ -1,67 +1,44 @@
-import { companies } from '../../sample-data.js';
-
 const modalOverlay = document.getElementById('detail-modal-overlay');
-const detailCloseBtn = document.getElementById('close-details-btn');
-const editBtn = document.querySelector('#detail-modal-overlay .edit-btn');
-const cancelEditBtn = document.querySelector('#detail-modal-overlay .cancel-edit-btn');
-const saveBtn = document.querySelector('#detail-modal-overlay .save-btn');
 
-const deleteBtn = document.querySelector('#detail-modal-overlay .delete-btn');
-const deleteConfirmationBtn = document.querySelector('#detail-modal-overlay .delete-confirm-btn');
-const cancelDeleteBtn = document.querySelector('#detail-modal-overlay .delete-close-btn');
+/*
+Read form-modal.js to understand why we don't have "editButton", "deleteButton", etc. but just "modalOverlay"
+*/
 
-let currentIndex = null;
+let company = null;
+let rowIndex = null;
 let editMode = false;
 
-function populateViewMode(company) {
-  document.getElementById('detail-name').textContent = company[0];
-  document.getElementById('detail-industry').textContent = company[1];
-  document.getElementById('detail-website').textContent = company[2];
-  document.getElementById('detail-location').textContent = company[3];
-  document.getElementById('detail-jobs').textContent = company[4];
-  document.getElementById('detail-contacts').textContent = company[5];
-  document.getElementById('detail-added').textContent = company[7];
-  document.getElementById('detail-notes').textContent = company[6];
+function populateViewMode() {
+  document.getElementById('detail-name').textContent = company.company_name;
+  document.getElementById('detail-industry').textContent = company.industry ?? '-';
+  document.getElementById('detail-website').textContent = company.website ?? '-';
+  document.getElementById('detail-city').textContent = company.city ?? '-';
+  document.getElementById('detail-state').textContent = company.state ?? '-';
+  document.getElementById('detail-jobs').textContent = company.job_count ?? '0';
+  document.getElementById('detail-contacts').textContent = company.contact_count ?? '0';
+  document.getElementById('detail-notes').textContent = company.notes ?? '-';
+  document.getElementById('detail-added').textContent = company.created_at ? company.created_at.substring(0, 10) : '-';
 }
 
-function openDetailModal(index) {
-  currentIndex = index;
-  const company = companies[index];
-  if (!company) return;
-
+function openDetailModal() {
   editMode = false;
   modalOverlay.classList.remove('editing');
-  populateViewMode(company);
+  populateViewMode();
   modalOverlay.classList.add('active');
 }
 
-function enterEditMode() {
-  const company = companies[currentIndex];
-  if (!company) return;
 
+function enterEditMode() {
   editMode = true;
-  document.getElementById('edit-name').value = company[0];
-  document.getElementById('edit-industry').value = company[1];
-  document.getElementById('edit-website').value = company[2];
-  document.getElementById('edit-location').value = company[3];
-  document.getElementById('edit-notes').value = company[6];
+
+  document.getElementById('edit-name').value = company.company_name ?? '';
+  document.getElementById('edit-industry').value = company.industry ?? '';
+  document.getElementById('edit-website').value = company.website ?? '';
+  document.getElementById('edit-city').value = company.city ?? '';
+  document.getElementById('edit-state').value = company.state ?? '';
+  document.getElementById('edit-notes').value = company.notes ?? '';
 
   modalOverlay.classList.add('editing');
-}
-
-function saveEdit() {
-  const company = companies[currentIndex];
-  if (!company) return;
-
-  company[0] = document.getElementById('edit-name').value;
-  company[1] = document.getElementById('edit-industry').value;
-  company[2] = document.getElementById('edit-website').value;
-  company[3] = document.getElementById('edit-location').value;
-  company[6] = document.getElementById('edit-notes').value;
-
-  populateViewMode(company);
-  modalOverlay.classList.remove('editing');
-  editMode = false;
 }
 
 function enterDeleteMode() {
@@ -69,51 +46,110 @@ function enterDeleteMode() {
   modalOverlay.classList.add('deleting');
 }
 
-function deleteRow() {
-  if (currentIndex === null) return;
+function updateRow() {
+  const row = document.querySelector(`.js-table-rows tr[data-index="${rowIndex}"]`);
+  if (!row) return;
 
-  companies.splice(currentIndex, 1);
+  row.dataset.company = JSON.stringify(company);
 
-  const row = document.querySelector(`.js-table-rows tr[data-index="${currentIndex}"]`);
-  if (row) row.remove();
-
-  document.querySelectorAll('.js-table-rows tr[data-index]').forEach((tr) => {
-    const idx = Number(tr.dataset.index);
-    if (idx > currentIndex) tr.dataset.index = idx - 1;
-  });
-
-  modalOverlay.classList.remove('active', 'editing', 'deleting');
-  currentIndex = null;
+  const location = [company.city, company.state].filter(Boolean).join(', ') || '-';
+  const cells = row.querySelectorAll('td');
+  cells[0].textContent = company.company_name || '-';
+  cells[1].textContent = company.industry || '-';
+  cells[2].textContent = company.website || '-';
+  cells[3].textContent = location; // keep combined display in the table
+  cells[4].textContent = company.job_count ?? '0';
+  cells[5].textContent = company.contact_count ?? '0';
+  cells[6].textContent = company.notes || '-';
+  cells[7].textContent = company.created_at ? company.created_at.substring(0, 10) : '-';
 }
 
-editBtn.addEventListener('click', enterEditMode);
+async function saveEdit() {
+  company = {
+    ...company,
+    company_name: document.getElementById('edit-name').value,
+    industry: document.getElementById('edit-industry').value || null,
+    website: document.getElementById('edit-website').value || null,
+    city: document.getElementById('edit-city').value || null,
+    state: document.getElementById('edit-state').value || null,
+    notes: document.getElementById('edit-notes').value || null,
+  };
 
-cancelEditBtn.addEventListener('click', () => {
-  modalOverlay.classList.remove('editing');
-  editMode = false;
-});
+  const res = await fetch(`/companies/${company.company_id}`, {
+    // the company_id comes from the get_all_companies() query from the URL endpoint
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(company)
+  });
 
-saveBtn.addEventListener('click', saveEdit);
+  if (res.ok) {
+    populateViewMode();
+    updateRow();
+    modalOverlay.classList.remove('editing');
+    editMode = false;
+  }
+}
 
-deleteBtn.addEventListener('click', enterDeleteMode);
-deleteConfirmationBtn.addEventListener('click', deleteRow);
-cancelDeleteBtn.addEventListener('click', () => {
-  modalOverlay.classList.remove('deleting');
-});
+async function deleteRow() {
+  /*
+   1. Removes the company from the database
+   2. Removes the matching <tr> from the DOM
+   3. Decrements data-index on all subsequent rows so clicks still map to the correct array index
+   4. Closes and resets the modal
+  */
+  if (rowIndex === null) return;
+
+  const res = await fetch(`/companies/${company.company_id}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+
+  if (res.ok) {
+    const row = document.querySelector(`.js-table-rows tr[data-index="${rowIndex}"]`);
+    if (row) row.remove();
+
+    document.querySelectorAll('.js-table-rows tr[data-index]').forEach((tr) => {
+      const idx = Number(tr.dataset.index);
+      if (idx > rowIndex) tr.dataset.index = idx - 1;
+    });
+
+    modalOverlay.classList.remove('active', 'editing', 'deleting');
+    rowIndex = null;
+  } else {
+    const data = await res.json();
+    modalOverlay.classList.remove('deleting');
+    alert(data.message);
+  }
+}
+
 
 document.querySelector('.js-table-rows').addEventListener('click', (e) => {
   const row = e.target.closest('tr[data-index]');
   if (!row) return;
-  openDetailModal(Number(row.dataset.index));
-});
-
-detailCloseBtn.addEventListener('click', () => {
-  modalOverlay.classList.remove('active', 'editing');
-  editMode = false;
+  rowIndex = Number(row.dataset.index);
+  company = JSON.parse(row.dataset.company); // gets the 'data-company='{{company | tojson}} data
+  openDetailModal();
 });
 
 modalOverlay.addEventListener('click', (e) => {
   if (e.target === modalOverlay && !editMode) {
     modalOverlay.classList.remove('active', 'editing', 'deleting');
   }
+  if (e.target.id === 'close-details-btn') {
+    modalOverlay.classList.remove('active', 'editing');
+    editMode = false;
+  }
+  if (e.target.classList.contains('edit-btn')) enterEditMode();
+  if (e.target.classList.contains('cancel-edit-btn')) {
+    modalOverlay.classList.remove('editing');
+    editMode = false;
+  }
+  if (e.target.classList.contains('save-btn')) saveEdit();
+  if (e.target.classList.contains('delete-btn')) enterDeleteMode();
+  if (e.target.classList.contains('delete-confirm-btn')) deleteRow();
+  if (e.target.classList.contains('delete-close-btn')) modalOverlay.classList.remove('deleting');
 });

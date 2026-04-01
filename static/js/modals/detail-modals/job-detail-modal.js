@@ -144,7 +144,7 @@ document.querySelector('.js-table-rows').addEventListener('click', (e) => {
   const row = e.target.closest('tr[data-index]');
   if (!row) return;
   rowIndex = Number(row.dataset.index);
-  job = JSON.parse(row.dataset.job);
+  job = JSON.parse(row.dataset.job); // gets the 'data-job='{{job | tojson}} data
   openDetailModal();
 });
 

@@ -159,8 +159,8 @@ class JobTrackerDB:
         cursor = self.connection.cursor(dictionary=True)
         
         query = '''
-            SELECT c.company_name, c.industry, c.website, c.city, c.state, 
-            (SELECT COUNT(*) FROM jobs where jobs.company_id = c.company_id) AS job_count, 
+            SELECT c.company_id, c.company_name, c.industry, c.website, c.city, c.state,
+            (SELECT COUNT(*) FROM jobs where jobs.company_id = c.company_id) AS job_count,
             (SELECT COUNT(*) FROM contacts where contacts.company_id = c.company_id) AS contact_count,
             c.notes, c.created_at
             FROM companies AS c
@@ -188,6 +188,7 @@ class JobTrackerDB:
         result = cursor.fetchone()
         cursor.close()
         return result      
+    
 
 
     def add_company(self, company):
@@ -225,22 +226,27 @@ class JobTrackerDB:
 
 
     def delete_company(self, id):
-        cursor = self.connection.cursor()
+        cursor = self.connection.cursor(dictionary=True)
 
-        cursor.execute('SELECT * FROM companies WHERE company_id = %s', (id,))
-        to_delete = cursor.fetchall()
+        cursor.execute('SELECT COUNT(*) AS count FROM jobs WHERE company_id = %s', (id,))
+        job_count = cursor.fetchone()['count']
 
-        if to_delete:
-            print(f'About to delete: {to_delete}')
+        cursor.execute('SELECT COUNT(*) AS count FROM contacts WHERE company_id = %s', (id,))
+        contact_count = cursor.fetchone()['count']
 
-            delete_query = 'DELETE FROM companies WHERE company_id = %s'
-            cursor.execute(delete_query, (id,))
-            self.connection.commit()
-            print(f'Deleted {cursor.rowcount} company(ies)')
-        else:
-            print('Company not found.')
+        if job_count > 0 or contact_count > 0:
+            cursor.close()
+            parts = []
+            if job_count > 0:
+                parts.append(f"{job_count} job{'s' if job_count != 1 else ''}")
+            if contact_count > 0:
+                parts.append(f"{contact_count} contact{'s' if contact_count != 1 else ''}")
+            return {'success': False, 'message': f"Cannot delete: this company has {' and '.join(parts)} linked to it."}
 
-        cursor.close()    
+        cursor.execute('DELETE FROM companies WHERE company_id = %s', (id,))
+        self.connection.commit()
+        cursor.close()
+        return {'success': True}
 
 
 

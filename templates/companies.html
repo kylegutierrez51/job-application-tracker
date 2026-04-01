@@ -41,7 +41,7 @@
           <th>Added</th>
         </tr>
       </thead>
-      <tbody class="js-table-rows"></tbody>
+      <tbody class="js-table-rows">
         {% for company in companies %}
           <tr data-index="{{ loop.index0 }}" data-company='{{ company | tojson }}' class="clickable-row">
             <td>{{ company['company_name'] }}</td>
@@ -64,6 +64,7 @@
             <td>{{ company['created_at'][:10] if company['created_at'] is not none else '-' }}</td>
           </tr>
         {% endfor %}
+      </tbody>
     </table>
   </main>
 
