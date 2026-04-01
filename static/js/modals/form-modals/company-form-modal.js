@@ -18,7 +18,7 @@ function resetInputs() {
   document.getElementById("post-form").reset();
 }
 
-function addRow(job) {
+function addRow(company) {
   const tbody = document.querySelector('.js-table-rows');
   const index = tbody.rows.length;
   const tr = document.createElement('tr');
@@ -26,19 +26,33 @@ function addRow(job) {
   tr.classList.add('clickable-row');
 
   tr.innerHTML = `
-    <td>${job.job_title || '-'}</td>
-    <td>${job.company_name || '-'}</td>
-    <td>${job.salary_min != null ? '$' + job.salary_min : 'None'}</td>
-    <td>${job.salary_max != null ? '$' + job.salary_max : 'None'}</td>
-    <td>${job.job_type || '-'}</td>
-    <td>${job.date_posted || '-'}</td>
-    <td>${job.is_active ? 'Active' : 'Inactive'}</td>
-    <td>${job.posting_url ? `<a href="${job.posting_url}">View</a>` : '-'}</td>
+    <td>${company.company_name}</td>
+    <td>${company.industry || '-'}</td>
+    <td>${company.website || '-'}</td>
+    <td>${concatenateCityState(company)}</td>
+    <td>${0}</td>
+    <td>${0}</td>
+    <td>${company.notes}</td>
+    <td>${company.created_at.substring(0, 10)}</td>
   `
 
   tbody.appendChild(tr);
-
 }
+
+function concatenateCityState(company) {
+  let result = null;
+  if (company.city !== null && company.state !== null) {
+    result = company.city + ', ' + company.state
+  } else if (company.city !== null) {
+    result = company.city
+  } else if (company.state !== null) {
+    result = company.state
+  } else {
+    result = '-'
+  }
+  return result
+}
+
 
 
 addButton.addEventListener('click', () => {
@@ -66,12 +80,10 @@ document.addEventListener('submit', async (e) => {
     body: JSON.stringify(data)
   });
 
+  console.log(res.ok);
   if (res.ok) {
-    // Gets company id, then uses it to find the company name before adding the row
-    const companySelect = e.target.querySelector('select[name="company_id"]');
-    data.company_name = companySelect.options[companySelect.selectedIndex].text;
-
-    addRow(data);
+    const resData = await res.json();
+    addRow({ ...data, created_at: resData.created_at });
     modalOverlay.classList.remove('active');
     resetInputs();
   }

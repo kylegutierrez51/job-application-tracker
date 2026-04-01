@@ -6,7 +6,7 @@ function renderModalOverlay() {
         <button class="close-btn" id="close-btn">x</button>
       </div>
 
-      <form action="/companies" method="POST">
+      <form id="post-form" action="/companies" method="POST">
         <div class="company-grid-container">
           
           <div class="company-box">

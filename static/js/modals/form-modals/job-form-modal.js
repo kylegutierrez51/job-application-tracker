@@ -18,6 +18,7 @@ function resetInputs() {
   document.getElementById("post-form").reset();
 }
 
+
 function addRow(job) {
   const tbody = document.querySelector('.js-table-rows');
   const index = tbody.rows.length;
@@ -28,8 +29,8 @@ function addRow(job) {
   tr.innerHTML = `
     <td>${job.job_title || '-'}</td>
     <td>${job.company_name || '-'}</td>
-    <td>${job.salary_min != null ? '$' + job.salary_min : 'None'}</td>
-    <td>${job.salary_max != null ? '$' + job.salary_max : 'None'}</td>
+    <td>${job.salary_min !== null ? '$' + job.salary_min : 'None'}</td>
+    <td>${job.salary_max !== null ? '$' + job.salary_max : 'None'}</td>
     <td>${job.job_type || '-'}</td>
     <td>${job.date_posted || '-'}</td>
     <td>${job.is_active ? 'Active' : 'Inactive'}</td>
@@ -70,6 +71,8 @@ document.addEventListener('submit', async (e) => {
     // Gets company id, then uses it to find the company name before adding the row
     const companySelect = e.target.querySelector('select[name="company_id"]');
     data.company_name = companySelect.options[companySelect.selectedIndex].text;
+    // the "const options" in render-modals/jobs.js adds in the company name as the input.
+    // this just gets the text that's put in the <input> tag BEFORE resetInputs() is called.
 
     addRow(data);
     modalOverlay.classList.remove('active');
