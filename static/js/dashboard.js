@@ -55,7 +55,7 @@ function renderRecentActivity(recentActivity) {
             <div class="job-title">${activity.job_title}</div>
             <div class="company-date">${activity.company_name} &bull; ${date}</div>
           </div>
-          <div class="status">${activity.status}</div>
+          <div class="status">${activity.status ?? ''}</div>
         </div>
       `;
     });

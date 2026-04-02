@@ -60,7 +60,7 @@ async function saveEdit() {
   const res = await fetch(`/applications/${application.application_id}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data)
+    body: JSON.stringify(application)
   });
 
   if (res.ok) {

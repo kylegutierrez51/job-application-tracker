@@ -78,7 +78,7 @@ function validateInputs(data) {
 
 
 async function saveEdit() {
-  const data = {
+  const candidate = {
     first_name: document.getElementById('edit-fname').value,
     last_name: document.getElementById('edit-lname').value,
     company_id: document.getElementById('edit-company').value,
@@ -89,12 +89,16 @@ async function saveEdit() {
     notes: document.getElementById('edit-notes').value || null,
   };
 
-  if (!validateInputs(data)) return;
+  const validated = validateInputs(candidate);
+  if (!validated) return;
 
-  const res = await fetch(`/contacts/${contact.contact_id}`, {
+  const contactId = contact.contact_id;
+  contact = validated;
+
+  const res = await fetch(`/contacts/${contactId}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data)
+    body: JSON.stringify(contact)
   });
 
   if (res.ok) {
