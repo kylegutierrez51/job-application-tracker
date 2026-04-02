@@ -50,8 +50,9 @@ def modify_job(job_id):
         return jsonify({'success': True})
 
     if request.method == 'DELETE':
-        db.delete_job(job_id)
-        return jsonify({'success': True})
+        result = db.delete_job(job_id)
+        status = 200 if result['success'] else 409
+        return jsonify(result), status
 
 
 

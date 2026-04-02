@@ -88,16 +88,16 @@ class JobTrackerDB:
             conn.commit()
 
     def delete_job(self, id):
-        with self._cursor() as (conn, cursor):
-            cursor.execute('SELECT * FROM jobs WHERE job_id = %s', (id,))
-            to_delete = cursor.fetchall()
-            if to_delete:
-                print(f'About to delete: {to_delete}')
-                cursor.execute('DELETE FROM jobs WHERE job_id = %s', (id,))
-                conn.commit()
-                print(f'Deleted {cursor.rowcount} job')
-            else:
-                print('Job not found.')
+        with self._cursor(dictionary=True) as (conn, cursor):
+            cursor.execute('SELECT COUNT(*) AS count FROM applications WHERE job_id = %s', (id,))
+            app_count = cursor.fetchone()['count']
+
+            if app_count > 0:
+                return {'success': False, 'message': f"Cannot delete: this job has {app_count} application{'s' if app_count != 1 else ''} linked to it."}
+
+            cursor.execute('DELETE FROM jobs WHERE job_id = %s', (id,))
+            conn.commit()
+            return {'success': True}
 
 
 

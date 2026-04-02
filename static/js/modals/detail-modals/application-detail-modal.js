@@ -42,6 +42,7 @@ async function saveEdit() {
   const interviewData = collectCustomFields('detail-interview-data-rows');
 
   const candidate = {
+    ...application,
     job_id: document.getElementById('edit-job').value,
     application_date: document.getElementById('edit-applied').value || null,
     status: document.getElementById('edit-status').value || null,

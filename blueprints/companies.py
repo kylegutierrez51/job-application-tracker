@@ -16,6 +16,9 @@ def index():
 
     if request.method == 'POST':
         data = request.get_json()
+        for field in ('industry', 'website', 'city', 'state', 'notes'):
+            if data.get(field) == '':
+                data[field] = None
         new_id = db.add_company(data)
         new_company = db.get_company(new_id)
         return jsonify({'success': True, 'company': serialize_company(new_company)})
