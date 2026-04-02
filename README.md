@@ -46,7 +46,9 @@ job-app-tracker/
 
 ```
 
+## Visual Demo
 
+[Watch the demo](https://www.youtube.com/watch?v=yqkpz0sAmEE)
 
 
 
