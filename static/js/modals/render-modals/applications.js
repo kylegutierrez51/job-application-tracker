@@ -126,10 +126,6 @@ function renderDetailModalOverlay(jobs) {
           </select>
         </div>
         <div class="detail-field">
-          <label>Company</label>
-          <span id="detail-company" class="detail-view-value"></span>
-        </div>
-        <div class="detail-field">
           <label>Applied</label>
           <span id="detail-applied" class="detail-view-value"></span>
           <input id="edit-applied" class="detail-edit-input" type="date" />

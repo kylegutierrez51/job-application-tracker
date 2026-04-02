@@ -22,7 +22,7 @@ function addRow(app) {
     <td>${app.cover_letter_sent ? 'Sent' : '-'}</td>
     <td>${app.response_date ? app.response_date.substring(0, 10) : '-'}</td>
     <td>${app.interview_date ? app.interview_date.substring(0, 16).replace('T', ' ') : '-'}</td>
-    <td>${app.notes || '-'}</td>
+    <td>${app.notes ? (app.notes.length > 30 ? app.notes.substring(0, 30) + '...' : app.notes) : '-'}</td>
   `;
 
   tbody.appendChild(tr);
@@ -31,6 +31,32 @@ function addRow(app) {
   let currCount = Number(countElement.textContent);
   countElement.textContent = ++currCount;
 }
+
+
+function validateInputs(data) {
+  let message = '';
+  if (!data.job_id) {
+    message += 'Job is required. '
+  }
+
+  if(!data.application_date) {
+    message += 'Application date is required';
+  }
+
+  if (data.resume_version !== '' && data.resume_version.length > 50) {
+    message += 'Resume Version cannot be greater than 50 characters. '
+  }
+
+  if (message.length > 0) {
+    alert(message);
+    return undefined;
+  }
+
+  return data
+}
+
+
+
 
 subheader.addEventListener('click', (e) => {
   if (e.target.id === 'add-btn') modalOverlay.classList.add('active');
@@ -60,6 +86,8 @@ document.addEventListener('submit', async (e) => {
 
   const interviewData = collectCustomFields('interview-data-rows');
   if (Object.keys(interviewData).length > 0) data.interview_data = interviewData;
+
+  if (!validateInputs(data)) return;
 
   const res = await fetch('/applications/', {
     method: 'POST',

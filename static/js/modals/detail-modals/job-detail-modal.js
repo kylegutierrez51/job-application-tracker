@@ -94,12 +94,7 @@ async function saveEdit() {
   const requirements = { ...customFields };
   if (skills.length > 0) requirements.required_skills = skills;
 
-  let postingUrl = document.getElementById('edit-link').value || null;
-  if (postingUrl && !/^https?:\/\//i.test(postingUrl)) {
-    postingUrl = 'https://' + postingUrl;
-  }
-
-  job = {
+  const candidate = {
     ...job,
     job_title: document.getElementById('edit-title').value,
     company_id: companySelect.value,
@@ -109,10 +104,14 @@ async function saveEdit() {
     job_type: document.getElementById('edit-type').value || null,
     date_posted: document.getElementById('edit-posted').value || null,
     is_active: document.getElementById('edit-status').value === 'Active' ? 1 : 0,
-    posting_url: postingUrl,
+    posting_url: document.getElementById('edit-link').value || null,
     job_description: document.getElementById('edit-description').value || null,
     requirements: Object.keys(requirements).length > 0 ? requirements : null,
   };
+
+  const validated = validateInputs(candidate);
+  if (!validated) return;
+  job = validated;
 
   const res = await fetch(`/jobs/${job.job_id}`, {
     method: 'PUT',
@@ -170,40 +169,40 @@ async function deleteRow() {
 }
 
 function validateInputs(data) {
+  let message = '';
   if (!data.job_title.trim() || !data.company_id) {
-    alert('Job Title and Company are required.');
-    return;
+    message += 'Job Title and Company are required. '
   }
 
   const DECIMAL_MAX = 99999999.99;
   const DECIMAL_MIN = -99999999.99;
 
-  if (data.job_title !== '' && data.job_type.length > 100) {
-    alert('Job Type cannot be greater than 100 characters.')
-    return;
+  if (data.job_title && data.job_title.length > 100) {
+    message += 'Job Title cannot be greater than 100 characters. '
   }
 
   if (data.salary_min !== '' && (Number(data.salary_min) < DECIMAL_MIN || Number(data.salary_min) > DECIMAL_MAX)) {
-    alert(`Salary Min must be between ${DECIMAL_MIN.toLocaleString()} and ${DECIMAL_MAX.toLocaleString()}.`);
-    return;
+    message += `Salary Min must be between ${DECIMAL_MIN.toLocaleString()} and ${DECIMAL_MAX.toLocaleString()}. `
   }
   
   if (data.salary_max !== '' && (Number(data.salary_max) < DECIMAL_MIN || Number(data.salary_max) > DECIMAL_MAX)) {
-    alert(`Salary Max must be between ${DECIMAL_MIN.toLocaleString()} and ${DECIMAL_MAX.toLocaleString()}.`);
-    return;
+    message += `Salary Max must be between ${DECIMAL_MIN.toLocaleString()} and ${DECIMAL_MAX.toLocaleString()}. `
   }
-  if (data.job_type !== '' && data.job_type.length > 20) {
-    alert('Job Type cannot be greater than 20 characters.')
-    return;
+  if (data.job_type && data.job_type.length > 20) {
+    message += 'Job Type cannot be greater than 20 characters. '
   }
 
-  if (data.posting_url !== '' && data.posting_url.length > 500) {
-    alert('Posting URL cannot be greater than 500 characters.');
-    return;
+  if (data.posting_url && data.posting_url.length > 500) {
+    message += 'Posting URL cannot be greater than 500 characters. '
   }
-  
-  if (data.posting_url && !/^https?:\/\//i.test(data.posting_url)) {
+  else if (data.posting_url && !/^https?:\/\//i.test(data.posting_url)) {
     data.posting_url = 'https://' + data.posting_url;
+  }
+
+
+  if (message.length > 0) {
+    alert(message);
+    return undefined;
   }
 
   return data

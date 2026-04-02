@@ -31,6 +31,52 @@ function enterEditMode() {
   modalOverlay.classList.add('editing');
 }
 
+function validateInputs(data) {
+  let message = '';
+
+  if (!data.first_name.trim() || !data.last_name.trim()) {
+    message += 'First Name and Last Name are required. ';
+  }
+
+  if (!data.company_id) {
+    message += 'Company is required. ';
+  }
+
+  if (data.first_name.length > 50) {
+    message += 'First Name cannot be greater than 50 characters. ';
+  }
+
+  if (data.last_name.length > 50) {
+    message += 'Last Name cannot be greater than 50 characters. ';
+  }
+
+  if (data.email && data.email.length > 100) {
+    message += 'Email cannot be greater than 100 characters. ';
+  }
+
+  if (data.phone && data.phone.length > 20) {
+    message += 'Phone Number cannot be greater than 20 characters. ';
+  }
+
+  if (data.job_title && data.job_title.length > 100) {
+    message += 'Job Title cannot be greater than 100 characters. ';
+  }
+
+  if (data.linkedin_url && data.linkedin_url.length > 200) {
+    message += 'LinkedIn URL cannot be greater than 200 characters. ';
+  } else if (data.linkedin_url && !/^https?:\/\//i.test(data.linkedin_url)) {
+    data.linkedin_url = 'https://' + data.linkedin_url;
+  }
+
+  if (message.length > 0) {
+    alert(message);
+    return undefined;
+  }
+
+  return data;
+}
+
+
 async function saveEdit() {
   const data = {
     first_name: document.getElementById('edit-fname').value,
@@ -42,6 +88,8 @@ async function saveEdit() {
     linkedin_url: document.getElementById('edit-linkedin').value || null,
     notes: document.getElementById('edit-notes').value || null,
   };
+
+  if (!validateInputs(data)) return;
 
   const res = await fetch(`/contacts/${contact.contact_id}`, {
     method: 'PUT',
@@ -73,7 +121,7 @@ function updateRow() {
   cells[3].textContent = contact.email || '-';
   cells[4].textContent = contact.phone || '-';
   cells[5].textContent = contact.linkedin_url || '-';
-  cells[6].textContent = contact.notes || '-';
+  cells[6].textContent = contact.notes ? (contact.notes.length > 30 ? contact.notes.substring(0, 30) + '...' : contact.notes) : '-';
 }
 
 async function deleteRow() {

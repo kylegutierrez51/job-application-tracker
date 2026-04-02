@@ -35,7 +35,7 @@ function addRow(company) {
     <td>${concatenateCityState(company)}</td>
     <td>${0}</td>
     <td>${0}</td>
-    <td>${company.notes}</td>
+    <td>${company.notes ? (company.notes.length > 30 ? company.notes.substring(0, 30) + '...' : company.notes) : '-'}</td>
     <td>${company.created_at.substring(0, 10)}</td>
   `
 
@@ -62,6 +62,45 @@ function concatenateCityState(company) {
 
 
 
+
+function validateInputs(data) {
+  let message = '';
+
+
+  if (!data.company_name) {
+    message += 'Company Name is required. ';
+  }
+
+  if(data.company_name.length > 100) {
+    message += 'Company Name cannot be greater than 100 characters. '
+  }
+
+  if (data.industry !== '' && data.industry.length > 50) {
+    message += 'Industry cannot be greater than 50 characters. '
+  }
+
+  if (data.website !== '' && data.website.length > 200) {
+    message += 'Website cannot be greater than 200 characters. '
+  }
+
+  if (data.city !== '' && data.city.length > 50) {
+    message += 'City cannot be greater than 50 characters. '
+  }
+
+  if (data.state !== '' && data.state.length > 50) {
+    message += 'State cannot be greater than 50 characters. '
+  }
+
+  
+  if (message.length > 0) {
+    alert(message);
+    return undefined;
+  }
+  return true;
+}
+
+
+
 subheader.addEventListener('click', (e) => {
   if (e.target.id === 'add-btn') modalOverlay.classList.add('active');
 });
@@ -81,10 +120,11 @@ document.addEventListener('submit', async (e) => {
   const formData = new FormData(e.target);
   const data = Object.fromEntries(formData.entries());
 
-  if (!data.company_name) {
-    alert('Company Name is required.');
-    return;
-  }
+  console.log('here');
+
+  if(!validateInputs(data)) return;
+
+  console.log('there');
 
   const res = await fetch('/companies/', {
     method: 'POST',

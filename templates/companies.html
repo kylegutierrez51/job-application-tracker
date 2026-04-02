@@ -74,7 +74,7 @@
             </td>
             <td>{{ company['job_count'] }}</td>
             <td>{{ company['contact_count'] }}</td>
-            <td>{{ company['notes'] if company['notes'] is not none else '-' }}</td>
+            <td>{{ company['notes'][:30] + '...' if company['notes'] is not none and company['notes']|length > 30 else (company['notes'] if company['notes'] is not none else '-') }}</td>
             <td>{{ company['created_at'][:10] if company['created_at'] is not none else '-' }}</td>
           </tr>
         {% endfor %}

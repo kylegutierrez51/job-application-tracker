@@ -73,7 +73,7 @@
                 -
               {% endif %}
             </td>
-            <td>{{ application['notes'] if application['notes'] is not none else '-' }}</td>
+            <td>{{ application['notes'][:30] + '...' if application['notes'] is not none and application['notes']|length > 30 else (application['notes'] if application['notes'] is not none else '-') }}</td>
           </tr>
         {% endfor %}
       </tbody>

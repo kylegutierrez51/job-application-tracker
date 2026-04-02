@@ -8,7 +8,6 @@ let editMode = false;
 
 function populateViewMode() {
   document.getElementById('detail-position').textContent = application.job_title ?? '-';
-  document.getElementById('detail-company').textContent = application.company_name ?? '-';
   document.getElementById('detail-applied').textContent = application.application_date ? application.application_date.substring(0, 10) : '-';
   document.getElementById('detail-status').textContent = application.status ?? '-';
   document.getElementById('detail-resume').textContent = application.resume_version ?? '-';
@@ -42,7 +41,7 @@ function enterEditMode() {
 async function saveEdit() {
   const interviewData = collectCustomFields('detail-interview-data-rows');
 
-  const data = {
+  const candidate = {
     job_id: document.getElementById('edit-job').value,
     application_date: document.getElementById('edit-applied').value || null,
     status: document.getElementById('edit-status').value || null,
@@ -53,6 +52,10 @@ async function saveEdit() {
     notes: document.getElementById('edit-notes').value || null,
     interview_data: Object.keys(interviewData).length > 0 ? interviewData : null,
   };
+
+  const validated = validateInputs(candidate);
+  if (!validated) return;
+  application = validated;
 
   const res = await fetch(`/applications/${application.application_id}`, {
     method: 'PUT',
@@ -84,7 +87,7 @@ function updateRow() {
   cells[4].textContent = application.cover_letter_sent ? 'Sent' : '-';
   cells[5].textContent = application.response_date ? application.response_date.substring(0, 10) : '-';
   cells[6].textContent = application.interview_date ? application.interview_date.substring(0, 16).replace('T', ' ') : '-';
-  cells[7].textContent = application.notes || '-';
+  cells[7].textContent = application.notes ? (application.notes.length > 30 ? application.notes.substring(0, 30) + '...' : application.notes) : '-';
 }
 
 async function deleteRow() {
@@ -123,6 +126,34 @@ function openDetailModal() {
   populateViewMode();
   modalOverlay.classList.add('active');
 }
+
+
+
+
+function validateInputs(data) {
+  let message = '';
+  if (!data.job_id) {
+    message += 'Job is required. '
+  }
+
+  if(!data.application_date) {
+    message += 'Application date is required. ';
+  }
+
+  if (data.resume_version && data.resume_version.length > 50) {
+    message += 'Resume Version cannot be greater than 50 characters. '
+  }
+
+  if (message.length > 0) {
+    alert(message);
+    return undefined;
+  }
+
+  return data
+}
+
+
+
 
 document.querySelector('.js-table-rows').addEventListener('click', (e) => {
   const row = e.target.closest('tr[data-index]');

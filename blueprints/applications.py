@@ -22,7 +22,7 @@ def index():
         # VALIDATION LOGIC
         data = request.get_json()
         for key in ['application_date', 'status', 'resume_version', 'response_date', 'interview_date', 'notes']:
-            if data.get(key) == '':
+            if not data.get(key): # catches both empty strings and entirely absent keys (for 'status')
                 data[key] = None
         data['cover_letter_sent'] = 1 if data.get('cover_letter_sent') in ('1', 1, True) else 0
         new_id = db.add_application(data)
@@ -43,7 +43,7 @@ def modify_application(application_id):
         # VALIDATION LOGIC
         data = request.get_json()
         for key in ['application_date', 'status', 'resume_version', 'response_date', 'interview_date', 'notes']:
-            if data.get(key) == '':
+            if not data.get(key): # catches both empty strings and entirely absent keys (for 'status')
                 data[key] = None
         data['cover_letter_sent'] = 1 if data.get('cover_letter_sent') in ('1', 1, True) else 0
         db.edit_application(data, application_id)

@@ -62,7 +62,7 @@
             <td>{{ contact['email'] if contact['email'] is not none else '-' }}</td>
             <td>{{ contact['phone'] if contact['phone'] is not none else '-' }}</td>
             <td>{{ contact['linkedin_url'] if contact['linkedin_url'] is not none else '-' }}</td>
-            <td>{{ contact['notes'] if contact['notes'] is not none else '-' }}</td>
+            <td>{{ contact['notes'][:30] + '...' if contact['notes'] is not none and contact['notes']|length > 30 else (contact['notes'] if contact['notes'] is not none else '-') }}</td>
           </tr>
         {% endfor %}
       </tbody>

@@ -60,12 +60,12 @@ function updateRow() {
   cells[3].textContent = location; // keep combined display in the table
   cells[4].textContent = company.job_count ?? '0';
   cells[5].textContent = company.contact_count ?? '0';
-  cells[6].textContent = company.notes || '-';
+  cells[6].textContent = company.notes ? (company.notes.length > 30 ? company.notes.substring(0, 30) + '...' : company.notes) : '-';
   cells[7].textContent = company.created_at ? company.created_at.substring(0, 10) : '-';
 }
 
 async function saveEdit() {
-  company = {
+  const candidate = {
     ...company,
     company_name: document.getElementById('edit-name').value,
     industry: document.getElementById('edit-industry').value || null,
@@ -74,6 +74,10 @@ async function saveEdit() {
     state: document.getElementById('edit-state').value || null,
     notes: document.getElementById('edit-notes').value || null,
   };
+
+  const validated = validateInputs(candidate);
+  if (!validated) return;
+  company = validated;
 
   const res = await fetch(`/companies/${company.company_id}`, {
     // the company_id comes from the get_all_companies() query from the URL endpoint
@@ -132,6 +136,44 @@ async function deleteRow() {
     alert(data.message);
   }
 }
+
+
+function validateInputs(data) {
+  let message = '';
+
+
+  if (!data.company_name) {
+    message += 'Company Name is required. ';
+  }
+
+  if(data.company_name.length > 100) {
+    message += 'Company Name cannot be greater than 100 characters. '
+  }
+
+  if (data.industry && data.industry.length > 50) {
+    message += 'Industry cannot be greater than 50 characters. '
+  }
+
+  if (data.website && data.website.length > 200) {
+    message += 'Website cannot be greater than 200 characters. '
+  }
+
+  if (data.city && data.city.length > 50) {
+    message += 'City cannot be greater than 50 characters. '
+  }
+
+  if (data.state && data.state.length > 50) {
+    message += 'State cannot be greater than 50 characters. '
+  }
+
+
+  if (message.length > 0) {
+    alert(message);
+    return undefined;
+  }
+  return data;
+}
+
 
 
 document.querySelector('.js-table-rows').addEventListener('click', (e) => {
