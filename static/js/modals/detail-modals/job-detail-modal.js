@@ -165,6 +165,10 @@ async function deleteRow() {
 
     modalOverlay.classList.remove('active', 'editing', 'deleting');
     rowIndex = null;
+  } else {
+    const data = await res.json();
+    modalOverlay.classList.remove('deleting');
+    alert(data.message);
   }
 }
 
