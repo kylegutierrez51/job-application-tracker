@@ -100,7 +100,7 @@ mysql -u root -p job_tracker < schema.sql
 In PowerShell:
 
 ```bash
-Get-Content schema.sql | mysql -u root -p job_tracker_test
+Get-Content schema.sql | mysql -u root -p job_tracker
 ```
 
 
