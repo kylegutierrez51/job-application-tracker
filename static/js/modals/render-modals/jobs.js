@@ -164,7 +164,7 @@ async function renderDetailModalOverlay(companies) {
         <div class="detail-field">
           <label>Date Posted</label>
           <span id="detail-posted" class="detail-view-value"></span>
-          <input id="edit-posted" class="detail-edit-input" />
+          <input id="edit-posted" type="date" class="detail-edit-input" />
         </div>
         <div class="detail-field">
           <label>Status</label>

@@ -70,7 +70,6 @@ async function renderSubheader() {
       count = '';
       title = 'Job Match';
       subtitle = 'Enter your skills to see jobs you fit!';
-      buttonText = 'Add Skill';
       break;
   }
 
@@ -83,12 +82,13 @@ async function renderSubheader() {
             <span id='subtitle-count'>${count}</span>
           </div>
       </div>
+      ${buttonText ? `
       <div class="add-div">
         <button id='add-btn'>
           <ion-icon name="add-outline"></ion-icon>
           ${buttonText}
         </button>
-      </div>
+      </div>` : ''}
     </div>
   `;
 

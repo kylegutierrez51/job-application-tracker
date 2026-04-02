@@ -43,12 +43,6 @@ skillsContainer.addEventListener('click', (e) => {
   }
 });
 
-// "Add Skill" subheader button focuses the input
-document.addEventListener('click', (e) => {
-  if (e.target.closest('#add-btn')) {
-    skillTextInput.focus();
-  }
-});
 
 
 // ── Matching logic ────────────────────────────────────────────────────────────

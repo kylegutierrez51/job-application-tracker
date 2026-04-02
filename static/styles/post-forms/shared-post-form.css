@@ -62,7 +62,8 @@ form::-webkit-scrollbar-thumb {
   border-radius: 3px;
 }
 
-input, textarea, select {
+input:not([type="checkbox"]):not([type="radio"]), textarea, select {
+  width: 100%;
   color: white;
   padding: 10px 10px;
   border-radius: 10px;
