@@ -91,9 +91,18 @@ Create the database and import the schema in MySQL:
 CREATE DATABASE job_tracker;
 ```
 
+In Command Prompt:
+
 ```bash
 mysql -u root -p job_tracker < schema.sql
 ```
+
+In PowerShell:
+
+```bash
+Get-Content schema.sql | mysql -u root -p job_tracker_test
+```
+
 
 ### 5. Configure environment variables
 
