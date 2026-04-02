@@ -19,7 +19,6 @@ def index():
     db = current_app.db
     
     if request.method == 'POST':
-        # VALIDATION LOGIC
         data = request.get_json()
         for key in ['application_date', 'status', 'resume_version', 'response_date', 'interview_date', 'notes']:
             if not data.get(key): # catches both empty strings and entirely absent keys (for 'status')
@@ -40,7 +39,6 @@ def modify_application(application_id):
     db = current_app.db
 
     if request.method == 'PUT':
-        # VALIDATION LOGIC
         data = request.get_json()
         for key in ['application_date', 'status', 'resume_version', 'response_date', 'interview_date', 'notes']:
             if not data.get(key): # catches both empty strings and entirely absent keys (for 'status')

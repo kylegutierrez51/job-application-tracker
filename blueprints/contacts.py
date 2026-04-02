@@ -14,7 +14,6 @@ def index():
     db = current_app.db
     
     if request.method == 'POST':
-        # VALIDATION LOGIC
         data = request.get_json()
         for key in ['email', 'phone', 'job_title', 'linkedin_url', 'notes']:
             if data.get(key) == '':
@@ -34,7 +33,6 @@ def modify_contact(contact_id):
     db = current_app.db
 
     if request.method == 'PUT':
-        # VALIDATION LOGIC
         data = request.get_json()
         for key in ['email', 'phone', 'job_title', 'linkedin_url', 'notes']:
             if data.get(key) == '':

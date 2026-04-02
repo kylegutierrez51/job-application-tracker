@@ -28,8 +28,8 @@ job-app-tracker/
 │   └── job_match.py
 │   └── jobs.py
 ├── static/             # Javascript, CSS
-    └── js/
-    └── styles/          
+│   └── js/
+│   └── styles/          
 ├── templates/          # HTML templates
 │   └── base.html
 │   └── dashboard.py
@@ -42,7 +42,7 @@ job-app-tracker/
 ├── dashboard.py        # Database connection functions
 ├── schema.sql          # Database creation script
 ├── AI_USAGE.md         # GenAI documentation
-├── requirements.txt    # Python dependencies
+└── requirements.txt    # Python dependencies
 
 ```
 

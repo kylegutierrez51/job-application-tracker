@@ -15,7 +15,6 @@ def index():
     db = current_app.db
 
     if request.method == 'POST':
-        # VALIDATION LOGIC
         data = request.get_json()
         new_id = db.add_company(data)
         new_company = db.get_company(new_id)
